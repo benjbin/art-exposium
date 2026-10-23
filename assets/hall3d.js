@@ -292,21 +292,6 @@ export function mountHall(el, opts = {}) {
     focusPts.push({ pos: new THREE.Vector3(1.8, EYE, z0 + 15), look: new THREE.Vector3(1.8, 3.4, z0), data: STAGE });
   }
 
-  /* ---------- visiteurs ---------- */
-  const people = [];
-  const tones = [0x2b2b33, 0xd9d6cf, 0x3B2FF0, 0x7d7d88, 0x1f2a44, 0xa89f91, 0x111114];
-  const bodyGeo = new THREE.CapsuleGeometry(.19, 1.02, 4, 14), headGeo = new THREE.SphereGeometry(.12, 20, 14);
-  const skin = std({ color: 0x8a6e5a, roughness: .6 });
-  for (let i = 0; i < (mobile ? 7 : 12); i++) {
-    const p = new THREE.Group();
-    const b = mesh(bodyGeo, std({ color: tones[i % tones.length], roughness: .75 }), 0, .7, 0, p);
-    const h = mesh(headGeo, skin, 0, 1.58, 0, p);
-    b.castShadow = h.castShadow = true;
-    p.position.set((Math.random() - .5) * 6.4, 0, -3 - Math.random() * 52);
-    p.userData = { dir: Math.random() < .5 ? 1 : -1, speed: .55 + Math.random() * .5, x0: p.position.x, ph: Math.random() * 9, wait: 0 };
-    scene.add(p); people.push(p);
-  }
-
   /* ---------- poussière en suspension ---------- */
   const DN = mobile ? 260 : 600, dpos = new Float32Array(DN * 3);
   for (let i = 0; i < DN; i++) { dpos[i * 3] = (Math.random() - .5) * 16; dpos[i * 3 + 1] = Math.random() * 6.5; dpos[i * 3 + 2] = 4 - Math.random() * (L + 2); }
@@ -504,16 +489,6 @@ export function mountHall(el, opts = {}) {
     camera.rotation.set(cam.pitch, cam.yaw, 0, 'YXZ');
 
     products.forEach((p, i) => { p.rotation.y += dt * .6; p.rotation.x = Math.sin(time * .7 + i) * .3; p.position.y = 1.72 + Math.sin(time * 1.3 + i) * .06; });
-    for (const p of people) {
-      const u = p.userData;
-      if (u.wait > 0) { u.wait -= dt; continue; }
-      p.position.z += u.dir * u.speed * dt;
-      p.position.x = u.x0 + Math.sin(time * .3 + u.ph) * .6;
-      p.children[0].position.y = .7 + Math.abs(Math.sin(time * 5 * u.speed + u.ph)) * .03;
-      if (p.position.z < -56) { u.dir = 1; u.wait = 1 + Math.random() * 3; }
-      if (p.position.z > -2) { u.dir = -1; u.wait = 1 + Math.random() * 3; }
-      if (Math.random() < .0015) u.wait = 1.5 + Math.random() * 3;
-    }
     for (let i = 0; i < DN; i++) {
       let y = dpos[i * 3 + 1] + dt * (.04 + (i % 7) * .006);
       if (y > 6.5) y = 0;
