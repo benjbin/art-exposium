@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nos prochains salons — Art Exposium</title>
+<meta name="description" content="Les prochains salons virtuels Art Exposium : Racing Market, destinations et voyages, mécanique et ingénierie, APTPF travaux publics, habitat. Réservez votre stand.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+
+<style>
+/* ---------- hero ---------- */
+.ag-hero{padding:clamp(120px,20vh,200px) 0 8vh;overflow-x:clip}
+.crumb{display:flex;align-items:center;flex-wrap:wrap;gap:12px;font-family:var(--display);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6vh}
+.crumb a{color:var(--ink);font-weight:600}
+.crumb a:hover{color:var(--blue)}
+.crumb i{width:4px;height:4px;background:currentColor;border-radius:50%;opacity:.5}
+.ag-title{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.05em;line-height:.84;font-size:clamp(50px,12.5vw,230px)}
+.ag-title .ln{display:block;overflow:hidden;padding-top:.12em;margin-top:-.12em}
+.ag-title .ln > span{display:inline-block;transform:translateY(110%);animation:rise 1.2s var(--ease) forwards}
+.ag-title .ln:nth-child(2) > span{animation-delay:.15s}
+.ag-title .b{color:var(--blue)}
+.ag-intro{display:grid;grid-template-columns:1.2fr 1fr;gap:6vw;align-items:end;margin-top:7vh;padding-top:28px;border-top:1px solid var(--line)}
+.ag-intro p{font-family:var(--display);font-weight:500;font-size:clamp(20px,1.9vw,30px);line-height:1.3;letter-spacing:-.01em}
+.ag-intro p em{font-style:normal;color:var(--blue)}
+.ag-sum{display:grid;grid-template-columns:repeat(3,1fr);border-left:1px solid var(--line)}
+.ag-sum div{padding:0 18px;border-right:1px solid var(--line)}
+.ag-sum b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(34px,3.4vw,56px);letter-spacing:-.04em;line-height:1;white-space:nowrap}
+.ag-sum span{font-family:var(--display);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.ag-sum div:first-child b{color:var(--blue)}
+
+/* ---------- section head ---------- */
+.ag-sec{padding:8vh 0 6vh}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap;margin-bottom:8vh}
+.sec-head p{max-width:420px;color:var(--ink-soft)}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;line-height:1;padding:8px 13px;border-radius:99px;border:1px solid currentColor;white-space:nowrap}
+.status::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.status.up{color:var(--blue)}
+.status.up::before{animation:pulse 1.8s var(--ease) infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(59,47,240,.5)}100%{box-shadow:0 0 0 9px rgba(59,47,240,0)}}
+.status.past{color:rgba(244,243,238,.6)}
+
+/* ---------- timeline ---------- */
+.tl{list-style:none;position:relative}
+.ev{display:grid;grid-template-columns:minmax(170px,250px) 40px minmax(0,1fr);column-gap:clamp(18px,3vw,50px);padding-bottom:13vh;position:relative}
+.ev:last-child{padding-bottom:4vh}
+.when{position:sticky;top:110px;align-self:start;font-family:var(--display)}
+.when .n{display:block;font-weight:900;font-size:clamp(70px,8.5vw,150px);line-height:.8;letter-spacing:-.06em;color:var(--ink)}
+.when .d{display:block;margin:18px 0 14px;font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase}
+.when .d small{display:block;font-weight:500;font-size:13px;color:var(--ink-soft);letter-spacing:.1em;margin-top:4px}
+.rail{position:relative}
+.rail::before{content:"";position:absolute;left:50%;top:0;bottom:-13vh;width:1px;background:var(--line)}
+.ev:last-child .rail::before{bottom:0}
+.rail i{position:sticky;top:120px;display:block;margin:10px auto 0;width:22px;height:30px;background:var(--blue);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
+.ev-card{min-width:0}
+.ev-card .img{position:relative;aspect-ratio:1096/527;overflow:hidden;border-radius:20px;background:var(--ink);clip-path:polygon(0 0,100% 0,100% 100%,0 100%);transition:clip-path .8s var(--ease)}
+.ev-card .img img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.ev:hover .ev-card .img{clip-path:polygon(0 0,100% 9%,100% 100%,0 91%)}
+.ev:hover .ev-card .img img{transform:scale(1.05)}
+.ev-card .img .tag{position:absolute;left:16px;bottom:16px;font-family:var(--display);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:rgba(20,20,24,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:8px 14px;border-radius:99px}
+.ev-card .kick{display:block;margin-top:34px;font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+.ev-card h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.03em;line-height:.96;font-size:clamp(30px,3.6vw,60px);margin:14px 0 24px;text-wrap:balance}
+.ev-card p{max-width:62ch;color:var(--ink-soft);font-size:17px}
+.ev-card p + p{margin-top:1em}
+.ev-card p strong{color:var(--ink)}
+.ev-card .for{padding:20px 22px;border-radius:16px;background:var(--paper-2);color:var(--ink)}
+.ev-card .acts{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:30px}
+.ev-card .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.ev-card .meta span{font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.06em;padding:7px 12px;border-radius:99px;border:1px solid var(--line)}
+.ev-card .meta span b{color:var(--blue);font-weight:800}
+
+/* ---------- passé ---------- */
+.ag-past{background:var(--ink);color:var(--paper);padding:16vh 0 14vh;overflow-x:clip}
+.ag-past .sec-head p{color:rgba(244,243,238,.65)}
+.ag-past .when .n{color:var(--paper);opacity:.35;white-space:nowrap;font-size:clamp(56px,5.4vw,80px)}
+.ag-past .when .d small{color:rgba(244,243,238,.6)}
+.ag-past .rail::before{background:var(--line-inv)}
+.ag-past .rail i{background:rgba(244,243,238,.35)}
+.ag-past .ev-card .kick{color:var(--blue-2)}
+.ag-past .ev-card p{color:rgba(244,243,238,.72)}
+.ag-past .ev-card p strong{color:var(--paper)}
+.ag-past .ev-card .meta span{border-color:var(--line-inv)}
+.ag-past .ev-card .meta span b{color:var(--blue-2)}
+.ag-past .btn{background:var(--paper);color:var(--ink)}
+.ag-past .btn:hover{color:#fff}
+.ag-past .ev-card .img img{filter:grayscale(.35)}
+
+.btn.line{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.line:hover{color:#fff;border-color:var(--blue)}
+
+@media (max-width:1000px){
+  .ag-intro{grid-template-columns:1fr;gap:5vh}
+}
+@media (max-width:760px){
+  .ev{grid-template-columns:1fr;padding-bottom:10vh;padding-left:26px;border-left:1px solid var(--line)}
+  .ag-past .ev{border-left-color:var(--line-inv)}
+  .ev:last-child{padding-bottom:2vh}
+  .rail{display:none}
+  .ev::before{content:"";position:absolute;left:-8px;top:6px;width:15px;height:22px;background:var(--blue);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
+  .ag-past .ev::before{background:rgba(244,243,238,.35)}
+  .when{position:static;display:flex;flex-wrap:wrap;align-items:end;gap:6px 18px;margin-bottom:26px}
+  .when .n{font-size:clamp(56px,18vw,90px)}
+  .when .d{margin:0}
+  .when .status{flex-basis:auto}
+  .ev-card .kick{margin-top:24px}
+  .ag-title,.ev-card h3{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+}
+@media (max-width:640px){
+  .cta-big.sm{font-size:clamp(48px,15vw,300px)}
+  .ag-sum{grid-template-columns:1fr 1fr 1fr}
+  .ag-sum div{padding:0 10px}
+  .ag-sum b{font-size:clamp(26px,8vw,34px);white-space:nowrap}
+  .ag-sum span{font-size:10px;letter-spacing:.08em}
+  .ev-card .for{padding:16px 18px}
+}
+@media (prefers-reduced-motion:reduce){
+  .rv{opacity:1;transform:none}
+  .ag-title .ln > span{transform:none;animation:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 300 340">
+    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
+    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  </symbol>
+</svg>
+
+<div class="cursor" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a href="index.html" class="logo" aria-label="Art Exposium — accueil">
+    <svg viewBox="0 0 300 340"><use href="#mark"/></svg>
+    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  </a>
+  <ul>
+    <li><a href="index.html#concept">Concept</a></li>
+    <li><a href="index.html#univers">Secteurs</a></li>
+    <li><a href="index.html#fonctionnalites">Fonctionnalités</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="demo.html" class="btn">Réserver une démo <span class="arr">→</span></a>
+  <button class="burger" aria-label="Menu" id="burger"><span></span><span></span></button>
+</header>
+
+<div class="mmenu" id="mmenu">
+  <a href="index.html">Accueil</a>
+  <a href="index.html#univers">Secteurs</a>
+  <a href="services.html">Services</a>
+  <a href="prochains-salons.html" aria-current="page">Prochains salons</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+<section class="ag-hero">
+  <div class="wrap">
+    <nav class="crumb" aria-label="Fil d’Ariane"><a href="index.html">Accueil</a><i></i><a href="partenariats.html">Salons / Partenariats</a><i></i><span>Nos prochains salons</span></nav>
+    <h1 class="ag-title"><span class="ln"><span>Nos prochains</span></span><span class="ln"><span>salons<span class="b">.</span></span></span></h1>
+    <div class="ag-intro">
+      <p class="rv">Projets de salon en cours de développement, n’hésitez pas à nous contacter pour <em>réserver votre futur stand&nbsp;!</em> Ou mettre en place votre futur salon dédié.</p>
+      <div class="ag-sum rv d1">
+        <div><b>05</b><span>Salons en développement</span></div>
+        <div><b>30–40</b><span>Exposants APTPF</span></div>
+        <div><b>100%</b><span>Web, sans installation</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- À VENIR -->
+<section class="ag-sec" id="a-venir">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue)">À venir</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">L’agenda<br>en construction.</h2>
+      </div>
+      <p class="rv d2">Les dates de ces salons seront annoncées prochainement. Exposants, partenaires : réservez dès maintenant votre emplacement.</p>
+    </div>
+    <ol class="tl">
+      <li class="ev rv">
+        <div class="when"><span class="n">01</span><span class="d">Date à annoncer<small>Salon 100% web</small></span><span class="status up">En développement</span></div>
+        <div class="rail" aria-hidden="true"><i></i></div>
+        <article class="ev-card">
+          <div class="img"><img src="assets/img/salons-agenda/racing-market.jpg" alt="Salon virtuel Racing Market : stands du sport automobile en 3D" loading="lazy"><span class="tag">Sport automobile</span></div>
+          <span class="kick">Salon : Racing Market</span>
+          <h3>Le salon du sport automobile et de la compétition</h3>
+          <p>Un rendez-vous unique pour plonger dans l’univers du sport automobile, de la performance et de l’innovation. Constructeurs, écuries, équipementiers et fans y découvrent les dernières technologies, assistent à des démonstrations immersives et partagent leur passion de la course.</p>
+          <p class="for"><strong>Pour les marques et partenaires</strong>, c’est l’opportunité de toucher une communauté engagée, de lancer des produits en avant-première et de renforcer leur image dans un environnement où l’émotion et l’innovation priment.</p>
+          
+          <div class="acts"><a class="btn" href="mailto:contact@artexposium.fr?subject=R%C3%A9server%20un%20stand%20%E2%80%94%20Racing%20Market">Réserver un stand <span class="arr">→</span></a></div>
+        </article>
+      </li>
+      <li class="ev rv">
+        <div class="when"><span class="n">02</span><span class="d">Date à annoncer<small>Salon 100% web</small></span><span class="status up">En développement</span></div>
+        <div class="rail" aria-hidden="true"><i></i></div>
+        <article class="ev-card">
+          <div class="img"><img src="assets/img/salons-agenda/destinations-voyages.jpg" alt="Office de tourisme virtuel du salon des destinations et des voyages" loading="lazy"><span class="tag">Tourisme</span></div>
+          <span class="kick">Tourisme & voyage</span>
+          <h3>Le salon des destinations et des voyages</h3>
+          <p>Bien plus qu’un salon, une invitation à l’évasion. Offices de tourisme, compagnies aériennes, hôtels et acteurs du voyage y présentent leurs offres dans des environnements immersifs qui transportent le visiteur avant même son départ.</p>
+          <p class="for"><strong>Pour les professionnels du secteur,</strong> c’est un levier puissant pour séduire, inspirer et convertir. La possibilité de collecter des données sur les intentions de voyage et d’interagir directement avec les futurs voyageurs offre une valeur marketing incomparable.</p>
+          
+          <div class="acts"><a class="btn" href="mailto:contact@artexposium.fr?subject=R%C3%A9server%20un%20stand%20%E2%80%94%20Salon%20des%20destinations%20et%20des%20voyages">Réserver un stand <span class="arr">→</span></a></div>
+        </article>
+      </li>
+      <li class="ev rv">
+        <div class="when"><span class="n">03</span><span class="d">Date à annoncer<small>Salon 100% web</small></span><span class="status up">En développement</span></div>
+        <div class="rail" aria-hidden="true"><i></i></div>
+        <article class="ev-card">
+          <div class="img"><img src="assets/img/salons-agenda/mecanique-ingenierie.jpg" alt="Environnement 3D du salon de la mécanique et de l’ingénierie" loading="lazy"><span class="tag">Industrie</span></div>
+          <span class="kick">Industrie & technologies</span>
+          <h3>Le salon de la mécanique et de l’ingénierie</h3>
+          <p>Un espace entièrement dédié aux savoir-faire industriels et aux innovations technologiques. Les entreprises y exposent leurs produits et solutions dans des environnements 3D réalistes, permettant de manipuler, tester et comparer les équipements.</p>
+          <p class="for"><strong>Pour les industriels et start-ups,</strong> c’est une vitrine de choix pour démontrer leur expertise, nouer des partenariats stratégiques et accélérer le développement commercial sans les contraintes logistiques d’un salon physique.</p>
+          
+          <div class="acts"><a class="btn" href="mailto:contact@artexposium.fr?subject=R%C3%A9server%20un%20stand%20%E2%80%94%20Salon%20de%20la%20m%C3%A9canique%20et%20de%20l%E2%80%99ing%C3%A9nierie">Réserver un stand <span class="arr">→</span></a></div>
+        </article>
+      </li>
+      <li class="ev rv">
+        <div class="when"><span class="n">04</span><span class="d">Date à annoncer<small>Salon 100% web</small></span><span class="status up">En développement</span></div>
+        <div class="rail" aria-hidden="true"><i></i></div>
+        <article class="ev-card">
+          <div class="img"><img src="assets/img/salons-agenda/aptpf-travaux-publics.jpg" alt="Salon virtuel APTPF des travaux publics et des infrastructures" loading="lazy"><span class="tag">Travaux publics</span></div>
+          <span class="kick">Salon : APTPF</span>
+          <h3>Travaux publics &amp; infrastructures</h3>
+          <p>L’Association pour la Promotion des Travaux Publics Français (APTPF) a choisi ART EXPOSIUM pour donner vie à son futur salon digital. Ce rendez-vous inédit rassemblera entre 30 et 40 exposants issus des métiers des travaux publics, des infrastructures et de l’innovation technique.</p><p>Grâce à notre technologie immersive, les professionnels du secteur pourront présenter leurs savoir-faire, leurs solutions et leurs projets à travers des stands interactifs et ultra réalistes.</p>
+          <p class="for"><strong>Ce partenariat marque une étape importante :</strong> ART EXPOSIUM devient un véritable catalyseur de rencontres et d’échanges pour un secteur en pleine transformation, où la mise en réseau et la visibilité sont essentielles.</p>
+          <div class="meta"><span><b>30–40</b> exposants</span><span>Partenariat APTPF</span></div>
+          <div class="acts"><a class="btn" href="mailto:contact@artexposium.fr?subject=R%C3%A9server%20un%20stand%20%E2%80%94%20Salon%20APTPF">Réserver un stand <span class="arr">→</span></a></div>
+        </article>
+      </li>
+      <li class="ev rv">
+        <div class="when"><span class="n">05</span><span class="d">Date à annoncer<small>Salon 100% web</small></span><span class="status up">En développement</span></div>
+        <div class="rail" aria-hidden="true"><i></i></div>
+        <article class="ev-card">
+          <div class="img"><img src="assets/img/salons-agenda/habitat-art-de-vivre.jpg" alt="Salon virtuel de l’habitat et de l’art de vivre en 3D" loading="lazy"><span class="tag">Habitat</span></div>
+          <span class="kick">Habitat & décoration</span>
+          <h3>Le salon de l’habitat et de l’art de vivre</h3>
+          <p>Design, décoration, aménagement et nouvelles tendances pour imaginer la maison de demain. Les visiteurs explorent des espaces immersifs où ils peuvent découvrir des matériaux, tester des configurations d’intérieur ou comparer des solutions éco-responsables.</p>
+          <p class="for"><strong>Pour les marques et artisans,</strong> c’est un moyen unique de présenter leurs produits dans des décors inspirants, d’augmenter la visibilité de leurs collections et de générer des leads qualifiés grâce à l’interaction directe avec les visiteurs.</p>
+          
+          <div class="acts"><a class="btn" href="mailto:contact@artexposium.fr?subject=R%C3%A9server%20un%20stand%20%E2%80%94%20Salon%20de%20l%E2%80%99habitat">Réserver un stand <span class="arr">→</span></a></div>
+        </article>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track">
+    <span>Sport automobile <b class="dot"></b> <i>Voyage</i> <b class="dot"></b> Ingénierie <b class="dot"></b> <i>Travaux publics</i> <b class="dot"></b> Habitat <b class="dot"></b></span>
+    <span>Sport automobile <b class="dot"></b> <i>Voyage</i> <b class="dot"></b> Ingénierie <b class="dot"></b> <i>Travaux publics</i> <b class="dot"></b> Habitat <b class="dot"></b></span>
+  </div>
+</div>
+
+<!-- PASSÉ -->
+<section class="ag-past" id="passes">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue-2)">Passé</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">Rendez-vous<br>passés.</h2>
+      </div>
+      <p class="rv d2">Les rendez-vous déjà passés auxquels Art Exposium était annoncé, en salon comme en conférence.</p>
+    </div>
+    <ol class="tl">
+      <li class="ev rv" data-end="2026-05-07">
+        <div class="when"><span class="n">06–07</span><span class="d">Mai 2026<small>Vinci, Tours</small></span><span class="status past" data-status>Passé</span></div>
+        <div class="rail" aria-hidden="true"><i></i></div>
+        <article class="ev-card">
+          <div class="img"><img src="assets/img/blog/forum-heritech-2026.png" alt="Office de tourisme virtuel présenté au Forum HeriTech 2026" loading="lazy"><span class="tag">Patrimoine</span></div>
+          <span class="kick">Forum HeriTech 2026</span>
+          <h3>Le récit territorial par l’innovation patrimoniale</h3>
+          <p>Rendez-vous européen de l’innovation patrimoniale, le <strong>Forum HeriTech</strong> réunit collectivités, gestionnaires de patrimoine, experts, entreprises et porteurs de solutions numériques. Art Exposium y était annoncé <strong>en partenariat avec La Poste</strong>, avec une présence sur stand et une prise de parole en conférence.</p>
+          <div class="meta"><span><b>400+</b> experts, élus et gestionnaires attendus</span><span>Stand avec La Poste</span><span>Conférence</span></div>
+          <div class="acts"><a class="btn" href="blog-forum-heritech-2026.html">Lire l’article <span class="arr">→</span></a></div>
+        </article>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <svg class="cta-mark" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <div class="wrap">
+    <span class="eyebrow rv">Votre stand, votre salon</span>
+    <h2 class="cta-big sm rv d1" style="margin-top:4vh"><span>Exposez</span><span class="o">avec</span><span>nous.</span></h2>
+    <div class="cta-row">
+      <p class="rv">Exposant sur l’un de nos prochains salons, ou organisateur d’un salon dédié ? Parlons-en : nous concevons l’univers 3D qui fera rayonner votre événement.</p>
+      <a class="btn rv d1" href="mailto:contact@artexposium.fr?subject=Prochains%20salons">contact@artexposium.fr <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a href="index.html" class="logo"><svg viewBox="0 0 300 340"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
+        <p class="about">Art Exposium par Vif-Argent — environnements immersifs 100% web pour l’événementiel, le tourisme, la formation, le retail et la culture.</p>
+      </div>
+      <div>
+        <h4>Siège social</h4>
+        <ul><li>Vif-Argent</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="tel:+33164700802">01 64 70 08 02</a></li><li><a href="tel:+33609770241">06 09 77 02 41</a></li><li><a href="mailto:contact@artexposium.fr">contact@artexposium.fr</a></li></ul>
+      </div>
+      <div>
+        <h4>Explorer</h4>
+        <ul><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-bot">
+      <span>Art Exposium par Vif-Argent © Tous droits réservés</span>
+      <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://www.instagram.com/agencevifargent/" target="_blank" rel="noopener">Instagram</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = s => document.querySelector(s);
+  const clamp = (v,a=0,b=1) => Math.min(b,Math.max(a,v));
+  const nav = $('#nav');
+
+  /* ----- nav : fond au scroll, inversion sur les sections sombres ----- */
+  const darks = [...document.querySelectorAll('.ag-past,.cta,footer,.marquee')];
+  function navFrame(){
+    nav.classList.toggle('scrolled', scrollY > 40);
+    if ($('#mmenu').classList.contains('open')) return;
+    const onDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
+    nav.classList.toggle('inv', onDark);
+  }
+
+  /* ----- statut passé / à venir selon la date du jour ----- */
+  const today = new Date(); today.setHours(0,0,0,0);
+  document.querySelectorAll('[data-end]').forEach(ev => {
+    const end = new Date(ev.dataset.end + 'T23:59:59');
+    const st = ev.querySelector('[data-status]');
+    if (st && end >= today) { st.textContent = 'À venir'; st.className = 'status up'; }
+  });
+
+  function loop(){ navFrame(); if (typeof pageFrame === 'function') pageFrame(); }
+  addEventListener('scroll', () => requestAnimationFrame(loop), {passive:true});
+  addEventListener('resize', loop);
+  loop();
+
+  /* ----- reveal ----- */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:.15});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* ----- curseur ----- */
+  if (!reduce && matchMedia('(hover:hover)').matches){
+    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0;
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    document.querySelectorAll('a,button').forEach(el => {
+      el.addEventListener('mouseenter', () => cu.classList.add('big'));
+      el.addEventListener('mouseleave', () => cu.classList.remove('big'));
+    });
+  }
+
+  /* ----- menu mobile ----- */
+  const mm = $('#mmenu');
+  $('#burger').addEventListener('click', () => { mm.classList.toggle('open'); nav.classList.toggle('inv', mm.classList.contains('open')); if (!mm.classList.contains('open')) navFrame(); });
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); navFrame(); }));
+})();
+</script>
+</body>
+</html>

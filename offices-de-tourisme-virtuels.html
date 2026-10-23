@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offices de tourisme virtuels — Art Exposium</title>
+<meta name="description" content="Des offices de tourisme virtuels immersifs : hôtes en hologramme, panoramas 360°, cartes interactives, réalité augmentée. Une porte d’entrée digitale vers votre destination.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ---------- HERO portail (famille secteurs) ---------- */
+.sv-hero{height:300vh;position:relative}
+.sv-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--paper)}
+.sv-img{position:absolute;inset:0;z-index:1;background:#05050a;clip-path:polygon(0 0,0 0,0 0,0 0)}
+.sv-img img{width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1.25));will-change:transform}
+.sv-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,20,24,.1) 30%,rgba(20,20,24,.85));opacity:var(--shade,0)}
+.sv-door-wrap{position:absolute;z-index:2;perspective:1100px;pointer-events:none}
+.sv-door{position:absolute;inset:0;background:var(--blue);transform-origin:100% 50%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);box-shadow:inset -30px 0 60px rgba(0,0,0,.2);will-change:transform}
+.sv-door::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.4),transparent);opacity:var(--o,0)}
+.sv-head{position:absolute;z-index:3;left:var(--gutter);top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;max-width:62vw;will-change:transform,opacity}
+.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-family:var(--display);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5vh}
+.crumb a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:600}
+.crumb a:hover{color:var(--blue)}
+.crumb i{width:4px;height:4px;background:currentColor;border-radius:50%;opacity:.5}
+.sv-title{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.86;font-size:clamp(42px,min(9.4vw,15vh),180px)}
+.sv-title .ln{display:block;overflow:hidden;padding-top:.12em;margin-top:-.12em}
+.sv-title .ln > span{display:inline-block;transform:translateY(110%);animation:rise 1.2s var(--ease) forwards}
+.sv-title .ln:nth-child(2) > span{animation-delay:.12s}
+.sv-title .ln:nth-child(3) > span{animation-delay:.24s}
+.sv-title .b{color:var(--blue)}
+.sv-sub{margin-top:4vh;max-width:440px;font-size:18px;color:var(--ink-soft);opacity:0;animation:fade 1s .7s var(--ease) forwards}
+.sv-sub strong{color:var(--ink)}
+.sv-over{position:absolute;z-index:4;left:var(--gutter);right:var(--gutter);bottom:9vh;color:#fff;display:flex;justify-content:space-between;align-items:end;gap:40px;opacity:0;pointer-events:none}
+.sv-over h2{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:.9;font-size:clamp(40px,7.5vw,130px)}
+.sv-over h2 span{color:var(--blue-2)}
+.sv-over p{max-width:360px;font-size:16px;opacity:.85;margin-bottom:22px}
+.sv-over.live .sv-enter{pointer-events:auto}
+.sv-enter{background:#fff;color:var(--ink);font-size:16px;padding:16px 26px;border:0;cursor:pointer;font-family:inherit}
+.sv-enter:hover{color:#fff}
+.sv-tag{position:absolute;z-index:4;right:var(--gutter);top:50%;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg)}
+.sv-hint{position:absolute;z-index:4;left:var(--gutter);bottom:4vh;font-family:var(--display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* ---------- commun ---------- */
+.shot{position:relative;border-radius:22px;overflow:hidden;background:var(--ink);cursor:zoom-in;margin:0}
+.shot img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.shot:hover img{transform:scale(1.05)}
+.shot figcaption{position:absolute;left:18px;bottom:18px;font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;
+  background:rgba(20,20,24,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:9px 16px;border-radius:99px;display:flex;gap:10px;align-items:center}
+.shot figcaption::before{content:"";width:12px;height:12px;background:var(--blue-2);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
+.mq-track span i{color:var(--blue-2);-webkit-text-stroke:0}
+
+/* ---------- intro ---------- */
+.ot-intro{padding:18vh 0 12vh}
+.ot-lead{font-family:var(--display);font-weight:600;font-size:clamp(28px,3.6vw,58px);line-height:1.12;letter-spacing:-.02em;max-width:1250px;margin-top:5vh}
+.ot-lead em{font-style:normal;color:var(--blue)}
+.ot-intro-row{display:grid;grid-template-columns:1fr 1.7fr;gap:5vw;margin-top:10vh;align-items:end}
+.ot-intro-row p{color:var(--ink-soft);font-size:18px}
+.ot-intro-row p strong{color:var(--ink)}
+.ot-intro .shot{aspect-ratio:2208/796}
+
+/* ---------- itinéraire ---------- */
+.ot-route{background:var(--ink);color:var(--paper);padding:16vh 0;overflow-x:clip}
+.ot-route .head{display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap}
+.ot-route .head p{max-width:420px;opacity:.7}
+.route{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:28px;position:relative;margin-top:10vh;padding-top:74px}
+.route::before{content:"";position:absolute;left:0;right:0;top:12px;height:2px;background:repeating-linear-gradient(90deg,var(--blue-2) 0 10px,transparent 10px 20px);transform-origin:0 50%;transform:scaleX(0);transition:transform 2.2s var(--ease)}
+.route.in::before{transform:none}
+.route.rv{transform:none}
+.stop{position:relative;opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.route.in .stop{opacity:1;transform:none}
+.route.in .stop:nth-child(2){transition-delay:.3s}.route.in .stop:nth-child(3){transition-delay:.6s}.route.in .stop:nth-child(4){transition-delay:.9s}.route.in .stop:nth-child(5){transition-delay:1.2s}
+.stop::before{content:"";position:absolute;top:-74px;left:0;width:22px;height:26px;background:var(--blue-2);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
+.stop small{font-family:var(--display);font-size:13px;letter-spacing:.16em;opacity:.55}
+.stop h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:1;font-size:clamp(22px,1.9vw,32px);margin:14px 0 14px}
+.stop p{opacity:.72;font-size:16px}
+.stop:hover h3{color:var(--blue-2)}
+
+/* ---------- bento : l'expérience continue ---------- */
+.ot-more{padding:16vh 0 12vh}
+.ot-more .head{display:grid;grid-template-columns:1.3fr 1fr;gap:5vw;align-items:end}
+.ot-more .head p{color:var(--ink-soft);font-size:18px}
+.bento{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-areas:"a b c" "a d e";gap:18px;margin-top:8vh}
+.bento > *{min-width:0}
+.bento .shot{height:100%;min-height:300px}
+.bento .ba{grid-area:a}.bento .bb{grid-area:b}.bento .bc{grid-area:c}.bento .bd{grid-area:d}.bento .be{grid-area:e}
+.tile{border-radius:22px;padding:clamp(26px,3vw,40px);min-height:330px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;isolation:isolate}
+.tile.blue{background:var(--blue);color:#fff}
+.tile.ink{background:var(--ink);color:var(--paper)}
+.tile.soft{background:var(--paper-2);color:var(--ink)}
+.tile small{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+.tile h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:.98;font-size:clamp(26px,2.3vw,38px);margin:16px 0}
+.tile p{font-size:16px;opacity:.85}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chips span{font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:1px solid currentColor;border-radius:99px;padding:6px 14px}
+.tile .glyph{position:absolute;right:-10px;top:-10px;width:120px;height:140px;background:currentColor;opacity:.08;clip-path:polygon(0 0,100% 18%,100% 100%,0 82%);z-index:-1;transition:transform 1s var(--ease)}
+.tile:hover .glyph{transform:rotate(-8deg) scale(1.15)}
+
+/* ---------- manifeste ---------- */
+.ot-manif{padding:6vh 0 16vh;overflow-x:clip}
+.ot-manif .q{font-family:var(--display);font-weight:600;font-size:clamp(26px,3.2vw,52px);line-height:1.15;letter-spacing:-.02em;max-width:1200px}
+.ot-manif .q b{font-weight:800;color:var(--blue)}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);margin-top:10vh;border-top:1px solid var(--line)}
+.trio div{padding:4vh 2vw 0 0;border-right:1px solid var(--line)}
+.trio div + div{padding-left:2vw}
+.trio div:last-child{border-right:0}
+.trio small{font-family:var(--display);font-size:13px;letter-spacing:.16em;color:var(--ink-soft)}
+.trio b{display:block;font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.95;font-size:clamp(34px,4.6vw,80px);margin-top:2vh}
+.trio div:nth-child(2) b{color:var(--blue)}
+.ot-manif .end{margin-top:6vh;max-width:560px;color:var(--ink-soft);font-size:18px}
+
+/* ---------- résultat / cartes postales ---------- */
+.ot-result{background:var(--paper-2);padding:16vh 0;overflow-x:clip}
+.ot-result .grid{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:center}
+.result-label{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:4vh;display:flex;align-items:center;gap:14px}
+.result-label::after{content:"";flex:1;height:1px;background:var(--line)}
+.ot-result h2{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.03em;line-height:.95;font-size:clamp(34px,4.4vw,74px)}
+.ot-result h2 span{color:var(--blue)}
+.ot-result .grid > div > p{margin-top:4vh;color:var(--ink-soft);font-size:18px;max-width:480px}
+.cards{position:relative;height:clamp(380px,48vw,640px)}
+.pc{position:absolute;width:64%;background:#fff;padding:12px 12px 0;border-radius:18px;box-shadow:0 30px 60px -30px rgba(20,20,24,.45);transition:transform .9s var(--ease),z-index 0s .2s}
+.pc .shot{aspect-ratio:1032/796;border-radius:10px}
+.pc .shot figcaption{display:none}
+.pc p{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:14px 4px 16px;display:flex;justify-content:space-between;gap:10px}
+.pc p span{color:var(--blue)}
+.pc.p1{left:0;top:0;transform:rotate(-4deg)}
+.pc.p2{right:0;bottom:0;transform:rotate(3deg)}
+.pc:hover{transform:rotate(0) translateY(-10px);z-index:2}
+
+/* ---------- suivant ---------- */
+.sv-next{display:block;background:var(--paper);padding:14vh 0;border-top:1px solid var(--line);position:relative;overflow:hidden;isolation:isolate}
+.sv-next::before{content:"";position:absolute;inset:0;background:var(--ink);z-index:-1;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);transition:clip-path .8s var(--ease)}
+.sv-next:hover::before{clip-path:polygon(0 12%,100% 0,100% 100%,0 100%)}
+.sv-next:hover{color:var(--paper)}
+.sv-next .wrap{display:flex;justify-content:space-between;align-items:end;gap:30px;transition:color .5s}
+.sv-next small{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:3vh}
+.sv-next h2{font-family:var(--display);font-weight:900;font-size:clamp(36px,7vw,120px);text-transform:uppercase;letter-spacing:-.04em;line-height:.9}
+.sv-next .go{width:clamp(70px,9vw,140px);height:clamp(70px,9vw,140px);border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-size:clamp(28px,3vw,48px);flex:none;transition:transform .7s var(--ease),background .4s}
+.sv-next:hover .go{transform:rotate(-45deg);background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:250;background:rgba(14,14,18,.92);backdrop-filter:blur(10px);display:grid;place-items:center;padding:5vh var(--gutter);opacity:0;pointer-events:none;transition:opacity .4s}
+.lb.open{opacity:1;pointer-events:auto}
+.lb img{max-width:100%;max-height:82vh;border-radius:16px;transform:scale(.94);transition:transform .5s var(--ease)}
+.lb.open img{transform:none}
+.lb p{color:var(--paper);font-family:var(--display);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:14px;margin-top:18px;text-align:center}
+.lb button{position:absolute;top:22px;right:var(--gutter);background:none;border:1px solid rgba(255,255,255,.4);color:#fff;width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer}
+
+@media (max-width:1000px){
+  .sv-head{max-width:none;right:var(--gutter);justify-content:flex-start;padding-top:14vh}
+  .sv-tag{display:none}
+  .sv-over{flex-direction:column;align-items:flex-start;gap:10px}
+  .ot-intro-row,.ot-more .head,.ot-result .grid{grid-template-columns:1fr}
+  .route{grid-template-columns:1fr 1fr;row-gap:60px}
+  .route::before{display:none}
+  .stop::before{top:-40px}
+  .bento{grid-template-columns:1fr 1fr;grid-template-areas:"a a" "b c" "d e"}
+  .bento .ba{aspect-ratio:1032/796}
+}
+@media (max-width:640px){
+  .sv-title{hyphens:auto;-webkit-hyphens:auto}
+  .route{grid-template-columns:1fr;padding-top:0;margin-top:7vh;gap:44px;padding-left:46px}
+  .route::before{display:block;left:10px;right:auto;top:0;bottom:0;width:2px;height:auto;background:repeating-linear-gradient(180deg,var(--blue-2) 0 10px,transparent 10px 20px);transform-origin:50% 0;transform:scaleY(0)}
+  .route.in::before{transform:none}
+  .stop::before{top:2px;left:-46px}
+  .bento{grid-template-columns:minmax(0,1fr);grid-template-areas:"a" "b" "c" "d" "e"}
+  .bento .ba{min-height:0}
+  .crumb{font-size:11px;letter-spacing:.12em}
+  .tile{min-height:0}
+  .trio{grid-template-columns:1fr}
+  .trio div,.trio div + div{padding:3vh 0;border-right:0;border-bottom:1px solid var(--line)}
+  .cards{height:auto;display:grid;gap:26px}
+  .pc{position:relative;width:auto;left:auto!important;right:auto!important}
+  .sv-next .wrap{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 300 340">
+    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
+    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  </symbol>
+</svg>
+
+<div class="cursor" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a href="index.html" class="logo" aria-label="Art Exposium — accueil">
+    <svg viewBox="0 0 300 340"><use href="#mark"/></svg>
+    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  </a>
+  <ul>
+    <li><a href="index.html#concept">Concept</a></li>
+    <li><a href="index.html#univers">Secteurs</a></li>
+    <li><a href="index.html#fonctionnalites">Fonctionnalités</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="demo.html" class="btn">Réserver une démo <span class="arr">→</span></a>
+  <button class="burger" aria-label="Menu" id="burger"><span></span><span></span></button>
+</header>
+
+<div class="mmenu" id="mmenu">
+  <a href="index.html">Accueil</a>
+  <a href="index.html#univers">Secteurs</a>
+  <a href="services.html">Services</a>
+  <a href="prochains-salons.html">Prochains salons</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+<!-- HERO : la porte s'ouvre sur l'office de tourisme -->
+<section class="sv-hero" id="hero">
+  <div class="sv-stick">
+    <div class="sv-img" id="svImg"><img src="assets/img/tourisme/img-slider-3-scaled.jpg" alt="Office de tourisme virtuel en 3D : grand hall d’accueil végétalisé, comptoir et écrans interactifs" fetchpriority="high"></div>
+    <div class="sv-door-wrap" id="doorWrap"><div class="sv-door" id="svDoor"></div></div>
+
+    <div class="sv-head" id="svHead">
+      <div class="crumb"><a href="index.html#univers">← Retour</a><i></i><span>Applications / Secteurs</span><i></i><span>02</span></div>
+      <h1 class="sv-title">
+        <span class="ln"><span>Offices de</span></span>
+        <span class="ln"><span>tourisme</span></span>
+        <span class="ln"><span>virtuels<span class="b">.</span></span></span>
+      </h1>
+      <p class="sv-sub"><strong>Séduire, inspirer, informer</strong> les voyageurs, bien avant leur arrivée.</p>
+    </div>
+
+    <span class="sv-tag" id="svTag">02 — Tourisme &amp; territoires</span>
+    <span class="sv-hint" id="svHint">Poussez la porte ↓</span>
+
+    <div class="sv-over" id="svOver">
+      <h2>Votre territoire,<br><span>grand ouvert.</span></h2>
+      <div><p>Une porte d’entrée digitale vers votre destination, ouverte à tous les voyageurs.</p><button class="btn sv-enter" id="svEnter" type="button">Commencer la visite <span class="arr">→</span></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="ot-intro" id="visite">
+  <div class="wrap">
+    <span class="eyebrow rv" style="color:var(--blue)">L’office de tourisme, réinventé</span>
+    <p class="ot-lead rv d1">Les offices de tourisme virtuels d’ART EXPOSIUM réinventent la manière de <em>séduire, d’inspirer et d’informer</em> les voyageurs.</p>
+    <div class="ot-intro-row">
+      <p class="rv">Bien plus qu’un simple site internet : <strong>un véritable espace immersif et interactif</strong>, où chaque utilisateur devient <strong>acteur de sa découverte.</strong></p>
+      <figure class="shot rv d1" data-lb>
+        <img src="assets/img/tourisme/odt-1.jpg" alt="Bureau d’office de tourisme virtuel face aux sommets enneigés" loading="lazy">
+        <figcaption>Bureau d’accueil virtuel</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ITINÉRAIRE DU VISITEUR -->
+<section class="ot-route">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue-2)">Itinéraire du visiteur</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">Le voyage<br>commence ici.</h2>
+      </div>
+      <p class="rv d2">Dès son arrivée, le visiteur est accueilli, guidé, puis invité à parcourir les richesses du territoire.</p>
+    </div>
+    <ol class="route rv">
+      <li class="stop"><small>Étape 01</small><h3>L’accueil</h3><p>Des hologrammes d’hôtes virtuels reçoivent le visiteur et le guident dès son arrivée.</p></li>
+      <li class="stop"><small>Étape 02</small><h3>Vidéos inspirantes</h3><p>Les richesses du territoire, racontées en images.</p></li>
+      <li class="stop"><small>Étape 03</small><h3>Panoramas 360°</h3><p>Des points de vue spectaculaires, à explorer sous tous les angles.</p></li>
+      <li class="stop"><small>Étape 04</small><h3>Cartes interactives</h3><p>Des cartes dynamiques pour se repérer et explorer la destination.</p></li>
+      <li class="stop"><small>Étape 05</small><h3>Visites guidées virtuelles</h3><p>Pour plonger le visiteur dans l’atmosphère du territoire.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- L'EXPÉRIENCE CONTINUE -->
+<section class="ot-more">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue)">Et ce n’est pas tout</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">L’expérience<br>ne s’arrête pas là.</h2>
+      </div>
+      <p class="rv d2">Le visiteur repart avec du concret, interagit avec le territoire et partage ce qu’il a ressenti.</p>
+    </div>
+    <div class="bento">
+      <figure class="shot ba rv" data-lb>
+        <img src="assets/img/tourisme/Odt2.png" alt="Pavillon de dégustation au cœur des vignes, avec écran interactif" loading="lazy">
+        <figcaption>Tourisme &amp; vin</figcaption>
+      </figure>
+      <article class="tile blue bb rv d1">
+        <span class="glyph" aria-hidden="true"></span>
+        <div><small>Emporter</small><h3>Des contenus pratiques</h3><p>Le visiteur télécharge tout ce qu’il faut pour préparer son voyage.</p></div>
+        <div class="chips"><span>Guides</span><span>Brochures</span><span>Coupons</span><span>Billets</span></div>
+      </article>
+      <article class="tile ink bc rv d2">
+        <span class="glyph" aria-hidden="true"></span>
+        <small>Interagir</small>
+        <div><h3>Points d’intérêt en réalité augmentée</h3><p>Les lieux phares du territoire prennent vie et se découvrent autrement.</p></div>
+      </article>
+      <figure class="shot bd rv" data-lb>
+        <img src="assets/img/tourisme/newOdt1.jpg" alt="Office de tourisme virtuel installé en pleine montagne au coucher du soleil" loading="lazy">
+        <figcaption>Montagne</figcaption>
+      </figure>
+      <article class="tile soft be rv d1">
+        <span class="glyph" aria-hidden="true"></span>
+        <small>Partager</small>
+        <div><h3>Un livre d’or vidéo connecté</h3><p>Chaque visiteur peut y laisser son ressenti.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTE -->
+<section class="ot-manif">
+  <div class="wrap">
+    <span class="eyebrow rv" style="color:var(--blue)">Une porte d’entrée digitale</span>
+    <p class="q rv d1" style="margin-top:5vh">Véritable <b>porte d’entrée digitale vers une destination</b>, l’office de tourisme virtuel ART EXPOSIUM transforme la préparation du voyage en une expérience vivante et mémorable.</p>
+    <div class="trio">
+      <div class="rv"><small>01</small><b>Innovation</b></div>
+      <div class="rv d1"><small>02</small><b>Émotion</b></div>
+      <div class="rv d2"><small>03</small><b>Efficacité</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- RÉSULTAT -->
+<section class="ot-result">
+  <div class="wrap grid">
+    <div>
+      <div class="result-label rv">Résultat</div>
+      <h2 class="rv d1">Une vitrine immersive qui <span>valorise votre territoire.</span></h2>
+      <p class="rv d2">Et qui transforme la découverte en véritable expérience émotionnelle.</p>
+    </div>
+    <div class="cards">
+      <div class="pc p1 rv">
+        <figure class="shot" data-lb><img src="assets/img/tourisme/Odt3.jpg" alt="Espace d’information d’un office de tourisme virtuel, comptoir circulaire et carte du monde" loading="lazy"><figcaption>Espace d’information</figcaption></figure>
+        <p>Espace d’information <span>↗</span></p>
+      </div>
+      <div class="pc p2 rv d1">
+        <figure class="shot" data-lb><img src="assets/img/tourisme/Odt4.jpg" alt="Office de tourisme virtuel en haute montagne, bornes et écrans dans la neige" loading="lazy"><figcaption>Office de montagne</figcaption></figure>
+        <p>Office de montagne <span>↗</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track">
+    <span>Hologrammes <b class="dot"></b> <i>Panoramas 360°</i> <b class="dot"></b> Cartes interactives <b class="dot"></b> <i>Réalité augmentée</i> <b class="dot"></b> Livre d’or <b class="dot"></b></span>
+    <span>Hologrammes <b class="dot"></b> <i>Panoramas 360°</i> <b class="dot"></b> Cartes interactives <b class="dot"></b> <i>Réalité augmentée</i> <b class="dot"></b> Livre d’or <b class="dot"></b></span>
+  </div>
+</div>
+
+<!-- SECTEUR SUIVANT -->
+<a class="sv-next" href="salles-formation-immersives.html">
+  <div class="wrap">
+    <div><small>Secteur suivant — 03</small><h2>Salles de formation<br>immersives</h2></div>
+    <span class="go" aria-hidden="true">→</span>
+  </div>
+</a>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <svg class="cta-mark" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <div class="wrap">
+    <span class="eyebrow rv">Votre destination</span>
+    <h2 class="cta-big rv d1" style="margin-top:4vh"><span>Faites</span><span class="o">voyager</span><span>avant le départ.</span></h2>
+    <div class="cta-row">
+      <p class="rv">Office de tourisme, territoire, site touristique… Parlez-nous de votre destination : nous concevons l’univers 3D qui donnera envie de la découvrir.</p>
+      <a class="btn rv d1" href="mailto:contact@artexposium.fr?subject=Office%20de%20tourisme%20virtuel">contact@artexposium.fr <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a href="index.html" class="logo"><svg viewBox="0 0 300 340"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
+        <p class="about">Art Exposium par Vif-Argent — environnements immersifs 100% web pour l’événementiel, le tourisme, la formation, le retail et la culture.</p>
+      </div>
+      <div>
+        <h4>Siège social</h4>
+        <ul><li>Vif-Argent</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="tel:+33164700802">01 64 70 08 02</a></li><li><a href="tel:+33609770241">06 09 77 02 41</a></li><li><a href="mailto:contact@artexposium.fr">contact@artexposium.fr</a></li></ul>
+      </div>
+      <div>
+        <h4>Explorer</h4>
+        <ul><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-bot">
+      <span>Art Exposium par Vif-Argent © Tous droits réservés</span>
+      <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://www.instagram.com/agencevifargent/" target="_blank" rel="noopener">Instagram</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Aperçu"><button type="button" aria-label="Fermer">✕</button><div><img alt=""><p></p></div></div>
+
+<script>
+(() => {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = s => document.querySelector(s);
+  const clamp = (v,a=0,b=1) => Math.min(b,Math.max(a,v));
+  const lerp = (a,b,t) => a + (b - a) * t;
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  const easeIO = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+
+  /* ----- hero : la porte bleue s'ouvre, l'image envahit l'écran ----- */
+  const hero = $('#hero'), img = $('#svImg'), wrap = $('#doorWrap'), door = $('#svDoor'),
+        head = $('#svHead'), over = $('#svOver'), tag = $('#svTag'), hint = $('#svHint'), nav = $('#nav');
+  let R, intro = 0;
+  function layout(){
+    const W = innerWidth, H = innerHeight, mob = W < 1000;
+    const w = mob ? W * .42 : Math.min(W * .24, H * .5), h = w * 2.8;
+    const hh = Math.min(h, H * (mob ? .44 : .74)), ww = hh / 2.8;
+    R = { x: mob ? W - ww - W*.08 : W * .74 - ww / 2, y: mob ? H * .5 : (H - hh) / 2 + H * .02, w: ww, h: hh };
+    Object.assign(wrap.style, { left: R.x+'px', top: R.y+'px', width: R.w+'px', height: R.h+'px' });
+  }
+  function heroFrame(){
+    const W = innerWidth, H = innerHeight;
+    const p = clamp(-hero.getBoundingClientRect().top / (hero.offsetHeight - H));
+    const open = ease(clamp(p / .28));
+    const grow = easeIO(clamp((p - .22) / .5));
+    const fin = ease(clamp((p - .72) / .2));
+    door.style.transform = `rotateY(${lerp(intro, 84, open)}deg)`;
+    door.style.setProperty('--o', open);
+    wrap.style.opacity = 1 - clamp((p - .3) / .1);
+    const s1 = R.h * .105, s2 = R.h * .123;
+    const pts = [
+      [lerp(R.x, 0, grow),       lerp(R.y, 0, grow)],
+      [lerp(R.x + R.w, W, grow), lerp(R.y + s1, 0, grow)],
+      [lerp(R.x + R.w, W, grow), lerp(R.y + R.h, H, grow)],
+      [lerp(R.x, 0, grow),       lerp(R.y + R.h - s2, H, grow)],
+    ];
+    img.style.clipPath = `polygon(${pts.map(([x,y]) => `${x}px ${y}px`).join(',')})`;
+    img.style.setProperty('--z', lerp(1.25, 1, grow));
+    img.style.setProperty('--shade', fin);
+    head.style.opacity = 1 - clamp((p - .18) / .2);
+    head.style.transform = `translateY(${-clamp((p - .1) / .4) * 12}vh)`;
+    tag.style.opacity = hint.style.opacity = 1 - clamp(p / .1);
+    over.style.opacity = fin;
+    over.style.transform = `translateY(${(1 - fin) * 40}px)`;
+    over.classList.toggle('live', fin > .6);
+    return p;
+  }
+  layout();
+  if (!reduce) { const t0 = performance.now() + 900; (function a(now){ const k = clamp((now - t0) / 1200); intro = ease(k) * 28; heroFrame(); if (k < 1) requestAnimationFrame(a); })(performance.now()); }
+  $('#svEnter').addEventListener('click', () => $('#visite').scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}));
+
+  /* ----- nav ----- */
+  const darks = [...document.querySelectorAll('.ot-route,.cta,footer,.marquee')];
+  function navFrame(heroP){
+    nav.classList.toggle('scrolled', scrollY > 40);
+    const onDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
+    nav.classList.toggle('inv', onDark || (heroP > .55 && heroP < 1) || $('#mmenu').classList.contains('open'));
+  }
+
+  function loop(){ navFrame(heroFrame()); }
+  addEventListener('scroll', () => requestAnimationFrame(loop), {passive:true});
+  addEventListener('resize', () => { layout(); loop(); });
+  loop();
+
+  /* ----- reveal ----- */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:0, rootMargin:'0px 0px -12% 0px'});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* ----- lightbox ----- */
+  const lb = $('#lb'), lbImg = lb.querySelector('img'), lbCap = lb.querySelector('p');
+  document.querySelectorAll('[data-lb]').forEach(f => {
+    f.setAttribute('tabindex','0'); f.setAttribute('role','button');
+    const open = () => {
+      const im = f.querySelector('img');
+      lbImg.src = im.src; lbImg.alt = im.alt;
+      lbCap.textContent = f.querySelector('figcaption')?.textContent || im.alt;
+      lb.classList.add('open'); lb.querySelector('button').focus();
+    };
+    f.addEventListener('click', open);
+    f.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
+  const close = () => lb.classList.remove('open');
+  lb.addEventListener('click', e => { if (e.target !== lbImg) close(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  /* ----- curseur ----- */
+  if (!reduce && matchMedia('(hover:hover)').matches){
+    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0;
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    document.querySelectorAll('a,button,[data-lb]').forEach(el => {
+      el.addEventListener('mouseenter', () => cu.classList.add('big'));
+      el.addEventListener('mouseleave', () => cu.classList.remove('big'));
+    });
+  }
+
+  /* ----- menu mobile ----- */
+  const mm = $('#mmenu');
+  $('#burger').addEventListener('click', () => { mm.classList.toggle('open'); nav.classList.toggle('inv', mm.classList.contains('open')); });
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); loop(); }));
+})();
+</script>
+</body>
+</html>

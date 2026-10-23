@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Art Exposium — Mondes immersifs 100% web</title>
+<meta name="description" content="ART EXPOSIUM : technologie immersive 100% web pour salons virtuels, offices de tourisme, formation, retail, RH et musées.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 300 340">
+    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
+    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  </symbol>
+</svg>
+
+<div class="cursor" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <a href="#top" class="logo" aria-label="Art Exposium — accueil">
+    <svg viewBox="0 0 300 340"><use href="#mark"/></svg>
+    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  </a>
+  <ul>
+    <li><a href="index.html#concept">Concept</a></li>
+    <li><a href="index.html#univers">Secteurs</a></li>
+    <li><a href="index.html#fonctionnalites">Fonctionnalités</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="demo.html" class="btn">Réserver une démo <span class="arr">→</span></a>
+  <button class="burger" aria-label="Menu" id="burger"><span></span><span></span></button>
+</header>
+
+<div class="mmenu" id="mmenu">
+  <a href="index.html" aria-current="page">Accueil</a>
+  <a href="index.html#univers">Secteurs</a>
+  <a href="services.html">Services</a>
+  <a href="prochains-salons.html">Prochains salons</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-stick">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+
+    <h1 class="hero-title t1" id="t1">
+      <span class="ln"><span>Recréez</span></span>
+      <span class="ln"><span><span class="o">le</span> réel<span class="b">.</span></span></span>
+    </h1>
+
+    <div class="stage" id="stage" aria-hidden="true">
+      <div class="portal-glow" id="glow"></div>
+      <div class="portal" id="portal"></div>
+      <div class="frame"></div>
+      <div class="door-wrap"><div class="door" id="door"><div class="door-shade" id="shade"></div></div></div>
+    </div>
+
+    <div class="hero-title t2" id="t2">
+      <span class="ln"><span>Dépassez</span></span>
+      <span class="ln"><span><span class="o">-</span>le<span class="b">.</span></span></span>
+    </div>
+
+    <p class="hero-tag" id="tag"><strong>Technologie immersive 100% web.</strong> Des univers 3D ultra-réalistes, accessibles depuis un simple navigateur.</p>
+
+    <div class="hero-meta" id="meta">
+      <div class="scroll-ind"><i></i> Poussez la porte</div>
+      <span>AR · VR · MR · Full web</span>
+    </div>
+    <div class="hero-flash" id="flash"></div>
+  </div>
+</section>
+
+<!-- CONCEPT -->
+<section class="concept" id="concept">
+  <svg class="concept-shape" viewBox="0 0 300 340" aria-hidden="true"><polygon fill="#fff" points="5,95 198,5 198,55 85,108 85,250 5,290"/></svg>
+  <div class="wrap">
+    <div>
+      <span class="eyebrow rv">Concept</span>
+      <h2 class="h2 rv d1" style="margin-top:28px">Bienvenue dans une <em>nouvelle dimension</em> d’expériences</h2>
+    </div>
+    <div class="rv d2">
+      <p class="lead">ART EXPOSIUM est une technologie immersive 100% web, conçue pour recréer — et amplifier — les expériences du monde réel.</p>
+      <p>Depuis un simple navigateur, vos visiteurs, clients, collaborateurs ou partenaires entrent dans des univers 3D ultra-réalistes, vivants et interactifs. On s’y déplace, on échange, on découvre, on manipule, on teste… comme si l’on y était.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat rv"><b><span data-count="350">0</span> 000</b><span>m² virtuels</span></div>
+      <div class="stat rv d1"><b><span data-count="6">0</span></b><span>univers métiers</span></div>
+      <div class="stat rv d2"><b><span data-count="100">0</span>%</b><span>web, sans installation</span></div>
+      <div class="stat rv d3"><b>24/7</b><span>ouvert au monde entier</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DÉMO 3D -->
+<section class="demo" id="demo">
+  <div class="wrap">
+    <div class="demo-head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue-2)">Démo live · 3D temps réel</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">Ne nous croyez pas.<br><span style="color:var(--blue-2)">Entrez.</span></h2>
+      </div>
+      <p class="rv d2">Ce salon tourne en direct dans votre navigateur, sans rien installer. Marchez entre les stands, approchez les produits, découvrez chaque exposant.</p>
+    </div>
+    <div class="demo-stage rv">
+      <div id="demoHall" class="demo-hall" role="img" aria-label="Salon virtuel Art Exposium en 3D temps réel"></div>
+      <span class="demo-live"><i></i> En direct · rendu temps réel</span>
+      <button class="btn demo-go" id="demoGo" type="button">Entrer dans le salon <span class="arr">→</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track">
+    <span>IRréel <b class="dot"></b> <i>AR</i> <b class="dot"></b> VR <b class="dot"></b> <i>MR</i> <b class="dot"></b> IRréel <b class="dot"></b> <i>AR</i> <b class="dot"></b> VR <b class="dot"></b> <i>MR</i> <b class="dot"></b></span>
+    <span>IRréel <b class="dot"></b> <i>AR</i> <b class="dot"></b> VR <b class="dot"></b> <i>MR</i> <b class="dot"></b> IRréel <b class="dot"></b> <i>AR</i> <b class="dot"></b> VR <b class="dot"></b> <i>MR</i> <b class="dot"></b></span>
+  </div>
+</div>
+
+<!-- UNIVERS -->
+<section class="univers" id="univers">
+  <div class="wrap">
+    <div class="univers-head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue)">Applications / Secteurs</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">Une technologie.<br>Des univers.</h2>
+      </div>
+      <p class="rv d2">ART EXPOSIUM conçoit des environnements immersifs dédiés à chaque secteur, pour présenter, valoriser et transmettre contenus, savoir-faire et expériences — accessibles à tous, sur tous les supports.</p>
+    </div>
+
+    <div class="cards">
+      <a class="card wide dark rv" href="salons-virtuels.html">
+        <div class="num"><span>01 — ÉVÉNEMENTIEL</span><span class="go">↗</span></div>
+        <svg class="ill" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 150 L100 110 L180 150 L100 190Z"/><path d="M40 140v-50l30-15v50M130 125V75l30 15v50M85 117V60l30-15v57"/><circle cx="100" cy="35" r="8"/></svg>
+        <div><h3>Salons &amp; expositions virtuels</h3><p>Qui rassemblent et font rayonner vos événements bien au-delà des murs.</p></div>
+      </a>
+      <a class="card rv d1" href="offices-de-tourisme-virtuels.html">
+        <div class="num"><span>02 — TERRITOIRES</span><span class="go">↗</span></div>
+        <svg class="ill" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="100" cy="100" r="60"/><ellipse cx="100" cy="100" rx="25" ry="60"/><path d="M40 100h120M50 70h100M50 130h100"/></svg>
+        <div><h3>Offices de tourisme virtuels</h3><p>Qui ouvrent leurs portes 24/7 au monde entier.</p></div>
+      </a>
+      <a class="card rv" href="salles-formation-immersives.html">
+        <div class="num"><span>03 — FORMATION</span><span class="go">↗</span></div>
+        <svg class="ill" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M100 40l60 30-60 30-60-30z"/><path d="M60 80v40c0 15 80 15 80 0V80"/><path d="M160 70v50"/></svg>
+        <div><h3>Salles de formation immersives</h3><p>Où l’apprentissage devient manipulation, interaction et partage.</p></div>
+      </a>
+      <a class="card rv d1" href="retail-magasins-virtuels.html">
+        <div class="num"><span>04 — RETAIL</span><span class="go">↗</span></div>
+        <svg class="ill" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M50 70h100l-10 90H60z"/><path d="M75 70c0-35 50-35 50 0"/></svg>
+        <div><h3>Retail &amp; magasins virtuels</h3><p>Où vos idées prennent vie : tester, analyser, optimiser.</p></div>
+      </a>
+      <a class="card rv d2" href="solutions-rh.html">
+        <div class="num"><span>05 — RH</span><span class="go">↗</span></div>
+        <svg class="ill" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="75" cy="80" r="22"/><circle cx="130" cy="90" r="17"/><path d="M35 160c0-30 20-45 40-45s40 15 40 45M105 160c0-22 12-35 25-35s25 13 25 35"/></svg>
+        <div><h3>Solutions RH</h3><p>Recrutement, onboarding et salons emploi dans des espaces qui marquent.</p></div>
+      </a>
+      <a class="card wide rv" href="musees.html">
+        <div class="num"><span>06 — CULTURE</span><span class="go">↗</span></div>
+        <svg class="ill" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M30 70l70-35 70 35z"/><path d="M45 75v70M75 75v70M125 75v70M155 75v70M30 150h140M25 165h150"/></svg>
+        <div><h3>Musées</h3><p>Des collections vivantes, accessibles partout, à manipuler et explorer en détail.</p></div>
+      </a>
+    </div>
+    <a class="studio rv" href="services.html">
+      <span class="studio-k">Et aussi — Services</span>
+      <span class="studio-t">Design graphique · Développement web · Réalité augmentée &amp; virtuelle</span>
+      <span class="studio-s">par Vif-Argent, le studio derrière Art Exposium</span>
+      <span class="go">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--blue-2);margin-bottom:6vh;display:inline-flex">Plus qu’une visite, une expérience</span>
+    <p class="manif-text" id="manif">Nous croyons que le virtuel ne doit pas se limiter à reproduire le réel : il doit *l’enrichir. Avec ART EXPOSIUM, la *distance *disparaît, la *rencontre *reste, et l’expérience devient *mémorable.</p>
+    <div class="manif-foot">
+      <div class="signature">Recréez le réel.<br><span>Dépassez-le.</span></div>
+      <p>Organisez des salons, ouvrez un office de tourisme 24/7, formez en immersion, testez vos concepts retail — sans contrainte physique.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE 2 -->
+<div class="marquee light rev" aria-hidden="true">
+  <div class="mq-track">
+    <span>Hologramme <b class="dot"></b> <i>Technologie immersive</i> <b class="dot"></b> Full web <b class="dot"></b> <i>Serveur dédié</i> <b class="dot"></b></span>
+    <span>Hologramme <b class="dot"></b> <i>Technologie immersive</i> <b class="dot"></b> Full web <b class="dot"></b> <i>Serveur dédié</i> <b class="dot"></b></span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="fonctionnalites">
+  <canvas id="grid"></canvas>
+  <div class="wrap">
+    <div class="feat-head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue-2)">Fonctionnalités</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">Tout ce qu’il faut<br>pour y croire.</h2>
+      </div>
+      <p class="rv d2">Neuf briques technologiques, combinables à l’infini, pour concevoir l’expérience qui vous ressemble.</p>
+    </div>
+    <div class="feat">
+      <ul class="feat-list" role="tablist" id="featList"></ul>
+      <div class="feat-panel rv" role="tabpanel" id="featPanel">
+        <div class="feat-vis"><div class="floor"></div><div class="cube-scene"><div class="cube"><div class="f1"></div><div class="f2"></div><div class="f3"></div><div class="f4"></div><div class="f5"></div><div class="f6"></div></div></div><span class="tag swap" id="fTag">01 / 09</span></div>
+        <div class="swap" id="fBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORTS -->
+<section class="support">
+  <div class="wrap">
+    <div class="sup rv"><svg viewBox="0 0 48 48"><rect x="4" y="8" width="40" height="26" rx="3"/><path d="M16 42h16M24 34v8"/></svg><div><b>Navigateur</b><span>Aucune installation, un lien suffit.</span></div></div>
+    <div class="sup rv d1"><svg viewBox="0 0 48 48"><rect x="12" y="4" width="24" height="40" rx="4"/><path d="M21 38h6"/></svg><div><b>Mobile &amp; tablette</b><span>Expérience fluide, même à distance.</span></div></div>
+    <div class="sup rv d2"><svg viewBox="0 0 48 48"><path d="M4 18h40v16H30l-6-6-6 6H4z"/></svg><div><b>Casque VR</b><span>L’immersion totale, sans compromis.</span></div></div>
+    <div class="sup rv d3"><svg viewBox="0 0 48 48"><path d="M6 6h12v12H6zM30 6h12v12H30zM6 30h12v12H6zM30 30h4v4h-4zM38 38h4v4h-4zM30 38h4M38 30h4"/></svg><div><b>Web AR</b><span>Via QR code, directement sur site.</span></div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <svg class="cta-mark" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <div class="wrap">
+    <span class="eyebrow rv">Contact</span>
+    <h2 class="cta-big rv d1" style="margin-top:4vh"><span>Entrez</span><span class="o">dans le</span><span>réel+</span></h2>
+    <div class="cta-row">
+      <p class="rv">Parlez-nous de votre projet : salon, territoire, formation, retail, musée… Nous imaginons l’univers immersif qui le fera exister.</p>
+      <a class="btn rv d1" href="mailto:contact@artexposium.fr">contact@artexposium.fr <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a href="#top" class="logo"><svg viewBox="0 0 300 340"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
+        <p class="about">Art Exposium par Vif-Argent — environnements immersifs 100% web pour l’événementiel, le tourisme, la formation, le retail et la culture.</p>
+      </div>
+      <div>
+        <h4>Siège social</h4>
+        <ul><li>Vif-Argent</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="tel:+33164700802">01 64 70 08 02</a></li><li><a href="tel:+33609770241">06 09 77 02 41</a></li><li><a href="mailto:contact@artexposium.fr">contact@artexposium.fr</a></li></ul>
+      </div>
+      <div>
+        <h4>Explorer</h4>
+        <ul><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-bot">
+      <span>Art Exposium par Vif-Argent © Tous droits réservés</span>
+      <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://www.instagram.com/agencevifargent/" target="_blank" rel="noopener">Instagram</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = s => document.querySelector(s);
+  const clamp = (v,a=0,b=1) => Math.min(b,Math.max(a,v));
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  const easeIn = t => t * t * t;
+
+  /* ----- hero : la porte s'ouvre, on la traverse ----- */
+  const hero = $('#hero'), stage = $('#stage'), door = $('#door'), shade = $('#shade'),
+        portal = $('#portal'), glow = $('#glow'), flash = $('#flash'),
+        t1 = $('#t1'), t2 = $('#t2'), tag = $('#tag'), meta = $('#meta'), nav = $('#nav');
+  let ready = false; setTimeout(() => ready = true, 2000);
+
+  function heroFrame(){
+    const r = hero.getBoundingClientRect();
+    const total = hero.offsetHeight - innerHeight;
+    const p = clamp(-r.top / total);
+    // phase 1 (0 → .45) : la porte pivote
+    const open = ease(clamp(p / .45));
+    // phase 2 (.4 → 1) : on plonge dans le portail
+    const dive = easeIn(clamp((p - .4) / .6));
+    if (ready || p > 0) door.style.transform = `rotateY(${open * 78}deg)`;
+    door.style.animation = (ready || p > 0) ? 'none' : '';
+    shade.style.opacity = open;
+    portal.style.opacity = clamp(open * 1.6);
+    glow.style.opacity = clamp(open * 1.3) * (1 - dive * .3);
+    stage.style.transform = `scale(${1 + dive * 38})`;
+    const spread = open * 18;
+    t1.style.transform = `translateY(${-spread}vh)`;
+    t2.style.transform = `translateY(${spread}vh)`;
+    t1.style.opacity = t2.style.opacity = 1 - clamp((p - .15) / .3);
+    tag.style.opacity = meta.style.opacity = 1 - clamp(p / .12);
+    flash.style.opacity = clamp((p - .82) / .16);
+  }
+
+  /* ----- nav ----- */
+  const invSections = [...document.querySelectorAll('.concept,.demo,.manifesto,.features,.cta,footer,.marquee:not(.light)')];
+  function navFrame(){
+    nav.classList.toggle('scrolled', scrollY > 40);
+    const y = 40;
+    const onDark = invSections.some(s => { const b = s.getBoundingClientRect(); return b.top <= y && b.bottom >= y; });
+    const heroP = clamp(-hero.getBoundingClientRect().top / (hero.offsetHeight - innerHeight));
+    nav.classList.toggle('inv', onDark || (heroP > .86 && heroP < 1));
+  }
+
+  /* ----- manifesto : mots qui s'allument ----- */
+  const manif = $('#manif');
+  manif.innerHTML = manif.textContent.trim().split(/\s+/).map(w =>
+    w.startsWith('*') ? `<span class="w hl">${w.slice(1)}</span>` : `<span class="w">${w}</span>`).join(' ');
+  const words = [...manif.querySelectorAll('.w')];
+  function manifFrame(){
+    const r = manif.getBoundingClientRect();
+    const p = clamp((innerHeight * .85 - r.top) / (r.height + innerHeight * .35));
+    const n = Math.round(p * words.length);
+    words.forEach((w,i) => w.classList.toggle('on', i < n || reduce));
+  }
+
+  function loop(){ heroFrame(); navFrame(); manifFrame(); }
+  addEventListener('scroll', () => requestAnimationFrame(loop), {passive:true});
+  addEventListener('resize', loop);
+  loop();
+
+  /* ----- reveal + compteurs ----- */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in');
+    e.target.querySelectorAll('[data-count]').forEach(c => {
+      const to = +c.dataset.count, t0 = performance.now();
+      const tick = now => { const k = clamp((now - t0) / 1600); c.textContent = Math.round(ease(k) * to); if (k < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    });
+    io.unobserve(e.target);
+  }), {threshold:.15});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* ----- fonctionnalités ----- */
+  const F = [
+    ['Immersion 3D ultra-réaliste', ['Navigation libre dans des espaces modélisés avec précision','Ambiances réalistes : lumière, textures, sons','Personnalisation des environnements selon le secteur ou le scénario']],
+    ['Interaction avec les objets 3D', ['Manipulation d’objets, produits ou équipements','Visualisation en détail : zoom, rotation, dépliage','Déclenchement de contenus associés : vidéos, fiches techniques, animations']],
+    ['Réalité augmentée intégrée', ['Technologie Web AR embarquée dans les scènes via QR code ou URL','Intégration des modèles 3D dans le monde réel','Test de produits, packagings ou aménagements directement sur site']],
+    ['Communication en temps réel', ['Visioconférence et audio intégrés','Partage d’écran et annotation collaborative','Secret room : livre d’or vidéo']],
+    ['Gamification & parcours', ['Quiz, défis et récompenses pour engager les participants','Scénarios interactifs pour formation ou visites guidées','Suivi des progrès et performances individuelles']],
+    ['Collecte & analyse de données', ['Tracking des interactions et comportements utilisateurs','Statistiques et rapports détaillés sur la navigation et les actions','Analyse des résultats pour optimiser contenus et scénarios']],
+    ['Multi-support & full web', ['Accès depuis navigateur, tablette, mobile et casque VR','Aucune installation lourde, compatible avec tous les supports','Expérience fluide, même à distance']],
+    ['Contenus multimédias', ['Vidéos, PDF, liens externes, images 360°…','Contenus enrichis intégrés directement dans l’environnement 3D','CTA intégrés : billetterie, contact, site web']],
+    ['Utilisateurs & permissions', ['Profils personnalisés et rôles d’accès','Suivi des participants et restrictions selon les besoins','Compatible B2B et B2C grâce aux environnements privatisables']],
+  ];
+  const list = $('#featList'), body = $('#fBody'), ftag = $('#fTag');
+  F.forEach(([t],i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<button role="tab" aria-selected="${i===0}"><small>${String(i+1).padStart(2,'0')}</small><span>${t}</span><span class="pl"></span></button>`;
+    li.firstChild.addEventListener('click', () => setF(i));
+    list.appendChild(li);
+  });
+  let cur = -1, auto;
+  function render(i){
+    body.innerHTML = `<h3>${F[i][0]}</h3><ul>${F[i][1].map(x=>`<li>${x}</li>`).join('')}</ul>`;
+    ftag.textContent = `${String(i+1).padStart(2,'0')} / ${String(F.length).padStart(2,'0')}`;
+  }
+  function setF(i, user = true){
+    if (i === cur) return;
+    cur = i;
+    list.querySelectorAll('button').forEach((b,k) => b.setAttribute('aria-selected', k===i));
+    body.classList.add('out'); ftag.classList.add('out');
+    setTimeout(() => { render(i); body.classList.remove('out'); ftag.classList.remove('out'); }, 260);
+    if (user) clearInterval(auto);
+  }
+  render(0); cur = 0;
+  if (!reduce) auto = setInterval(() => setF((cur + 1) % F.length, false), 4200);
+
+  /* ----- grille de fond (features) ----- */
+  const cv = $('#grid'), ctx = cv.getContext('2d');
+  let W, H, off = 0, vis = false;
+  new IntersectionObserver(([e]) => vis = e.isIntersecting).observe(cv);
+  function size(){ const d = devicePixelRatio || 1; W = cv.offsetWidth; H = cv.offsetHeight; cv.width = W*d; cv.height = H*d; ctx.setTransform(d,0,0,d,0,0); }
+  size(); addEventListener('resize', size);
+  function draw(){
+    if (vis){
+      ctx.clearRect(0,0,W,H);
+      const hz = H * .35, cx = W/2;
+      ctx.lineWidth = 1;
+      for (let i = -24; i <= 24; i++){
+        ctx.strokeStyle = 'rgba(90,80,255,.35)';
+        ctx.beginPath(); ctx.moveTo(cx + i*14, hz); ctx.lineTo(cx + i*W*.12, H); ctx.stroke();
+      }
+      for (let k = 0; k < 18; k++){
+        const z = ((k + off) / 18), y = hz + Math.pow(z, 2.4) * (H - hz);
+        ctx.strokeStyle = `rgba(90,80,255,${.08 + z*.4})`;
+        ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+      }
+      const g = ctx.createLinearGradient(0,0,0,hz+80); g.addColorStop(0,'#141418'); g.addColorStop(1,'rgba(20,20,24,0)');
+      ctx.fillStyle = g; ctx.fillRect(0,0,W,hz+80);
+      if (!reduce) off = (off + .012) % 1;
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  /* ----- cartes : tilt 3D ----- */
+  if (!reduce && matchMedia('(hover:hover)').matches){
+    document.querySelectorAll('.card').forEach(c => {
+      c.addEventListener('mousemove', e => {
+        const b = c.getBoundingClientRect(), x = (e.clientX-b.left)/b.width - .5, y = (e.clientY-b.top)/b.height - .5;
+        c.style.transform = `perspective(900px) rotateY(${x*6}deg) rotateX(${-y*6}deg)`;
+      });
+      c.addEventListener('mouseleave', () => c.style.transform = '');
+    });
+    /* curseur */
+    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0;
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    document.querySelectorAll('a,button').forEach(el => {
+      el.addEventListener('mouseenter', () => cu.classList.add('big'));
+      el.addEventListener('mouseleave', () => cu.classList.remove('big'));
+    });
+  }
+
+  /* ----- menu mobile ----- */
+  const mm = $('#mmenu'), bg = $('#burger');
+  bg.addEventListener('click', () => { mm.classList.toggle('open'); nav.classList.toggle('inv', mm.classList.contains('open')); });
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
+})();
+</script>
+<script type="module">
+  import { mountHall } from './assets/hall3d.js';
+  const hall = mountHall(document.getElementById('demoHall'), { mode: 'attract' });
+  document.getElementById('demoGo').addEventListener('click', () => hall && hall.enterImmersive());
+</script>
+</body>
+</html>

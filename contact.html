@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Art Exposium</title>
+<meta name="description" content="Parlez-nous de votre projet : téléphone, e-mail, formulaire ou rendez-vous. Studio Art Exposium (Vif-Argent), 179 rue Grande, 77300 Fontainebleau.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/pages.css">
+<style>
+.ct-hero{padding:clamp(120px,19vh,190px) 0 8vh;position:relative}
+.ct-hero::before{content:"";position:absolute;inset:0;opacity:.45;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(60% 70% at 85% 30%,#000,transparent 70%);-webkit-mask-image:radial-gradient(60% 70% at 85% 30%,#000,transparent 70%)}
+.ct-hero .wrap{position:relative}
+.ct-title{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.05em;line-height:.82;font-size:clamp(64px,17vw,300px)}
+.ct-title .ln{display:block;overflow:hidden;padding-top:.1em;margin-top:-.1em;padding-bottom:.03em}
+.ct-title .ln > span{display:inline-block;transform:translateY(110%);animation:rise 1.2s var(--ease) forwards}
+.ct-title .l2{display:flex;justify-content:flex-end;align-items:flex-end;gap:.14em}
+.ct-title .l2 > span{animation-delay:.14s}
+.ct-title .b{color:var(--blue)}
+.ct-door{height:.74em;width:auto;flex:none;margin-bottom:.04em;opacity:0;animation:fade 1s .7s var(--ease) forwards}
+.ct-door .mk-frame{fill:var(--ink)}
+.ct-intro{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:end;margin-top:7vh;padding-top:30px;border-top:1.5px solid var(--ink)}
+.ct-intro .pg-lead{margin-top:18px}
+.ct-intro p.side{color:var(--ink-soft);max-width:520px}
+
+.ct-main{padding:6vh 0 16vh}
+.ct-grid{display:grid;grid-template-columns:1fr 1.02fr;gap:clamp(30px,5vw,80px);align-items:start}
+.ct-lines{list-style:none;border-top:1px solid var(--line)}
+.ct-line{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px 20px;padding:26px 0;border-bottom:1px solid var(--line);isolation:isolate;transition:color .5s var(--ease),padding .5s var(--ease)}
+.ct-line::before{content:"";position:absolute;inset:0 calc(var(--gutter) * -1) 0 calc(var(--gutter) * -1);background:var(--blue);z-index:-1;clip-path:polygon(0 0,0 0,0 100%,0 100%);transition:clip-path .7s var(--ease)}
+.ct-line:hover,.ct-line:focus-visible{color:#fff;padding-left:14px}
+.ct-line:hover::before,.ct-line:focus-visible::before{clip-path:polygon(0 0,100% 10%,100% 100%,0 90%)}
+.ct-line small{grid-column:1;font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.6;display:flex;align-items:center;gap:10px}
+.ct-line small svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8}
+.ct-line .v{grid-column:1;font-family:var(--display);font-weight:800;font-size:clamp(30px,3.6vw,58px);letter-spacing:-.03em;line-height:1.02;overflow-wrap:anywhere}
+.ct-line .v.mail{font-size:clamp(21px,2.5vw,40px);letter-spacing:-.02em}
+.ct-line .v.addr{font-size:clamp(21px,2.1vw,32px);letter-spacing:-.015em;line-height:1.15}
+.ct-line .go{grid-column:2;grid-row:1/3;width:52px;height:52px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-size:20px;transition:transform .6s var(--ease),background .4s,color .4s}
+.ct-line:hover .go,.ct-line:focus-visible .go{transform:rotate(-45deg);background:#fff;color:var(--blue);border-color:#fff}
+.ct-line:focus-visible{outline:none}
+.ct-hours{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px}
+.ct-hours a{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:99px;background:var(--paper-2);font:600 15px var(--display);transition:background .3s,color .3s}
+.ct-hours a:hover{background:var(--ink);color:var(--paper)}
+
+.ct-card{position:sticky;top:96px;background:var(--ink);color:var(--paper);border-radius:28px;padding:clamp(26px,3.4vw,48px);overflow:hidden;isolation:isolate}
+.ct-card::before{content:"";position:absolute;right:-12%;top:-18%;width:60%;aspect-ratio:1;background:radial-gradient(closest-side,rgba(90,80,255,.45),transparent 70%);z-index:-1;pointer-events:none}
+.ct-card h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,2.8vw,44px);text-transform:uppercase;letter-spacing:-.025em;line-height:1;margin:16px 0 10px}
+.ct-card > p{opacity:.7;margin-bottom:30px;max-width:460px}
+.ct-card .eyebrow{color:var(--blue-2)}
+
+/* bloc Fontainebleau */
+.place{background:var(--ink);color:var(--paper);padding:16vh 0 14vh;overflow:hidden;position:relative}
+.place::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;background-image:linear-gradient(var(--line-inv) 1px,transparent 1px),linear-gradient(90deg,var(--line-inv) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(50% 60% at 25% 65%,#000,transparent 75%);-webkit-mask-image:radial-gradient(50% 60% at 25% 65%,#000,transparent 75%)}
+.place .wrap{position:relative;z-index:1}
+.place-word{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.05em;line-height:.85;font-size:clamp(40px,11.4vw,210px);white-space:nowrap;margin-top:3vh}
+.place-word .b{color:var(--blue-2)}
+.place-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:6vw;align-items:center;margin-top:10vh}
+.pl-stage{position:relative;width:min(400px,72vw);aspect-ratio:300/340;margin:0 auto}
+.pl-stage > *{position:absolute}
+.pl-frame{inset:0;background:var(--paper);clip-path:polygon(1.6% 27.9%,66% 1.5%,66% 16.2%,28.3% 31.8%,28.3% 73.5%,1.6% 85.3%)}
+.pl-portal{left:67.3%;top:16.2%;width:30%;height:83.8%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);
+  background:radial-gradient(120% 70% at 50% 60%,#fff 0%,#DCD9FF 25%,var(--blue-2) 60%,var(--blue) 100%)}
+.pl-glow{left:35%;top:-5%;width:100%;height:110%;filter:blur(50px);opacity:0;transition:opacity 1.6s .8s;background:radial-gradient(closest-side,rgba(90,80,255,.9),transparent 70%)}
+.pl-door-wrap{left:67.3%;top:16.2%;width:30%;height:83.8%;perspective:900px}
+.pl-door{position:absolute;inset:0;background:var(--blue);transform-origin:100% 50%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);transition:transform 1.8s .5s var(--ease);box-shadow:inset -20px 0 40px rgba(0,0,0,.2)}
+.pl-stage.in .pl-door{transform:rotateY(74deg)}
+.pl-stage.in .pl-glow{opacity:.75}
+.pl-pin{left:73%;top:52%;width:18%;transform:translate(-10%,-50%);font-family:var(--display);font-weight:800;font-size:clamp(11px,1.1vw,14px);letter-spacing:.08em;color:var(--blue-deep);text-align:center;opacity:0;transition:opacity 1s 1.6s}
+.pl-stage.in .pl-pin{opacity:1}
+.pl-coord{left:0;bottom:-34px;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.5;white-space:nowrap}
+.place-info .eyebrow{color:var(--blue-2)}
+.place-info h3{font-family:var(--display);font-weight:700;font-size:clamp(24px,2.3vw,36px);line-height:1.2;letter-spacing:-.015em;margin:24px 0 20px;max-width:560px}
+.place-info > p{opacity:.72;max-width:520px}
+.place-dl{display:grid;grid-template-columns:repeat(3,1fr);margin-top:6vh;border-top:1px solid var(--line-inv)}
+.place-dl div{padding:22px 18px 0 0}
+.place-dl div + div{padding-left:18px;border-left:1px solid var(--line-inv)}
+.place-dl dt{font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.5;margin-bottom:8px}
+.place-dl dd{font-family:var(--display);font-weight:600;font-size:17px;line-height:1.35}
+.place-info .btn{margin-top:6vh;background:var(--paper);color:var(--ink)}
+.place-info .btn:hover{color:#fff}
+
+/* raccourcis */
+.ct-more{padding:14vh 0}
+.ct-more-head{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap;margin-bottom:6vh}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tile{position:relative;min-height:300px;border-radius:24px;padding:30px;background:var(--paper-2);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate;transition:color .5s var(--ease)}
+.tile::before{content:"";position:absolute;inset:0;background:var(--blue);z-index:-1;clip-path:polygon(100% 0,100% 0,100% 100%,100% 100%);transition:clip-path .7s var(--ease)}
+.tile:hover{color:#fff}
+.tile:hover::before{clip-path:polygon(0 0,100% 12%,100% 100%,0 88%)}
+.tile.dark{background:var(--ink);color:var(--paper)}
+.tile .num{display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.16em}
+.tile .num span{width:46px;height:46px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-size:18px;transition:transform .5s var(--ease),background .4s}
+.tile:hover .num span{transform:rotate(-45deg);background:#fff;color:var(--blue);border-color:#fff}
+.tile h3{font-family:var(--display);font-weight:800;font-size:clamp(28px,2.6vw,40px);line-height:1;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:12px}
+.tile p{opacity:.75;font-size:16px;max-width:300px}
+
+@media (max-width:1000px){
+  .ct-intro,.ct-grid,.place-grid{grid-template-columns:1fr}
+  .ct-card{position:relative;top:0}
+  .tiles{grid-template-columns:1fr 1fr}
+  .tiles .tile:last-child{grid-column:span 2}
+  .place-grid{gap:12vh}
+}
+@media (max-width:640px){
+  .ct-title{font-size:clamp(56px,17.5vw,120px)}
+  .place-word{font-size:10.4vw}
+  .place-dl{grid-template-columns:1fr}
+  .place-dl div + div{padding-left:0;border-left:0;border-top:1px solid var(--line-inv);margin-top:18px}
+  .tiles{grid-template-columns:1fr}
+  .tiles .tile:last-child{grid-column:auto}
+  .tile{min-height:230px}
+  .ct-line .go{width:42px;height:42px;font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){
+  .ct-title .ln > span{transform:none;animation:none}
+  .ct-door{opacity:1;animation:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 300 340">
+    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
+    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  </symbol>
+</svg>
+
+<div class="cursor" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a href="index.html" class="logo" aria-label="Art Exposium — accueil">
+    <svg viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  </a>
+  <ul>
+    <li><a href="index.html#concept">Concept</a></li>
+    <li><a href="index.html#univers">Secteurs</a></li>
+    <li><a href="index.html#fonctionnalites">Fonctionnalités</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html" aria-current="page">Contact</a></li>
+  </ul>
+  <a href="demo.html" class="btn">Réserver une démo <span class="arr">→</span></a>
+  <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mmenu" id="burger"><span></span><span></span></button>
+</header>
+
+<nav class="mmenu" id="mmenu" aria-label="Menu principal">
+  <a href="index.html">Accueil</a>
+  <a href="index.html#univers">Secteurs</a>
+  <a href="services.html">Services</a>
+  <a href="prochains-salons.html">Prochains salons</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html" aria-current="page">Contact</a>
+</nav>
+
+<main id="main">
+<section class="ct-hero">
+  <div class="wrap">
+    <div class="crumb"><a href="index.html">← Accueil</a><i></i><span>Contact</span></div>
+    <h1 class="ct-title" aria-label="Parlons-en.">
+      <span class="ln" aria-hidden="true"><span>Parlons</span></span>
+      <span class="ln l2" aria-hidden="true"><svg class="ct-door" viewBox="0 0 300 340"><use href="#mark"/></svg><span>-en<span class="b">.</span></span></span>
+    </h1>
+    <div class="ct-intro">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue)">Contact</span>
+        <p class="pg-lead rv d1"><strong>Parlez-nous de votre projet !</strong> Salon, showroom, office de tourisme, formation, musée… on en discute.</p>
+      </div>
+      <p class="side rv d2">Un coup de fil, un e-mail ou le formulaire ci-dessous : choisissez ce qui vous convient. Notre studio est basé à Fontainebleau, et nous accompagnons des clients partout en France et à l’international.</p>
+    </div>
+  </div>
+</section>
+
+<section class="ct-main" aria-label="Coordonnées et formulaire">
+  <div class="wrap ct-grid">
+    <div>
+      <ul class="ct-lines">
+        <li class="rv"><a class="ct-line" href="tel:+33164700802"><small><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Téléphone</small><span class="v">01 64 70 08 02</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="rv d1"><a class="ct-line" href="tel:+33609770241"><small><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Mobile</small><span class="v">06 09 77 02 41</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="rv d2"><a class="ct-line" href="mailto:contact@artexposium.fr"><small><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>E-mail</small><span class="v mail">contact@artexposium.fr</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="rv d3"><a class="ct-line" href="mailto:jeanphilippe@vif-argent.fr"><small><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Jean-Philippe Moutti · Vif-Argent</small><span class="v mail">jeanphilippe@vif-argent.fr</span><span class="go" aria-hidden="true">→</span></a></li>
+        <li class="rv"><a class="ct-line" href="https://www.google.com/maps/search/?api=1&amp;query=179%20rue%20Grande%2077300%20Fontainebleau" target="_blank" rel="noopener"><small><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Adresse · itinéraire</small><span class="v addr">Vif-Argent<br>179, rue Grande<br>77300 Fontainebleau</span><span class="go" aria-hidden="true">↗</span><span class="sr-only">(ouvre un plan dans un nouvel onglet)</span></a></li>
+      </ul>
+      <div class="ct-hours rv">
+        <a href="demo.html">Voir la démo →</a>
+        <a href="rendez-vous.html">Prendre rendez-vous →</a>
+      </div>
+    </div>
+
+    <div class="ct-card rv d1" id="ecrire">
+      <span class="eyebrow">Formulaire</span>
+      <h2>Écrivez-nous</h2>
+      <p>Quelques lignes suffisent : nous revenons vers vous pour en parler.</p>
+      <form class="fx dk" id="ctForm" aria-label="Formulaire de contact">
+        <div class="fx-field" data-req="Indiquez votre nom.">
+        <label for="ct-nom">Nom<span class="req" aria-hidden="true">*</span></label>
+        <input id="ct-nom" name="nom" type="text" autocomplete="family-name" required aria-required="true" aria-describedby="ct-nom-err">
+        <p class="fx-err" id="ct-nom-err" aria-live="polite"></p>
+      </div>
+        <div class="fx-field" data-req="Indiquez votre prénom.">
+        <label for="ct-prenom">Prénom<span class="req" aria-hidden="true">*</span></label>
+        <input id="ct-prenom" name="prenom" type="text" autocomplete="given-name" required aria-required="true" aria-describedby="ct-prenom-err">
+        <p class="fx-err" id="ct-prenom-err" aria-live="polite"></p>
+      </div>
+        <div class="fx-field">
+        <label for="ct-ent">Entreprise <span class="opt">(facultatif)</span></label>
+        <input id="ct-ent" name="entreprise" type="text" autocomplete="organization" aria-describedby="ct-ent-err">
+        <p class="fx-err" id="ct-ent-err" aria-live="polite"></p>
+      </div>
+        <div class="fx-field" data-req="Indiquez votre adresse e-mail.">
+        <label for="ct-mail">Adresse e-mail<span class="req" aria-hidden="true">*</span></label>
+        <input id="ct-mail" name="email" type="email" autocomplete="email" required aria-required="true" aria-describedby="ct-mail-err">
+        <p class="fx-err" id="ct-mail-err" aria-live="polite"></p>
+      </div>
+        <div class="fx-field full">
+        <label for="ct-projet">Votre projet <span class="opt">(facultatif)</span></label>
+        <select id="ct-projet" name="projet" aria-describedby="ct-projet-err"><option value="">Choisir un type de projet</option><option>Salon virtuel</option><option>Office de tourisme virtuel</option><option>Salle de formation immersive</option><option>Retail & magasin virtuel</option><option>Solutions RH</option><option>Musée virtuel</option><option>Autre projet</option></select>
+        <p class="fx-err" id="ct-projet-err" aria-live="polite"></p>
+      </div>
+        <div class="fx-field full" data-req="Écrivez-nous quelques mots sur votre projet.">
+        <label for="ct-msg">Message<span class="req" aria-hidden="true">*</span></label>
+        <textarea id="ct-msg" name="message" rows="6" maxlength="2000" required aria-required="true" placeholder="Votre projet, vos objectifs, vos échéances…" aria-describedby="ct-msg-err"></textarea>
+        <p class="fx-err" id="ct-msg-err" aria-live="polite"></p>
+      </div>
+        <div class="fx-foot">
+        <p class="fx-note">Votre messagerie s’ouvrira avec votre message pré-rempli, adressé à contact@artexposium.fr. Vos données servent uniquement à vous répondre — <a href="confidentialite.html">confidentialité</a>.</p>
+        <button class="btn" type="submit">Envoyer <span class="arr">→</span></button>
+      </div>
+      <div class="fx-status" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="place" data-dark aria-labelledby="placeTitle">
+  <div class="wrap">
+    <span class="eyebrow rv" style="color:var(--blue-2)">Le studio</span>
+    <h2 class="place-word rv d1" id="placeTitle">Fontainebleau<span class="b">.</span></h2>
+    <div class="place-grid">
+      <div class="pl-stage rv" aria-hidden="true">
+        <div class="pl-glow"></div>
+        <div class="pl-frame"></div>
+        <div class="pl-portal"></div>
+        <div class="pl-pin">77300</div>
+        <div class="pl-door-wrap"><div class="pl-door"></div></div>
+        <div class="pl-coord">48°24′ N — 2°42′ E</div>
+      </div>
+      <div class="place-info">
+        <span class="eyebrow rv">Seine-et-Marne · France</span>
+        <h3 class="rv d1">Une porte ouverte à Fontainebleau, des univers accessibles partout dans le monde.</h3>
+        <p class="rv d2">Notre studio est basé à Fontainebleau, en Seine-et-Marne, mais nous accompagnons des clients partout en France et à l’international. Lorsque le projet le nécessite, nous intervenons aussi sur site pour des phases de captation, de modélisation ou de préparation de contenus.</p>
+        <dl class="place-dl rv d2">
+          <div><dt>Adresse</dt><dd>Vif-Argent<br>179, rue Grande<br>77300 Fontainebleau</dd></div>
+          <div><dt>Téléphone</dt><dd><a href="tel:+33164700802">01 64 70 08 02</a><br><a href="tel:+33609770241">06 09 77 02 41</a></dd></div>
+          <div><dt>Rayon d’action</dt><dd>France<br>&amp; international</dd></div>
+        </dl>
+        <a class="btn rv d3" href="https://www.google.com/maps/search/?api=1&amp;query=179%20rue%20Grande%2077300%20Fontainebleau" target="_blank" rel="noopener">Ouvrir l’itinéraire <span class="arr">→</span><span class="sr-only">(nouvel onglet)</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ct-more" aria-labelledby="moreTitle">
+  <div class="wrap">
+    <div class="ct-more-head">
+      <h2 class="h2 rv" id="moreTitle">Autres<br>portes d’entrée.</h2>
+      <span class="eyebrow rv d1" style="color:var(--blue)">Raccourcis</span>
+    </div>
+    <div class="tiles">
+      <a class="tile rv" href="demo.html"><div class="num">01<span aria-hidden="true">→</span></div><div><h3>Voir la démo</h3><p>Passez de l’idée à l’expérience, en un clic.</p></div></a>
+      <a class="tile dark rv d1" href="rendez-vous.html"><div class="num">02<span aria-hidden="true">→</span></div><div><h3>Prendre rendez-vous</h3><p>Vous avez un projet, une idée… Parlons-en !</p></div></a>
+      <a class="tile rv d2" href="faq.html"><div class="num">03<span aria-hidden="true">→</span></div><div><h3>FAQ</h3><p>Vos questions sur les solutions Art Exposium.</p></div></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a href="index.html" class="logo" aria-label="Art Exposium — accueil"><svg viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
+        <p class="about">Art Exposium par Vif-Argent — environnements immersifs 100% web pour l’événementiel, le tourisme, la formation, le retail et la culture.</p>
+      </div>
+      <div>
+        <h4>Siège social</h4>
+        <ul><li>Vif-Argent</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="tel:+33164700802">01 64 70 08 02</a></li><li><a href="tel:+33609770241">06 09 77 02 41</a></li><li><a href="mailto:contact@artexposium.fr">contact@artexposium.fr</a></li></ul>
+      </div>
+      <div>
+        <h4>Explorer</h4>
+        <ul><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-bot">
+      <span>Art Exposium par Vif-Argent © Tous droits réservés</span>
+      <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://www.instagram.com/agencevifargent/" target="_blank" rel="noopener">Instagram</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = s => document.querySelector(s);
+  const nav = $('#nav'), mm = $('#mmenu'), burger = $('#burger');
+
+  /* ----- nav : fond au scroll, inversion sur sections sombres ----- */
+  const darks = [...document.querySelectorAll('[data-dark],footer')];
+  function navFrame(){
+    nav.classList.toggle('scrolled', scrollY > 40);
+    if (mm.classList.contains('open')) return;
+    const onDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
+    nav.classList.toggle('inv', onDark);
+  }
+  addEventListener('scroll', () => requestAnimationFrame(navFrame), {passive:true});
+  addEventListener('resize', navFrame);
+  navFrame();
+
+  /* ----- reveal ----- */
+  const rvs = document.querySelectorAll('.rv');
+  if (reduce || !('IntersectionObserver' in window)) rvs.forEach(el => el.classList.add('in'));
+  else {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), {threshold:.12});
+    rvs.forEach(el => io.observe(el));
+  }
+
+  /* ----- curseur ----- */
+  if (!reduce && matchMedia('(hover:hover)').matches){
+    const cu = $('.cursor'); let mx = -100, my = -100, cx = -100, cy = -100;
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    document.addEventListener('mouseover', e => { if (e.target.closest('a,button,label,summary,select,[data-hover]')) cu.classList.add('big'); });
+    document.addEventListener('mouseout', e => { if (e.target.closest('a,button,label,summary,select,[data-hover]')) cu.classList.remove('big'); });
+    document.addEventListener('focusin', e => { if (e.target.matches('input,textarea,select')) cu.classList.remove('big'); });
+  }
+
+  /* ----- menu mobile ----- */
+  function setMenu(open){
+    mm.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open) nav.classList.add('inv'); else navFrame();
+  }
+  burger.addEventListener('click', () => setMenu(!mm.classList.contains('open')));
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && mm.classList.contains('open')) { setMenu(false); burger.focus(); } });
+})();
+</script>
+
+<script>
+/* Formulaires : validation accessible + composition d'un lien mailto:
+   Aucune donnée n'est envoyée à un serveur : le message s'ouvre dans la messagerie du visiteur. */
+window.AX_TO = 'contact@artexposium.fr';
+window.axOpenMail = window.axOpenMail || (url => { window.location.href = url; });
+window.axMailto = (subject, body) => 'mailto:' + window.AX_TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+window.axForm = (form, compose) => {
+  form.noValidate = true;
+  const wraps = [...form.querySelectorAll('.fx-field')];
+  const status = form.querySelector('.fx-status');
+  const ctrls = w => [...w.querySelectorAll('input,select,textarea')];
+  function message(w, c){
+    const v = c.validity;
+    if (v.valueMissing) return w.dataset.req || 'Ce champ est requis.';
+    if (v.typeMismatch) return 'Adresse e-mail invalide (exemple : nom@domaine.fr).';
+    if (v.rangeUnderflow) return w.dataset.min || 'Choisissez une date à venir.';
+    if (v.patternMismatch) return w.dataset.pat || 'Format invalide.';
+    if (v.tooLong) return 'Texte trop long.';
+    return 'Valeur invalide.';
+  }
+  function check(w, show){
+    const list = ctrls(w);
+    const bad = list.find(c => !c.checkValidity());
+    if (show){
+      w.classList.toggle('bad', !!bad);
+      list.forEach(c => c.setAttribute('aria-invalid', bad ? 'true' : 'false'));
+      const err = w.querySelector('.fx-err');
+      if (err) err.textContent = bad ? message(w, bad) : '';
+    }
+    return !bad;
+  }
+  wraps.forEach(w => {
+    ctrls(w).forEach(c => {
+      c.addEventListener('blur', () => { if (c.value.trim() !== '' || w.classList.contains('bad')) { w.dataset.touched = 1; check(w, true); } });
+      c.addEventListener('input', () => { if (w.dataset.touched || w.classList.contains('bad')) check(w, true); });
+      c.addEventListener('change', () => { if (w.classList.contains('bad')) check(w, true); });
+    });
+  });
+  function say(kind, nodes){
+    status.className = 'fx-status on ' + kind;
+    status.replaceChildren(...nodes);
+  }
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const results = wraps.map(w => check(w, true));
+    const n = results.filter(r => !r).length;
+    if (n){
+      const first = form.querySelector('.fx-field.bad input, .fx-field.bad select, .fx-field.bad textarea');
+      say('err', [Object.assign(document.createElement('b'), {textContent: n > 1 ? n + ' champs à vérifier. ' : 'Un champ à vérifier. '}), 'Les erreurs sont signalées sous chaque champ concerné.']);
+      if (first) first.focus();
+      return;
+    }
+    const fd = new FormData(form);
+    const val = k => (fd.get(k) || '').toString().trim();
+    const {subject, body} = compose(val, fd);
+    const url = window.axMailto(subject, body);
+    form.dataset.mailto = url;
+    const again = Object.assign(document.createElement('a'), {href: url, textContent: 'Ouvrir à nouveau'});
+    const direct = Object.assign(document.createElement('a'), {href: 'mailto:' + window.AX_TO, textContent: window.AX_TO});
+    say('ok', [Object.assign(document.createElement('b'), {textContent: 'Votre messagerie s’ouvre. '}), 'Votre message est prêt : il ne reste qu’à l’envoyer. Rien ne s’est ouvert ? ', again, ' ou écrivez-nous à ', direct, '.']);
+    window.axOpenMail(url);
+  });
+};
+</script>
+
+<script>
+axForm(document.getElementById('ctForm'), v => {
+  const who = [v('prenom'), v('nom')].filter(Boolean).join(' ');
+  const subject = 'Contact — ' + who + (v('entreprise') ? ' (' + v('entreprise') + ')' : '') + (v('projet') ? ' · ' + v('projet') : '');
+  const body = [
+    'Bonjour,', '', v('message'), '', '—',
+    'Nom : ' + v('nom'),
+    'Prénom : ' + v('prenom'),
+    'Entreprise : ' + (v('entreprise') || '—'),
+    'E-mail : ' + v('email'),
+    'Projet : ' + (v('projet') || '—'),
+    '', 'Message envoyé depuis la page Contact du site Art Exposium.'
+  ].join('\r\n');
+  return {subject, body};
+});
+</script>
+</body>
+</html>

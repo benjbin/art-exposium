@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retail &amp; magasins virtuels — Art Exposium</title>
+<meta name="description" content="Des magasins virtuels 3D : immersion totale pour vos clients, implantations testées, parcours mesurés, catalogue e-commerce connecté. Un laboratoire marketing agile pour marques, distributeurs et retailers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ---------- HERO portail (famille secteurs) ---------- */
+.sv-hero{height:300vh;position:relative}
+.sv-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--paper)}
+.sv-img{position:absolute;inset:0;z-index:1;background:#05050a;clip-path:polygon(0 0,0 0,0 0,0 0)}
+.sv-img img{width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1.25));will-change:transform}
+.sv-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,20,24,.1) 30%,rgba(20,20,24,.85));opacity:var(--shade,0)}
+.sv-door-wrap{position:absolute;z-index:2;perspective:1100px;pointer-events:none}
+.sv-door{position:absolute;inset:0;background:var(--blue);transform-origin:100% 50%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);box-shadow:inset -30px 0 60px rgba(0,0,0,.2);will-change:transform}
+.sv-door::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.4),transparent);opacity:var(--o,0)}
+.sv-head{position:absolute;z-index:3;left:var(--gutter);top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;max-width:62vw;will-change:transform,opacity}
+.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-family:var(--display);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5vh}
+.crumb a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:600}
+.crumb a:hover{color:var(--blue)}
+.crumb i{width:4px;height:4px;background:currentColor;border-radius:50%;opacity:.5}
+.sv-title{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.86;font-size:clamp(42px,min(9.4vw,15vh),180px)}
+.sv-title .ln{display:block;overflow:hidden;padding-top:.12em;margin-top:-.12em}
+.sv-title .ln > span{display:inline-block;transform:translateY(110%);animation:rise 1.2s var(--ease) forwards}
+.sv-title .ln:nth-child(2) > span{animation-delay:.12s}
+.sv-title .ln:nth-child(3) > span{animation-delay:.24s}
+.sv-title .b{color:var(--blue)}
+.sv-sub{margin-top:4vh;max-width:440px;font-size:18px;color:var(--ink-soft);opacity:0;animation:fade 1s .7s var(--ease) forwards}
+.sv-sub strong{color:var(--ink)}
+.sv-over{position:absolute;z-index:4;left:var(--gutter);right:var(--gutter);bottom:9vh;color:#fff;display:flex;justify-content:space-between;align-items:end;gap:40px;opacity:0;pointer-events:none}
+.sv-over h2{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:.9;font-size:clamp(40px,7.5vw,130px)}
+.sv-over h2 span{color:var(--blue-2)}
+.sv-over p{max-width:360px;font-size:16px;opacity:.85;margin-bottom:22px}
+.sv-over.live .sv-enter{pointer-events:auto}
+.sv-enter{background:#fff;color:var(--ink);font-size:16px;padding:16px 26px;border:0;cursor:pointer;font-family:inherit}
+.sv-enter:hover{color:#fff}
+.sv-tag{position:absolute;z-index:4;right:var(--gutter);top:50%;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg)}
+.sv-hint{position:absolute;z-index:4;left:var(--gutter);bottom:4vh;font-family:var(--display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* ---------- commun ---------- */
+.shot{position:relative;border-radius:22px;overflow:hidden;background:var(--ink);cursor:zoom-in;margin:0}
+.shot img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.shot:hover img{transform:scale(1.05)}
+.shot figcaption{position:absolute;left:18px;bottom:18px;font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;
+  background:rgba(20,20,24,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:9px 16px;border-radius:99px;display:flex;gap:10px;align-items:center}
+.shot figcaption::before{content:"";width:12px;height:12px;background:var(--blue-2);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
+.mq-track span i{color:var(--blue);-webkit-text-stroke:0}
+
+/* ---------- intro : immersion totale ---------- */
+.rt-intro{padding:18vh 0 14vh}
+.rt-lead{font-family:var(--display);font-weight:600;font-size:clamp(28px,3.6vw,58px);line-height:1.12;letter-spacing:-.02em;max-width:1250px;margin-top:5vh}
+.rt-lead em{font-style:normal;color:var(--blue)}
+.rt-intro-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:5vw;margin-top:10vh;align-items:center}
+.rt-intro .shot{aspect-ratio:1093/487}
+.gestures{list-style:none;border-top:1px solid var(--line)}
+.gestures li{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;padding:2.4vh 0;border-bottom:1px solid var(--line);font-family:var(--display);font-weight:700;font-size:clamp(18px,1.5vw,24px);text-transform:uppercase;letter-spacing:-.01em;line-height:1.1;transition:color .4s,padding .5s var(--ease)}
+.gestures li:hover{color:var(--blue);padding-left:10px}
+.gestures svg{width:34px;height:34px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.gestures-cap{margin-top:3vh;color:var(--ink-soft);font-size:17px}
+
+/* ---------- chapitres collants ---------- */
+.rt-lab{background:var(--ink);color:var(--paper);padding:16vh 0}
+.rt-lab .head{display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap;margin-bottom:10vh}
+.rt-lab .head p{max-width:440px;opacity:.7}
+.chapters{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6vw}
+.ch-media{position:sticky;top:16vh;height:68vh;border-radius:22px;overflow:hidden;background:#000}
+.ch-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity .9s var(--ease),transform 1.4s var(--ease)}
+.ch-media img.on{opacity:1;transform:none}
+.ch-media .num{position:absolute;left:24px;bottom:18px;font-family:var(--display);font-weight:900;font-size:clamp(70px,8vw,140px);line-height:.8;letter-spacing:-.06em;color:#fff;mix-blend-mode:difference}
+.ch{min-height:68vh;display:flex;flex-direction:column;justify-content:center;padding:4vh 0;border-top:1px solid var(--line-inv);opacity:.35;transition:opacity .6s}
+.ch.on{opacity:1}
+.ch small{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-2)}
+.ch h3{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.9;font-size:clamp(48px,6vw,104px);margin:2vh 0 3vh}
+.ch p{font-size:18px;opacity:.8;max-width:460px}
+.ch .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:3vh}
+.ch .tags span{font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-inv);border-radius:99px;padding:7px 14px}
+.ch-img{display:none}
+
+/* ---------- connecté & interactif ---------- */
+.rt-connect{padding:16vh 0 12vh}
+.connect{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:8vh}
+.connect .shot{min-height:520px;height:100%}
+.c-stack{display:grid;gap:18px}
+.c-card{border-radius:22px;padding:clamp(26px,3.2vw,46px);position:relative;overflow:hidden;isolation:isolate}
+.c-card.blue{background:var(--blue);color:#fff}
+.c-card.soft{background:var(--paper-2)}
+.c-card small{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.75}
+.c-card h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.025em;line-height:.98;font-size:clamp(28px,2.8vw,46px);margin:16px 0}
+.c-card p{font-size:17px;opacity:.88;max-width:520px}
+.c-card .cart{display:inline-flex;align-items:center;gap:12px;margin-top:22px;background:#fff;color:var(--blue);border-radius:99px;padding:10px 18px 10px 12px;font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase}
+.c-card .cart i{width:26px;height:26px;border-radius:50%;background:var(--blue);display:grid;place-items:center}
+.c-card .cart svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2}
+.c-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.c-grid span{border:1px solid var(--line);border-radius:14px;padding:16px;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:16px;line-height:1.1;transition:background .4s,color .4s}
+.c-grid span:hover{background:var(--ink);color:var(--paper)}
+
+/* ---------- laboratoire : versus ---------- */
+.rt-vs{padding:6vh 0 16vh;overflow-x:clip}
+.rt-vs .h2{margin-top:28px}
+.vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.25fr);gap:2vw;align-items:stretch;margin-top:8vh}
+.vs-col{border-radius:26px;padding:clamp(28px,3.6vw,52px);display:flex;flex-direction:column;gap:26px}
+.vs-col.old{background:var(--paper-2);color:var(--ink-soft)}
+.vs-col.new{background:var(--blue);color:#fff}
+.vs-col small{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+.vs-col ul{list-style:none;display:grid;gap:0}
+.vs-col li{padding:2.2vh 0;border-top:1px solid currentColor;border-color:rgba(20,20,24,.12);font-family:var(--display);font-weight:700;font-size:clamp(22px,2.2vw,34px);text-transform:uppercase;letter-spacing:-.02em;line-height:1.05}
+.vs-col.new li{border-color:rgba(255,255,255,.25)}
+.vs-col li em{display:block;font-family:var(--body);font-style:normal;font-weight:500;text-transform:none;letter-spacing:0;font-size:16px;opacity:.8;margin-top:8px}
+.vs-col.old li{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:rgba(20,20,24,.35)}
+.vs-mid{display:grid;place-items:center}
+.vs-mid span{width:clamp(56px,6vw,90px);height:clamp(64px,7vw,104px);background:var(--ink);color:#fff;clip-path:polygon(0 0,100% 18%,100% 100%,0 82%);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:clamp(16px,1.6vw,22px);letter-spacing:.04em}
+
+/* ---------- en résumé ---------- */
+.rt-sum{background:var(--paper-2);padding:16vh 0;overflow-x:clip}
+.result-label{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:4vh;display:flex;align-items:center;gap:14px}
+.result-label::after{content:"";flex:1;height:1px;background:var(--line)}
+.rt-sum .q{font-family:var(--display);font-weight:600;font-size:clamp(26px,3.2vw,52px);line-height:1.15;letter-spacing:-.02em;max-width:1200px}
+.rt-sum .q b{font-weight:800;color:var(--blue)}
+.for{margin-top:10vh}
+.for small{font-family:var(--display);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.for ul{list-style:none;margin-top:2vh}
+.for li{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.95;font-size:clamp(44px,8.4vw,150px);display:flex;align-items:center;gap:.25em}
+.for li:nth-child(2){justify-content:center;color:var(--blue)}
+.for li:nth-child(3){justify-content:flex-end}
+.for li::before{content:"";width:.42em;height:.5em;background:currentColor;clip-path:polygon(0 0,100% 18%,100% 100%,0 82%);flex:none;transform:scaleX(0);transform-origin:0 50%;transition:transform .9s .2s var(--ease)}
+.for li.in::before{transform:none}
+
+/* ---------- suivant ---------- */
+.sv-next{display:block;background:var(--paper);padding:14vh 0;border-top:1px solid var(--line);position:relative;overflow:hidden;isolation:isolate}
+.sv-next::before{content:"";position:absolute;inset:0;background:var(--ink);z-index:-1;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);transition:clip-path .8s var(--ease)}
+.sv-next:hover::before{clip-path:polygon(0 12%,100% 0,100% 100%,0 100%)}
+.sv-next:hover{color:var(--paper)}
+.sv-next .wrap{display:flex;justify-content:space-between;align-items:end;gap:30px;transition:color .5s}
+.sv-next small{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:3vh}
+.sv-next h2{font-family:var(--display);font-weight:900;font-size:clamp(36px,7vw,120px);text-transform:uppercase;letter-spacing:-.04em;line-height:.9}
+.sv-next .go{width:clamp(70px,9vw,140px);height:clamp(70px,9vw,140px);border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-size:clamp(28px,3vw,48px);flex:none;transition:transform .7s var(--ease),background .4s}
+.sv-next:hover .go{transform:rotate(-45deg);background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:250;background:rgba(14,14,18,.92);backdrop-filter:blur(10px);display:grid;place-items:center;padding:5vh var(--gutter);opacity:0;pointer-events:none;transition:opacity .4s}
+.lb.open{opacity:1;pointer-events:auto}
+.lb img{max-width:100%;max-height:82vh;border-radius:16px;transform:scale(.94);transition:transform .5s var(--ease)}
+.lb.open img{transform:none}
+.lb p{color:var(--paper);font-family:var(--display);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:14px;margin-top:18px;text-align:center}
+.lb button{position:absolute;top:22px;right:var(--gutter);background:none;border:1px solid rgba(255,255,255,.4);color:#fff;width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer}
+
+@media (max-width:1000px){
+  .sv-head{max-width:none;right:var(--gutter);justify-content:flex-start;padding-top:14vh}
+  .sv-tag{display:none}
+  .sv-over{flex-direction:column;align-items:flex-start;gap:10px}
+  .rt-intro-grid,.connect{grid-template-columns:minmax(0,1fr)}
+  .chapters{grid-template-columns:minmax(0,1fr)}
+  .ch-media{display:none}
+  .ch{min-height:0;opacity:1;padding:7vh 0}
+  .ch-img{display:block;aspect-ratio:516/398;margin-top:4vh;max-width:620px}
+  .connect .shot{min-height:0;aspect-ratio:516/398}
+  .vs{grid-template-columns:minmax(0,1fr)}
+  .vs-mid span{transform:rotate(90deg)}
+  .vs-mid span b{display:inline-block;transform:rotate(-90deg)}
+}
+@media (max-width:640px){
+  .sv-title{hyphens:auto;-webkit-hyphens:auto}
+  .crumb{font-size:11px;letter-spacing:.12em}
+  .c-grid{grid-template-columns:1fr}
+  .for li{hyphens:auto;-webkit-hyphens:auto;font-size:clamp(34px,11vw,60px)}
+  .for li:nth-child(2),.for li:nth-child(3){justify-content:flex-start}
+  .sv-next .wrap{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 300 340">
+    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
+    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  </symbol>
+</svg>
+
+<div class="cursor" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a href="index.html" class="logo" aria-label="Art Exposium — accueil">
+    <svg viewBox="0 0 300 340"><use href="#mark"/></svg>
+    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  </a>
+  <ul>
+    <li><a href="index.html#concept">Concept</a></li>
+    <li><a href="index.html#univers">Secteurs</a></li>
+    <li><a href="index.html#fonctionnalites">Fonctionnalités</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="demo.html" class="btn">Réserver une démo <span class="arr">→</span></a>
+  <button class="burger" aria-label="Menu" id="burger"><span></span><span></span></button>
+</header>
+
+<div class="mmenu" id="mmenu">
+  <a href="index.html">Accueil</a>
+  <a href="index.html#univers">Secteurs</a>
+  <a href="services.html">Services</a>
+  <a href="prochains-salons.html">Prochains salons</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+<!-- HERO : la porte s'ouvre sur le magasin -->
+<section class="sv-hero" id="hero">
+  <div class="sv-stick">
+    <div class="sv-img" id="svImg"><img src="assets/img/retail/img-slider-scaled.jpg" alt="Magasin virtuel en 3D : supérette avec rayons, vitrines réfrigérées et îlot central" fetchpriority="high"></div>
+    <div class="sv-door-wrap" id="doorWrap"><div class="sv-door" id="svDoor"></div></div>
+
+    <div class="sv-head" id="svHead">
+      <div class="crumb"><a href="index.html#univers">← Retour</a><i></i><span>Applications / Secteurs</span><i></i><span>04</span></div>
+      <h1 class="sv-title">
+        <span class="ln"><span>Retail &amp;</span></span>
+        <span class="ln"><span>magasins</span></span>
+        <span class="ln"><span>virtuels<span class="b">.</span></span></span>
+      </h1>
+      <p class="sv-sub"><strong>Expérience client et laboratoire marketing</strong>, réunis dans un même espace 3D.</p>
+    </div>
+
+    <span class="sv-tag" id="svTag">04 — Retail &amp; commerce</span>
+    <span class="sv-hint" id="svHint">Entrez dans le magasin ↓</span>
+
+    <div class="sv-over" id="svOver">
+      <h2>Le rayon,<br><span>réinventé.</span></h2>
+      <div><p>Une immersion totale pour vos clients, des données précieuses pour vos équipes.</p><button class="btn sv-enter" id="svEnter" type="button">Entrer dans le magasin <span class="arr">→</span></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO : immersion totale -->
+<section class="rt-intro" id="magasin">
+  <div class="wrap">
+    <span class="eyebrow rv" style="color:var(--blue)">Une immersion totale</span>
+    <p class="rt-lead rv d1">Les clients évoluent dans un espace 3D interactif et découvrent les produits <em>comme s’ils y étaient.</em></p>
+    <div class="rt-intro-grid">
+      <figure class="shot rv" data-lb>
+        <img src="assets/img/retail/retail-1.jpg" alt="Magasin virtuel d’art de la table : étagères de vaisselle et tables de présentation" loading="lazy">
+        <figcaption>Magasin de vaisselle</figcaption>
+      </figure>
+      <div>
+        <ul class="gestures">
+          <li class="rv"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="14" cy="14" r="9"/><path d="M21 21l9 9M14 10v8M10 14h8"/></svg>Zoomer sur les détails</li>
+          <li class="rv d1"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M6 17a11 11 0 0 1 20-6M28 17a11 11 0 0 1-20 6"/><path d="M26 5v6h-6M8 29v-6h6"/></svg>Tourner autour des objets 3D</li>
+          <li class="rv d2"><svg viewBox="0 0 34 34" aria-hidden="true"><rect x="4" y="7" width="26" height="20" rx="3"/><path d="M14 12l7 5-7 5z"/></svg>Regarder des vidéos explicatives</li>
+          <li class="rv d3"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M17 4v6M17 24v6M4 17h6M24 17h6M8 8l4 4M22 22l4 4M26 8l-4 4M12 22l-4 4"/></svg>Activer des animations</li>
+        </ul>
+        <p class="gestures-cap rv">Le produit se découvre sous tous les angles, en quelques gestes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTER, ANALYSER, OPTIMISER -->
+<section class="rt-lab" id="lab">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue-2)">Côté enseignes &amp; marques</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">Tester, analyser,<br>optimiser.</h2>
+      </div>
+      <p class="rv d2">Le magasin virtuel devient un terrain d’expérimentation : chaque choix se teste et se mesure avant d’être déployé.</p>
+    </div>
+    <div class="chapters">
+      <div class="ch-media" aria-hidden="true">
+        <img class="on" src="assets/img/retail/retail-2.jpg" alt="">
+        <img src="assets/img/retail/retail-5.jpg" alt="">
+        <img src="assets/img/retail/retail-3.jpg" alt="">
+        <span class="num" id="chNum">01</span>
+      </div>
+      <div>
+        <article class="ch on" data-i="0">
+          <small>01 — Tester</small>
+          <h3>Simuler</h3>
+          <p>Les enseignes et marques simulent des implantations de rayons, de PLV ou de packaging dans un environnement virtuel.</p>
+          <div class="tags"><span>Rayons</span><span>PLV</span><span>Packaging</span></div>
+          <figure class="shot ch-img" data-lb><img src="assets/img/retail/retail-2.jpg" alt="Showroom virtuel épuré avec écrans muraux" loading="lazy"><figcaption>Showroom écrans</figcaption></figure>
+        </article>
+        <article class="ch" data-i="1">
+          <small>02 — Analyser</small>
+          <h3>Mesurer</h3>
+          <p>Des outils intégrés mesurent le parcours client, le temps passé devant un produit et les zones les plus attractives.</p>
+          <div class="tags"><span>Parcours client</span><span>Temps par produit</span><span>Zones attractives</span></div>
+          <figure class="shot ch-img" data-lb><img src="assets/img/retail/retail-5.jpg" alt="Magasin virtuel de vaisselle aux murs bleus lumineux" loading="lazy"><figcaption>Magasin de vaisselle</figcaption></figure>
+        </article>
+        <article class="ch" data-i="2">
+          <small>03 — Optimiser</small>
+          <h3>Décider</h3>
+          <p>Les données récoltées sont précieuses : elles servent directement à optimiser la stratégie commerciale.</p>
+          <div class="tags"><span>Données</span><span>Stratégie commerciale</span></div>
+          <figure class="shot ch-img" data-lb><img src="assets/img/retail/retail-3.jpg" alt="Galerie boutique virtuelle avec vitrines, parquet et lustres" loading="lazy"><figcaption>Galerie boutique</figcaption></figure>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECTÉ & INTERACTIF -->
+<section class="rt-connect">
+  <div class="wrap">
+    <span class="eyebrow rv" style="color:var(--blue)">Connecté &amp; interactif</span>
+    <h2 class="h2 rv d1" style="margin-top:28px">De la visite<br>à la commande.</h2>
+    <div class="connect">
+      <figure class="shot rv" data-lb>
+        <img src="assets/img/retail/retail-8.jpg" alt="Showroom virtuel de menuiseries avec configurateur et panneaux produits" loading="lazy">
+        <figcaption>Showroom virtuel</figcaption>
+      </figure>
+      <div class="c-stack">
+        <article class="c-card blue rv d1">
+          <small>E-commerce</small>
+          <h3>Relié à votre catalogue</h3>
+          <p>Le magasin virtuel peut être relié à un catalogue e-commerce existant : les visiteurs passent directement commande.</p>
+          <span class="cart" aria-hidden="true"><i><svg viewBox="0 0 14 14"><path d="M2 7h10M8 3l4 4-4 4"/></svg></i>Commande directe</span>
+        </article>
+        <article class="c-card soft rv d2">
+          <small>Social &amp; marketing</small>
+          <h3>Engager, puis prolonger</h3>
+          <p>Des fonctionnalités sociales et marketing, et la réalité augmentée pour prolonger l’expérience dans le monde physique.</p>
+          <div class="c-grid"><span>Jeux concours</span><span>Quiz interactifs</span><span>Offres promotionnelles</span><span>Réalité augmentée</span></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LABORATOIRE MARKETING AGILE -->
+<section class="rt-vs">
+  <div class="wrap">
+    <span class="eyebrow rv" style="color:var(--blue)">Un laboratoire marketing agile</span>
+    <h2 class="h2 rv d1">Des jours,<br>pas des mois.</h2>
+    <div class="vs">
+      <div class="vs-col old rv">
+        <small>Implantation physique</small>
+        <ul>
+          <li>Du temps<em>pour chaque nouvelle implantation.</em></li>
+          <li>Un budget conséquent<em>production, études terrain…</em></li>
+        </ul>
+      </div>
+      <div class="vs-mid rv d1" aria-hidden="true"><span><b>VS</b></span></div>
+      <div class="vs-col new rv d2">
+        <small>Avec ART EXPOSIUM</small>
+        <ul>
+          <li>Des dizaines de scénarios<em>testés en quelques jours.</em></li>
+          <li>Des insights rapides et fiables<em>pour décider plus vite.</em></li>
+          <li>Des coûts réduits<em>liés à la production ou aux études terrain.</em></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EN RÉSUMÉ -->
+<section class="rt-sum">
+  <div class="wrap">
+    <div class="result-label rv">En résumé</div>
+    <p class="q rv d1">Le magasin virtuel ART EXPOSIUM est à la fois <b>un outil d’expérience client</b> et <b>un laboratoire marketing puissant.</b></p>
+    <div class="for">
+      <small class="rv">Pour les</small>
+      <ul>
+        <li class="rv">Marques</li>
+        <li class="rv">Distributeurs</li>
+        <li class="rv">Retailers</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee light rev" aria-hidden="true">
+  <div class="mq-track">
+    <span>Rayons <b class="dot"></b> <i>PLV</i> <b class="dot"></b> Packaging <b class="dot"></b> <i>Parcours client</i> <b class="dot"></b> E-commerce <b class="dot"></b></span>
+    <span>Rayons <b class="dot"></b> <i>PLV</i> <b class="dot"></b> Packaging <b class="dot"></b> <i>Parcours client</i> <b class="dot"></b> E-commerce <b class="dot"></b></span>
+  </div>
+</div>
+
+<!-- SECTEUR SUIVANT -->
+<a class="sv-next" href="solutions-rh.html">
+  <div class="wrap">
+    <div><small>Secteur suivant — 05</small><h2>Solutions RH</h2></div>
+    <span class="go" aria-hidden="true">→</span>
+  </div>
+</a>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <svg class="cta-mark" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <div class="wrap">
+    <span class="eyebrow rv">Votre enseigne</span>
+    <h2 class="cta-big rv d1" style="margin-top:4vh"><span>Ouvrez</span><span class="o">votre magasin</span><span>en 3D.</span></h2>
+    <div class="cta-row">
+      <p class="rv">Marque, distributeur, retailer… Parlez-nous de vos produits : nous concevons le magasin virtuel qui les met en scène et vous aide à tester vos idées.</p>
+      <a class="btn rv d1" href="mailto:contact@artexposium.fr?subject=Magasin%20virtuel">contact@artexposium.fr <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a href="index.html" class="logo"><svg viewBox="0 0 300 340"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
+        <p class="about">Art Exposium par Vif-Argent — environnements immersifs 100% web pour l’événementiel, le tourisme, la formation, le retail et la culture.</p>
+      </div>
+      <div>
+        <h4>Siège social</h4>
+        <ul><li>Vif-Argent</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="tel:+33164700802">01 64 70 08 02</a></li><li><a href="tel:+33609770241">06 09 77 02 41</a></li><li><a href="mailto:contact@artexposium.fr">contact@artexposium.fr</a></li></ul>
+      </div>
+      <div>
+        <h4>Explorer</h4>
+        <ul><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-bot">
+      <span>Art Exposium par Vif-Argent © Tous droits réservés</span>
+      <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://www.instagram.com/agencevifargent/" target="_blank" rel="noopener">Instagram</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Aperçu"><button type="button" aria-label="Fermer">✕</button><div><img alt=""><p></p></div></div>
+
+<script>
+(() => {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = s => document.querySelector(s);
+  const clamp = (v,a=0,b=1) => Math.min(b,Math.max(a,v));
+  const lerp = (a,b,t) => a + (b - a) * t;
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  const easeIO = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+
+  /* ----- hero : la porte bleue s'ouvre, l'image envahit l'écran ----- */
+  const hero = $('#hero'), img = $('#svImg'), wrap = $('#doorWrap'), door = $('#svDoor'),
+        head = $('#svHead'), over = $('#svOver'), tag = $('#svTag'), hint = $('#svHint'), nav = $('#nav');
+  let R, intro = 0;
+  function layout(){
+    const W = innerWidth, H = innerHeight, mob = W < 1000;
+    const w = mob ? W * .42 : Math.min(W * .24, H * .5), h = w * 2.8;
+    const hh = Math.min(h, H * (mob ? .44 : .74)), ww = hh / 2.8;
+    R = { x: mob ? W - ww - W*.08 : W * .74 - ww / 2, y: mob ? H * .5 : (H - hh) / 2 + H * .02, w: ww, h: hh };
+    Object.assign(wrap.style, { left: R.x+'px', top: R.y+'px', width: R.w+'px', height: R.h+'px' });
+  }
+  function heroFrame(){
+    const W = innerWidth, H = innerHeight;
+    const p = clamp(-hero.getBoundingClientRect().top / (hero.offsetHeight - H));
+    const open = ease(clamp(p / .28));
+    const grow = easeIO(clamp((p - .22) / .5));
+    const fin = ease(clamp((p - .72) / .2));
+    door.style.transform = `rotateY(${lerp(intro, 84, open)}deg)`;
+    door.style.setProperty('--o', open);
+    wrap.style.opacity = 1 - clamp((p - .3) / .1);
+    const s1 = R.h * .105, s2 = R.h * .123;
+    const pts = [
+      [lerp(R.x, 0, grow),       lerp(R.y, 0, grow)],
+      [lerp(R.x + R.w, W, grow), lerp(R.y + s1, 0, grow)],
+      [lerp(R.x + R.w, W, grow), lerp(R.y + R.h, H, grow)],
+      [lerp(R.x, 0, grow),       lerp(R.y + R.h - s2, H, grow)],
+    ];
+    img.style.clipPath = `polygon(${pts.map(([x,y]) => `${x}px ${y}px`).join(',')})`;
+    img.style.setProperty('--z', lerp(1.25, 1, grow));
+    img.style.setProperty('--shade', fin);
+    head.style.opacity = 1 - clamp((p - .18) / .2);
+    head.style.transform = `translateY(${-clamp((p - .1) / .4) * 12}vh)`;
+    tag.style.opacity = hint.style.opacity = 1 - clamp(p / .1);
+    over.style.opacity = fin;
+    over.style.transform = `translateY(${(1 - fin) * 40}px)`;
+    over.classList.toggle('live', fin > .6);
+    return p;
+  }
+  layout();
+  if (!reduce) { const t0 = performance.now() + 900; (function a(now){ const k = clamp((now - t0) / 1200); intro = ease(k) * 28; heroFrame(); if (k < 1) requestAnimationFrame(a); })(performance.now()); }
+  $('#svEnter').addEventListener('click', () => $('#magasin').scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}));
+
+  /* ----- chapitres : image collante qui change ----- */
+  const chs = [...document.querySelectorAll('.ch')], chImgs = [...document.querySelectorAll('.ch-media img')], chNum = $('#chNum');
+  function chFrame(){
+    if (innerWidth <= 1000) return;
+    const mid = innerHeight * .5;
+    let cur = 0;
+    chs.forEach((c,i) => { if (c.getBoundingClientRect().top < mid) cur = i; });
+    chs.forEach((c,i) => c.classList.toggle('on', i === cur));
+    chImgs.forEach((im,i) => im.classList.toggle('on', i === cur));
+    chNum.textContent = String(cur + 1).padStart(2,'0');
+  }
+
+  /* ----- nav ----- */
+  const darks = [...document.querySelectorAll('.rt-lab,.cta,footer')];
+  function navFrame(heroP){
+    nav.classList.toggle('scrolled', scrollY > 40);
+    const onDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
+    nav.classList.toggle('inv', onDark || (heroP > .55 && heroP < 1) || $('#mmenu').classList.contains('open'));
+  }
+
+  function loop(){ const p = heroFrame(); chFrame(); navFrame(p); }
+  addEventListener('scroll', () => requestAnimationFrame(loop), {passive:true});
+  addEventListener('resize', () => { layout(); loop(); });
+  loop();
+
+  /* ----- reveal ----- */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:0, rootMargin:'0px 0px -12% 0px'});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* ----- lightbox ----- */
+  const lb = $('#lb'), lbImg = lb.querySelector('img'), lbCap = lb.querySelector('p');
+  document.querySelectorAll('[data-lb]').forEach(f => {
+    f.setAttribute('tabindex','0'); f.setAttribute('role','button');
+    const open = () => {
+      const im = f.querySelector('img');
+      lbImg.src = im.src; lbImg.alt = im.alt;
+      lbCap.textContent = f.querySelector('figcaption')?.textContent || im.alt;
+      lb.classList.add('open'); lb.querySelector('button').focus();
+    };
+    f.addEventListener('click', open);
+    f.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
+  const close = () => lb.classList.remove('open');
+  lb.addEventListener('click', e => { if (e.target !== lbImg) close(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  /* ----- curseur ----- */
+  if (!reduce && matchMedia('(hover:hover)').matches){
+    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0;
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    document.querySelectorAll('a,button,[data-lb]').forEach(el => {
+      el.addEventListener('mouseenter', () => cu.classList.add('big'));
+      el.addEventListener('mouseleave', () => cu.classList.remove('big'));
+    });
+  }
+
+  /* ----- menu mobile ----- */
+  const mm = $('#mmenu');
+  $('#burger').addEventListener('click', () => { mm.classList.toggle('open'); nav.classList.toggle('inv', mm.classList.contains('open')); });
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); loop(); }));
+})();
+</script>
+</body>
+</html>

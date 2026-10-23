@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salles de formation immersives — Art Exposium</title>
+<meta name="description" content="Des salles de formation virtuelles au réalisme bluffant : objets 3D, démonstrations, travail en groupe, gamification, réalité augmentée et suivi intelligent de la progression.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ---------- HERO portail (famille secteurs) ---------- */
+.sv-hero{height:300vh;position:relative}
+.sv-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--paper)}
+.sv-img{position:absolute;inset:0;z-index:1;background:#05050a;clip-path:polygon(0 0,0 0,0 0,0 0)}
+.sv-img img{width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1.25));will-change:transform}
+.sv-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,20,24,.1) 30%,rgba(20,20,24,.85));opacity:var(--shade,0)}
+.sv-door-wrap{position:absolute;z-index:2;perspective:1100px;pointer-events:none}
+.sv-door{position:absolute;inset:0;background:var(--blue);transform-origin:100% 50%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);box-shadow:inset -30px 0 60px rgba(0,0,0,.2);will-change:transform}
+.sv-door::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.4),transparent);opacity:var(--o,0)}
+.sv-head{position:absolute;z-index:3;left:var(--gutter);top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;max-width:62vw;will-change:transform,opacity}
+.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-family:var(--display);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5vh}
+.crumb a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:600}
+.crumb a:hover{color:var(--blue)}
+.crumb i{width:4px;height:4px;background:currentColor;border-radius:50%;opacity:.5}
+.sv-title{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.86;font-size:clamp(40px,min(8.6vw,15vh),170px)}
+.sv-title .ln{display:block;overflow:hidden;padding-top:.12em;margin-top:-.12em}
+.sv-title .ln > span{display:inline-block;transform:translateY(110%);animation:rise 1.2s var(--ease) forwards}
+.sv-title .ln:nth-child(2) > span{animation-delay:.12s}
+.sv-title .ln:nth-child(3) > span{animation-delay:.24s}
+.sv-title .b{color:var(--blue)}
+.sv-sub{margin-top:4vh;max-width:440px;font-size:18px;color:var(--ink-soft);opacity:0;animation:fade 1s .7s var(--ease) forwards}
+.sv-sub strong{color:var(--ink)}
+.sv-over{position:absolute;z-index:4;left:var(--gutter);right:var(--gutter);bottom:9vh;color:#fff;display:flex;justify-content:space-between;align-items:end;gap:40px;opacity:0;pointer-events:none}
+.sv-over h2{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:.9;font-size:clamp(40px,7.5vw,130px)}
+.sv-over h2 span{color:var(--blue-2)}
+.sv-over p{max-width:360px;font-size:16px;opacity:.85;margin-bottom:22px}
+.sv-over.live .sv-enter{pointer-events:auto}
+.sv-enter{background:#fff;color:var(--ink);font-size:16px;padding:16px 26px;border:0;cursor:pointer;font-family:inherit}
+.sv-enter:hover{color:#fff}
+.sv-tag{position:absolute;z-index:4;right:var(--gutter);top:50%;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg)}
+.sv-hint{position:absolute;z-index:4;left:var(--gutter);bottom:4vh;font-family:var(--display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* ---------- commun ---------- */
+.shot{position:relative;border-radius:22px;overflow:hidden;background:var(--ink);cursor:zoom-in;margin:0}
+.shot img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.shot:hover img{transform:scale(1.05)}
+.shot figcaption{position:absolute;left:18px;bottom:18px;font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;
+  background:rgba(20,20,24,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:9px 16px;border-radius:99px;display:flex;gap:10px;align-items:center}
+.shot figcaption::before{content:"";width:12px;height:12px;background:var(--blue-2);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
+.mq-track span i{color:var(--blue-2);-webkit-text-stroke:0}
+.marquee.light .mq-track span i{color:var(--blue)}
+
+/* ---------- intro ---------- */
+.fo-intro{padding:18vh 0 14vh}
+.fo-lead{font-family:var(--display);font-weight:600;font-size:clamp(28px,3.6vw,58px);line-height:1.12;letter-spacing:-.02em;max-width:1250px;margin-top:5vh}
+.fo-lead em{font-style:normal;color:var(--blue)}
+.fo-intro .shot{aspect-ratio:2208/796;margin-top:10vh}
+.fo-intro-foot{display:flex;justify-content:space-between;gap:30px;margin-top:4vh;flex-wrap:wrap}
+.fo-intro-foot p{max-width:560px;color:var(--ink-soft);font-size:18px}
+.fo-intro-foot p strong{color:var(--ink)}
+.fo-intro-foot .kw{display:flex;gap:10px;flex-wrap:wrap;align-self:flex-start}
+.kw span{font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:8px 16px}
+
+/* ---------- en salle : modules ---------- */
+.fo-room{background:var(--ink);color:var(--paper);padding:16vh 0}
+.fo-room .head{display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap;margin-bottom:9vh}
+.fo-room .head p{max-width:420px;opacity:.7}
+.mods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line-inv);border-left:1px solid var(--line-inv)}
+.mod{position:relative;padding:clamp(24px,2.6vw,40px);min-height:380px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--line-inv);border-bottom:1px solid var(--line-inv);isolation:isolate;overflow:hidden}
+.mod::before{content:"";position:absolute;inset:0;background:var(--blue);z-index:-1;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);transition:clip-path .7s var(--ease)}
+.mod:hover::before{clip-path:polygon(0 14%,100% 0,100% 100%,0 100%)}
+.mod b{font-family:var(--display);font-weight:900;font-size:clamp(70px,7vw,120px);line-height:.8;letter-spacing:-.06em;color:var(--blue-2);transition:color .4s}
+.mod:hover b{color:#fff}
+.mod h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:1;font-size:clamp(24px,2.2vw,36px);margin-bottom:14px}
+.mod p{opacity:.75;font-size:16px}
+
+/* ---------- gamification + données ---------- */
+.fo-engage{padding:16vh 0 12vh}
+.fo-engage .h2{margin-top:28px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8vh}
+.panel{border-radius:26px;padding:clamp(28px,4vw,56px);position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;gap:30px}
+.panel.blue{background:var(--blue);color:#fff}
+.panel.ink{background:var(--ink-2);color:var(--paper)}
+.panel small{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;opacity:.75}
+.panel h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.03em;line-height:.95;font-size:clamp(32px,3.4vw,56px);margin-top:18px}
+.panel > p{font-size:17px;opacity:.88;max-width:480px}
+.game{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.game li{list-style:none;border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:18px;font-family:var(--display);font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:-.01em;line-height:1.1;display:flex;flex-direction:column;gap:22px;transition:background .4s,color .4s}
+.game li:hover{background:#fff;color:var(--blue)}
+.game li i{font-style:normal;font-size:12px;letter-spacing:.16em;opacity:.7;font-weight:600}
+.meters{list-style:none;display:grid;gap:0}
+.meters li{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:14px 0;border-top:1px solid var(--line-inv);font-family:var(--display);font-weight:600;font-size:17px}
+.meters li:last-child{border-bottom:1px solid var(--line-inv)}
+.eq{display:flex;gap:3px;align-items:end;height:18px;flex:none}
+.eq i{width:4px;background:var(--blue-2);border-radius:2px;height:30%;animation:eq 1.2s ease-in-out infinite alternate}
+.eq i:nth-child(2){animation-delay:-.3s}.eq i:nth-child(3){animation-delay:-.6s}.eq i:nth-child(4){animation-delay:-.9s}
+.meters li:nth-child(2) .eq i{animation-duration:1.5s}.meters li:nth-child(3) .eq i{animation-duration:.9s}.meters li:nth-child(4) .eq i{animation-duration:1.7s}
+@keyframes eq{to{height:100%}}
+.uses{display:flex;flex-wrap:wrap;gap:8px}
+.uses span{font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.08);border-radius:99px;padding:8px 14px}
+.uses span b{color:var(--blue-2)}
+
+/* ---------- virtuel → réel ---------- */
+.fo-ar{padding:6vh 0 16vh;overflow-x:clip}
+.ar{display:grid;grid-template-columns:1.1fr 1fr;gap:6vw;align-items:center}
+.ar-big{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.88;font-size:clamp(48px,8vw,140px)}
+.ar-big span{display:block}
+.ar-big .arrow{display:flex;align-items:center;gap:.2em;color:var(--blue)}
+.ar-big .arrow::before{content:"";height:.1em;flex:0 0 1.2em;background:var(--blue);transform-origin:0 50%;transform:scaleX(0);transition:transform 1.2s .3s var(--ease)}
+.ar-big.in .arrow::before{transform:none}
+.ar p{color:var(--ink-soft);font-size:18px}
+.ar p + p{margin-top:2.4vh}
+.ar p strong{color:var(--ink)}
+.kinds{display:grid;grid-template-columns:repeat(3,1fr);margin-top:12vh;border-top:1px solid var(--line)}
+.kinds div{padding:3.6vh 2vw 0 0}
+.kinds div + div{padding-left:2vw;border-left:1px solid var(--line)}
+.kinds small{font-family:var(--display);font-size:13px;letter-spacing:.16em;color:var(--blue)}
+.kinds b{display:block;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.03em;font-size:clamp(28px,3.2vw,52px);line-height:1;margin-top:1.6vh}
+.fo-ar .note{margin-top:5vh;max-width:760px;color:var(--ink-soft);font-size:18px}
+.fo-ar .note strong{color:var(--ink)}
+
+/* ---------- galerie horizontale ---------- */
+.sv-gallery{height:calc(100vh + var(--hlen,2400px));position:relative;background:var(--ink);color:var(--paper)}
+.gal-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding-top:60px}
+.gal-head{display:flex;justify-content:space-between;align-items:end;gap:30px;padding:0 var(--gutter);margin-bottom:5vh}
+.gal-head .count{font-family:var(--display);font-weight:700;font-size:clamp(20px,2vw,28px)}
+.gal-head .count span{color:var(--blue-2)}
+.gal-track{display:flex;gap:3vw;padding:0 var(--gutter);will-change:transform;width:max-content}
+.gal-item{width:min(58vw,64.8vh,920px);flex:none}
+.gal-item .shot{aspect-ratio:1032/796;height:auto;max-height:50vh;width:auto;max-width:100%}
+.gal-item .shot img{transform:scale(1.15)}
+.gal-item .cap{display:flex;justify-content:space-between;align-items:baseline;margin-top:20px;gap:20px}
+.gal-item .cap h3{font-family:var(--display);font-weight:800;font-size:clamp(24px,2.6vw,42px);text-transform:uppercase;letter-spacing:-.02em;line-height:1}
+.gal-item .cap small{font-family:var(--display);font-size:13px;letter-spacing:.14em;opacity:.6;white-space:nowrap}
+.gal-bar{margin:5vh var(--gutter) 0;height:2px;background:var(--line-inv);position:relative}
+.gal-bar i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--blue-2)}
+
+/* ---------- campus ---------- */
+.fo-campus{padding:16vh 0 10vh}
+.fo-campus .head{display:grid;grid-template-columns:1.8fr 1fr;gap:5vw;align-items:end;margin-bottom:8vh}
+.fo-campus .head p{color:var(--ink-soft);font-size:18px}
+.places{list-style:none;border-top:1px solid var(--line)}
+.place{display:grid;grid-template-columns:80px 1fr auto;align-items:center;gap:24px;padding:3.2vh 0;border-bottom:1px solid var(--line);transition:padding .6s var(--ease),color .4s}
+.place small{font-family:var(--display);font-size:13px;letter-spacing:.16em;color:var(--ink-soft)}
+.place h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:1;font-size:clamp(30px,5.4vw,96px)}
+.place .shape{width:clamp(36px,4vw,60px);height:clamp(42px,4.6vw,70px);background:var(--ink);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%);transition:transform .7s var(--ease),background .4s}
+.place:hover{padding-left:20px;color:var(--blue)}
+.place:hover .shape{background:var(--blue);transform:rotate(-12deg)}
+.fo-campus .end{margin-top:5vh;font-family:var(--display);font-weight:600;font-size:clamp(22px,2.2vw,34px);letter-spacing:-.01em;max-width:900px}
+.fo-campus .end em{font-style:normal;color:var(--blue)}
+
+/* ---------- résultat ---------- */
+.fo-result{padding:8vh 0 18vh}
+.result-label{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:4vh;display:flex;align-items:center;gap:14px}
+.result-label::after{content:"";flex:1;height:1px;background:var(--line)}
+.result-line{display:flex;align-items:baseline;justify-content:space-between;gap:30px;border-bottom:1px solid var(--line);padding:2vh 0;overflow:hidden}
+.result-line b{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.9;font-size:clamp(40px,8.6vw,160px);
+  background:linear-gradient(90deg,var(--ink) 50%,rgba(20,20,24,.12) 50%);background-size:200% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;transition:background-position 1.4s var(--ease)}
+.result-line.in b{background-position:0 0}
+.result-line:nth-child(4) b{background-image:linear-gradient(90deg,var(--blue) 50%,rgba(20,20,24,.12) 50%)}
+.result-line span{font-family:var(--display);font-size:14px;letter-spacing:.14em;color:var(--ink-soft);white-space:nowrap}
+.fo-result .after{margin-top:5vh;display:flex;justify-content:flex-end}
+.fo-result .after p{max-width:460px;font-size:18px;color:var(--ink-soft)}
+.fo-result .after p strong{color:var(--ink)}
+
+/* ---------- suivant ---------- */
+.sv-next{display:block;background:var(--paper);padding:14vh 0;border-top:1px solid var(--line);position:relative;overflow:hidden;isolation:isolate}
+.sv-next::before{content:"";position:absolute;inset:0;background:var(--ink);z-index:-1;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);transition:clip-path .8s var(--ease)}
+.sv-next:hover::before{clip-path:polygon(0 12%,100% 0,100% 100%,0 100%)}
+.sv-next:hover{color:var(--paper)}
+.sv-next .wrap{display:flex;justify-content:space-between;align-items:end;gap:30px;transition:color .5s}
+.sv-next small{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:3vh}
+.sv-next h2{font-family:var(--display);font-weight:900;font-size:clamp(36px,7vw,120px);text-transform:uppercase;letter-spacing:-.04em;line-height:.9}
+.sv-next .go{width:clamp(70px,9vw,140px);height:clamp(70px,9vw,140px);border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-size:clamp(28px,3vw,48px);flex:none;transition:transform .7s var(--ease),background .4s}
+.sv-next:hover .go{transform:rotate(-45deg);background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:250;background:rgba(14,14,18,.92);backdrop-filter:blur(10px);display:grid;place-items:center;padding:5vh var(--gutter);opacity:0;pointer-events:none;transition:opacity .4s}
+.lb.open{opacity:1;pointer-events:auto}
+.lb img{max-width:100%;max-height:82vh;border-radius:16px;transform:scale(.94);transition:transform .5s var(--ease)}
+.lb.open img{transform:none}
+.lb p{color:var(--paper);font-family:var(--display);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:14px;margin-top:18px;text-align:center}
+.lb button{position:absolute;top:22px;right:var(--gutter);background:none;border:1px solid rgba(255,255,255,.4);color:#fff;width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer}
+
+@media (max-width:1000px){
+  .sv-head{max-width:none;right:var(--gutter);justify-content:flex-start;padding-top:14vh}
+  .sv-tag{display:none}
+  .sv-over{flex-direction:column;align-items:flex-start;gap:10px}
+  .mods{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mod{min-height:300px}
+  .pair,.ar,.fo-campus .head{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .sv-title{hyphens:auto;-webkit-hyphens:auto}
+  .crumb{font-size:11px;letter-spacing:.12em}
+  .mods{grid-template-columns:minmax(0,1fr)}
+  .mod{min-height:0;gap:30px}
+  .game{grid-template-columns:1fr}
+  .kinds{grid-template-columns:1fr}
+  .kinds div,.kinds div + div{padding:3vh 0;border-left:0;border-bottom:1px solid var(--line)}
+  .place{grid-template-columns:40px 1fr auto;gap:14px}
+  .place h3{hyphens:auto;-webkit-hyphens:auto}
+  .sv-gallery{height:auto}
+  .gal-stick{position:relative;height:auto;padding:14vh 0}
+  .gal-track{flex-direction:column;width:auto;gap:7vh;transform:none!important}
+  .gal-item{width:100%}
+  .gal-item .shot{width:100%;max-height:none}
+  .gal-bar{display:none}
+  .result-line{flex-direction:column;gap:6px}
+  .sv-next .wrap{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){ .eq i{animation:none;height:60%} }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 300 340">
+    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
+    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  </symbol>
+</svg>
+
+<div class="cursor" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a href="index.html" class="logo" aria-label="Art Exposium — accueil">
+    <svg viewBox="0 0 300 340"><use href="#mark"/></svg>
+    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  </a>
+  <ul>
+    <li><a href="index.html#concept">Concept</a></li>
+    <li><a href="index.html#univers">Secteurs</a></li>
+    <li><a href="index.html#fonctionnalites">Fonctionnalités</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="demo.html" class="btn">Réserver une démo <span class="arr">→</span></a>
+  <button class="burger" aria-label="Menu" id="burger"><span></span><span></span></button>
+</header>
+
+<div class="mmenu" id="mmenu">
+  <a href="index.html">Accueil</a>
+  <a href="index.html#univers">Secteurs</a>
+  <a href="services.html">Services</a>
+  <a href="prochains-salons.html">Prochains salons</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+<!-- HERO : la porte s'ouvre sur la salle de formation -->
+<section class="sv-hero" id="hero">
+  <div class="sv-stick">
+    <div class="sv-img" id="svImg"><img src="assets/img/formation/img-slider-2-scaled.jpg" alt="Salle de formation virtuelle en 3D : réacteur d’avion en atelier, postes informatiques et écrans" fetchpriority="high"></div>
+    <div class="sv-door-wrap" id="doorWrap"><div class="sv-door" id="svDoor"></div></div>
+
+    <div class="sv-head" id="svHead">
+      <div class="crumb"><a href="index.html#univers">← Retour</a><i></i><span>Applications / Secteurs</span><i></i><span>03</span></div>
+      <h1 class="sv-title">
+        <span class="ln"><span>Salles de</span></span>
+        <span class="ln"><span>formation</span></span>
+        <span class="ln"><span>immersives<span class="b">.</span></span></span>
+      </h1>
+      <p class="sv-sub"><strong>La formation sort des cadres traditionnels</strong> pour devenir une expérience immersive et engageante.</p>
+    </div>
+
+    <span class="sv-tag" id="svTag">03 — Formation &amp; pédagogie</span>
+    <span class="sv-hint" id="svHint">Entrez en salle ↓</span>
+
+    <div class="sv-over" id="svOver">
+      <h2>Apprendre,<br><span>autrement.</span></h2>
+      <div><p>Des salles virtuelles au réalisme bluffant, sans limites géographiques ni logistiques.</p><button class="btn sv-enter" id="svEnter" type="button">Entrer en salle <span class="arr">→</span></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="fo-intro" id="salle">
+  <div class="wrap">
+    <span class="eyebrow rv" style="color:var(--blue)">Formations &amp; pédagogies immersives</span>
+    <p class="fo-lead rv d1">Avec ART EXPOSIUM, la formation sort des cadres traditionnels pour devenir <em>une expérience immersive et engageante.</em></p>
+    <figure class="shot rv" data-lb>
+      <img src="assets/img/formation/etudes-1.jpg" alt="Salle d’étude virtuelle : un yacht en atelier technique" loading="lazy">
+      <figcaption>Salle d’étude</figcaption>
+    </figure>
+    <div class="fo-intro-foot">
+      <p class="rv">Formation <strong>technique, pédagogique ou commerciale</strong> : les scénarios s’adaptent aux besoins spécifiques de chaque organisation.</p>
+      <div class="kw rv d1"><span>Immersion</span><span>Interactivité</span><span>Réalité augmentée</span><span>Suivi intelligent</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- EN SALLE -->
+<section class="fo-room">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue-2)">Côté apprenants</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">Tout se passe<br>en salle.</h2>
+      </div>
+      <p class="rv d2">Dans des salles virtuelles au réalisme bluffant, les apprenants ne regardent pas : ils participent.</p>
+    </div>
+    <div class="mods">
+      <article class="mod rv"><b>01</b><div><h3>Manipuler</h3><p>Les apprenants interagissent avec des objets 3D.</p></div></article>
+      <article class="mod rv d1"><b>02</b><div><h3>Observer</h3><p>Ils suivent des démonstrations techniques.</p></div></article>
+      <article class="mod rv d2"><b>03</b><div><h3>Collaborer</h3><p>Ils travaillent en petits groupes.</p></div></article>
+      <article class="mod rv d3"><b>04</b><div><h3>Questionner</h3><p>Ils posent leurs questions directement à leur formateur, par chat ou visioconférence.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- GAMIFICATION + DONNÉES -->
+<section class="fo-engage">
+  <div class="wrap">
+    <span class="eyebrow rv" style="color:var(--blue)">Motiver &amp; mesurer</span>
+    <h2 class="h2 rv d1">Plus dynamique.<br>Plus précis.</h2>
+    <div class="pair">
+      <article class="panel blue rv">
+        <div><small>Gamification</small><h3>Apprendre<br>en jouant.</h3></div>
+        <p>Des mécaniques de jeu qui rendent l’apprentissage plus dynamique et favorisent la motivation comme l’ancrage des connaissances.</p>
+        <ul class="game">
+          <li><i>01</i>Quiz interactifs</li>
+          <li><i>02</i>Challenges</li>
+          <li><i>03</i>Parcours scénarisés</li>
+          <li><i>04</i>Systèmes de récompenses</li>
+        </ul>
+      </article>
+      <article class="panel ink rv d1">
+        <div><small>Suivi de progression</small><h3>Chaque progrès,<br>mesuré.</h3></div>
+        <p>La plateforme collecte et analyse des données précises sur la progression de chaque apprenant.</p>
+        <ul class="meters">
+          <li>Temps passé <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></li>
+          <li>Réussites <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></li>
+          <li>Erreurs <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></li>
+          <li>Taux de participation <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></li>
+          <li>Interactions réalisées <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></li>
+        </ul>
+        <div class="uses"><span><b>→</b> Ajuster le contenu</span><span><b>→</b> Personnaliser l’accompagnement</span><span><b>→</b> Améliorer l’efficacité pédagogique</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- VIRTUEL → RÉEL -->
+<section class="fo-ar">
+  <div class="wrap">
+    <span class="eyebrow rv" style="color:var(--blue)">Réalité augmentée</span>
+    <div class="ar" style="margin-top:6vh">
+      <h2 class="ar-big rv"><span>Du virtuel</span><span class="arrow">au réel.</span></h2>
+      <div>
+        <p class="rv">La formation peut intégrer des <strong>modules en réalité augmentée</strong> : les apprenants visualisent et manipulent un objet, une machine ou un processus <strong>directement dans leur environnement réel.</strong></p>
+        <p class="rv d1">Cette continuité entre virtuel et réel renforce la compréhension et multiplie les possibilités de mise en pratique.</p>
+      </div>
+    </div>
+    <div class="kinds">
+      <div class="rv"><small>Formation</small><b>Technique</b></div>
+      <div class="rv d1"><small>Formation</small><b>Pédagogique</b></div>
+      <div class="rv d2"><small>Formation</small><b>Commerciale</b></div>
+    </div>
+    <p class="note rv">Quel que soit le type de formation, les scénarios s’adaptent à chaque organisation, en alliant <strong>immersion, interactivité, réalité augmentée et suivi intelligent des performances.</strong></p>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section class="sv-gallery" id="gallery">
+  <div class="gal-stick">
+    <div class="gal-head">
+      <div>
+        <span class="eyebrow" style="color:var(--blue-2)">En situation</span>
+        <h2 class="h2" style="margin-top:20px">Une salle<br>par métier.</h2>
+      </div>
+      <div class="count"><span id="galN">01</span> / 04</div>
+    </div>
+    <div class="gal-track" id="galTrack">
+      <div class="gal-item">
+        <figure class="shot" data-lb><img src="assets/img/formation/formation-1.jpg" alt="Salle de formation virtuelle : atelier de plomberie avec lavabos et canalisations" loading="lazy"><figcaption>Atelier sanitaire</figcaption></figure>
+        <div class="cap"><h3>Atelier sanitaire</h3><small>01</small></div>
+      </div>
+      <div class="gal-item">
+        <figure class="shot" data-lb><img src="assets/img/formation/formation-2.jpg" alt="Formation automobile virtuelle : voiture de sport en atelier" loading="lazy"><figcaption>Automobile</figcaption></figure>
+        <div class="cap"><h3>Formation automobile</h3><small>02</small></div>
+      </div>
+      <div class="gal-item">
+        <figure class="shot" data-lb><img src="assets/img/formation/formation-3.jpg" alt="Salle de formation virtuelle : établi garni d’outils électroportatifs" loading="lazy"><figcaption>Outillage</figcaption></figure>
+        <div class="cap"><h3>Atelier outillage</h3><small>03</small></div>
+      </div>
+      <div class="gal-item">
+        <figure class="shot" data-lb><img src="assets/img/formation/formation-4.jpg" alt="Formation BTP virtuelle : engin de démolition dans un hall 3D" loading="lazy"><figcaption>BTP</figcaption></figure>
+        <div class="cap"><h3>Formation BTP</h3><small>04</small></div>
+      </div>
+    </div>
+    <div class="gal-bar"><i id="galBar"></i></div>
+  </div>
+</section>
+
+<!-- CAMPUS -->
+<section class="fo-campus">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue)">Écoles &amp; universités</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">Pas seulement<br>en entreprise.</h2>
+      </div>
+      <p class="rv d2">Universités, écoles et organismes éducatifs peuvent créer de véritables lieux pédagogiques virtuels.</p>
+    </div>
+    <ul class="places">
+      <li class="place rv"><small>01</small><h3>Amphithéâtres 3D</h3><span class="shape" aria-hidden="true"></span></li>
+      <li class="place rv"><small>02</small><h3>Laboratoires interactifs</h3><span class="shape" aria-hidden="true"></span></li>
+      <li class="place rv"><small>03</small><h3>Bibliothèques immersives</h3><span class="shape" aria-hidden="true"></span></li>
+    </ul>
+    <p class="end rv">L’apprentissage devient <em>plus vivant et accessible à tous.</em></p>
+  </div>
+</section>
+
+<!-- RÉSULTAT -->
+<section class="fo-result">
+  <div class="wrap">
+    <div class="result-label">Résultat</div>
+    <div class="result-line rv"><b>Plus efficaces</b><span>01 / Des formations</span></div>
+    <div class="result-line rv"><b>Plus accessibles</b><span>02 / Des formations</span></div>
+    <div class="result-line rv"><b>Plus impactantes</b><span>03 / Des formations</span></div>
+    <div class="after"><p class="rv"><strong>Sans les limites géographiques ni logistiques</strong> d’une salle physique.</p></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track">
+    <span>Objets 3D <b class="dot"></b> <i>Gamification</i> <b class="dot"></b> Visioconférence <b class="dot"></b> <i>Réalité augmentée</i> <b class="dot"></b> Suivi de progression <b class="dot"></b></span>
+    <span>Objets 3D <b class="dot"></b> <i>Gamification</i> <b class="dot"></b> Visioconférence <b class="dot"></b> <i>Réalité augmentée</i> <b class="dot"></b> Suivi de progression <b class="dot"></b></span>
+  </div>
+</div>
+
+<!-- SECTEUR SUIVANT -->
+<a class="sv-next" href="retail-magasins-virtuels.html">
+  <div class="wrap">
+    <div><small>Secteur suivant — 04</small><h2>Retail &amp; magasins<br>virtuels</h2></div>
+    <span class="go" aria-hidden="true">→</span>
+  </div>
+</a>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <svg class="cta-mark" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <div class="wrap">
+    <span class="eyebrow rv">Votre formation</span>
+    <h2 class="cta-big rv d1" style="margin-top:4vh"><span>Formez</span><span class="o">partout,</span><span>autrement.</span></h2>
+    <div class="cta-row">
+      <p class="rv">Entreprise, école, université, organisme de formation… Parlez-nous de vos apprenants : nous concevons la salle immersive qui fera la différence.</p>
+      <a class="btn rv d1" href="mailto:contact@artexposium.fr?subject=Salle%20de%20formation%20immersive">contact@artexposium.fr <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a href="index.html" class="logo"><svg viewBox="0 0 300 340"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
+        <p class="about">Art Exposium par Vif-Argent — environnements immersifs 100% web pour l’événementiel, le tourisme, la formation, le retail et la culture.</p>
+      </div>
+      <div>
+        <h4>Siège social</h4>
+        <ul><li>Vif-Argent</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="tel:+33164700802">01 64 70 08 02</a></li><li><a href="tel:+33609770241">06 09 77 02 41</a></li><li><a href="mailto:contact@artexposium.fr">contact@artexposium.fr</a></li></ul>
+      </div>
+      <div>
+        <h4>Explorer</h4>
+        <ul><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-bot">
+      <span>Art Exposium par Vif-Argent © Tous droits réservés</span>
+      <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://www.instagram.com/agencevifargent/" target="_blank" rel="noopener">Instagram</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Aperçu"><button type="button" aria-label="Fermer">✕</button><div><img alt=""><p></p></div></div>
+
+<script>
+(() => {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = s => document.querySelector(s);
+  const clamp = (v,a=0,b=1) => Math.min(b,Math.max(a,v));
+  const lerp = (a,b,t) => a + (b - a) * t;
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  const easeIO = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+
+  /* ----- hero : la porte bleue s'ouvre, l'image envahit l'écran ----- */
+  const hero = $('#hero'), img = $('#svImg'), wrap = $('#doorWrap'), door = $('#svDoor'),
+        head = $('#svHead'), over = $('#svOver'), tag = $('#svTag'), hint = $('#svHint'), nav = $('#nav');
+  let R, intro = 0;
+  function layout(){
+    const W = innerWidth, H = innerHeight, mob = W < 1000;
+    const w = mob ? W * .42 : Math.min(W * .24, H * .5), h = w * 2.8;
+    const hh = Math.min(h, H * (mob ? .44 : .74)), ww = hh / 2.8;
+    R = { x: mob ? W - ww - W*.08 : W * .74 - ww / 2, y: mob ? H * .5 : (H - hh) / 2 + H * .02, w: ww, h: hh };
+    Object.assign(wrap.style, { left: R.x+'px', top: R.y+'px', width: R.w+'px', height: R.h+'px' });
+  }
+  function heroFrame(){
+    const W = innerWidth, H = innerHeight;
+    const p = clamp(-hero.getBoundingClientRect().top / (hero.offsetHeight - H));
+    const open = ease(clamp(p / .28));
+    const grow = easeIO(clamp((p - .22) / .5));
+    const fin = ease(clamp((p - .72) / .2));
+    door.style.transform = `rotateY(${lerp(intro, 84, open)}deg)`;
+    door.style.setProperty('--o', open);
+    wrap.style.opacity = 1 - clamp((p - .3) / .1);
+    const s1 = R.h * .105, s2 = R.h * .123;
+    const pts = [
+      [lerp(R.x, 0, grow),       lerp(R.y, 0, grow)],
+      [lerp(R.x + R.w, W, grow), lerp(R.y + s1, 0, grow)],
+      [lerp(R.x + R.w, W, grow), lerp(R.y + R.h, H, grow)],
+      [lerp(R.x, 0, grow),       lerp(R.y + R.h - s2, H, grow)],
+    ];
+    img.style.clipPath = `polygon(${pts.map(([x,y]) => `${x}px ${y}px`).join(',')})`;
+    img.style.setProperty('--z', lerp(1.25, 1, grow));
+    img.style.setProperty('--shade', fin);
+    head.style.opacity = 1 - clamp((p - .18) / .2);
+    head.style.transform = `translateY(${-clamp((p - .1) / .4) * 12}vh)`;
+    tag.style.opacity = hint.style.opacity = 1 - clamp(p / .1);
+    over.style.opacity = fin;
+    over.style.transform = `translateY(${(1 - fin) * 40}px)`;
+    over.classList.toggle('live', fin > .6);
+    return p;
+  }
+  layout();
+  if (!reduce) { const t0 = performance.now() + 900; (function a(now){ const k = clamp((now - t0) / 1200); intro = ease(k) * 28; heroFrame(); if (k < 1) requestAnimationFrame(a); })(performance.now()); }
+  $('#svEnter').addEventListener('click', () => $('#salle').scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}));
+
+  /* ----- galerie horizontale ----- */
+  const gal = $('#gallery'), track = $('#galTrack'), bar = $('#galBar'), galN = $('#galN');
+  const nItems = track.children.length;
+  let hlen = 0;
+  function galLayout(){
+    if (innerWidth <= 640) { gal.style.removeProperty('--hlen'); return; }
+    hlen = Math.max(0, track.scrollWidth - innerWidth);
+    gal.style.setProperty('--hlen', hlen + 'px');
+  }
+  function galFrame(){
+    if (innerWidth <= 640) return;
+    const p = clamp(-gal.getBoundingClientRect().top / (gal.offsetHeight - innerHeight));
+    track.style.transform = `translateX(${-p * hlen}px)`;
+    bar.style.width = p * 100 + '%';
+    galN.textContent = String(Math.min(nItems, Math.floor(p * (nItems - .001)) + 1)).padStart(2,'0');
+    if (reduce) return;
+    track.querySelectorAll('.shot img').forEach(im => {
+      const b = im.parentElement.getBoundingClientRect();
+      const c = (b.left + b.width/2 - innerWidth/2) / innerWidth;
+      im.style.transform = `scale(1.15) translateX(${c * -6}%)`;
+    });
+  }
+
+  /* ----- nav ----- */
+  const darks = [...document.querySelectorAll('.fo-room,.sv-gallery,.cta,footer,.marquee')];
+  function navFrame(heroP){
+    nav.classList.toggle('scrolled', scrollY > 40);
+    const onDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
+    nav.classList.toggle('inv', onDark || (heroP > .55 && heroP < 1) || $('#mmenu').classList.contains('open'));
+  }
+
+  function loop(){ const p = heroFrame(); galFrame(); navFrame(p); }
+  addEventListener('scroll', () => requestAnimationFrame(loop), {passive:true});
+  addEventListener('resize', () => { layout(); galLayout(); loop(); });
+  galLayout(); loop();
+  addEventListener('load', () => { galLayout(); loop(); });
+
+  /* ----- reveal ----- */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:0, rootMargin:'0px 0px -12% 0px'});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* ----- lightbox ----- */
+  const lb = $('#lb'), lbImg = lb.querySelector('img'), lbCap = lb.querySelector('p');
+  document.querySelectorAll('[data-lb]').forEach(f => {
+    f.setAttribute('tabindex','0'); f.setAttribute('role','button');
+    const open = () => {
+      const im = f.querySelector('img');
+      lbImg.src = im.src; lbImg.alt = im.alt;
+      lbCap.textContent = f.closest('.gal-item')?.querySelector('h3')?.textContent || f.querySelector('figcaption')?.textContent || im.alt;
+      lb.classList.add('open'); lb.querySelector('button').focus();
+    };
+    f.addEventListener('click', open);
+    f.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
+  const close = () => lb.classList.remove('open');
+  lb.addEventListener('click', e => { if (e.target !== lbImg) close(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  /* ----- curseur ----- */
+  if (!reduce && matchMedia('(hover:hover)').matches){
+    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0;
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    document.querySelectorAll('a,button,[data-lb]').forEach(el => {
+      el.addEventListener('mouseenter', () => cu.classList.add('big'));
+      el.addEventListener('mouseleave', () => cu.classList.remove('big'));
+    });
+  }
+
+  /* ----- menu mobile ----- */
+  const mm = $('#mmenu');
+  $('#burger').addEventListener('click', () => { mm.classList.toggle('open'); nav.classList.toggle('inv', mm.classList.contains('open')); });
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); loop(); }));
+})();
+</script>
+</body>
+</html>

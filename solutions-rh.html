@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solutions RH — Art Exposium</title>
+<meta name="description" content="Des environnements immersifs 3D dédiés aux ressources humaines : recrutement, intégration, formation et communication interne, accessibles sur tous les supports.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ---------- HERO portail ---------- */
+.sv-hero{height:300vh;position:relative}
+.sv-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--paper)}
+.sv-img{position:absolute;inset:0;z-index:1;background:#05050a}
+.sv-img img{width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1.2));will-change:transform}
+.sv-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,20,24,.15) 30%,rgba(20,20,24,.85));opacity:var(--shade,0)}
+.sv-door-wrap{position:absolute;z-index:2;perspective:1100px;pointer-events:none}
+.sv-door{position:absolute;inset:0;background:var(--blue);transform-origin:100% 50%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);
+  box-shadow:inset -30px 0 60px rgba(0,0,0,.2);will-change:transform}
+.sv-door::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.4),transparent);opacity:var(--o,0)}
+.sv-head{position:absolute;z-index:3;left:var(--gutter);top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;max-width:58vw;will-change:transform,opacity}
+.crumb{display:flex;align-items:center;flex-wrap:wrap;gap:12px;font-family:var(--display);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5vh}
+.crumb a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:600}
+.crumb a:hover{color:var(--blue)}
+.crumb i{width:4px;height:4px;background:currentColor;border-radius:50%;opacity:.5}
+.sv-title{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.84;font-size:clamp(48px,min(9vw,17vh),190px)}
+.sv-title .ln{display:block;overflow:hidden;padding-top:.12em;margin-top:-.12em}
+.sv-title .ln > span{display:inline-block;transform:translateY(110%);animation:rise 1.2s var(--ease) forwards}
+.sv-title .ln:nth-child(2) > span{animation-delay:.15s}
+.sv-title .b{color:var(--blue)}
+.sv-sub{margin-top:4vh;max-width:430px;font-size:18px;color:var(--ink-soft);opacity:0;animation:fade 1s .7s var(--ease) forwards}
+.sv-sub strong{color:var(--ink)}
+.sv-over{position:absolute;z-index:4;left:var(--gutter);right:var(--gutter);bottom:9vh;color:#fff;display:flex;justify-content:space-between;align-items:end;gap:40px;opacity:0;pointer-events:none}
+.sv-over h2{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.035em;line-height:.9;font-size:clamp(40px,7.5vw,130px)}
+.sv-over h2 span{color:var(--blue-2)}
+.sv-over p{max-width:340px;font-size:16px;opacity:.85;margin-bottom:22px}
+.sv-over.live .sv-enter{pointer-events:auto}
+.sv-enter{background:#fff;color:var(--ink);font-size:16px;padding:16px 26px}
+.sv-enter:hover{color:#fff}
+.sv-tag{position:absolute;z-index:4;right:var(--gutter);top:50%;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg)}
+.sv-hint{position:absolute;z-index:4;left:var(--gutter);bottom:4vh;font-family:var(--display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* ---------- intro + enjeux ---------- */
+.rh-intro{padding:18vh 0 14vh}
+.rh-lead{font-family:var(--display);font-weight:600;font-size:clamp(28px,3.6vw,58px);line-height:1.12;letter-spacing:-.02em;max-width:1250px}
+.rh-lead em{font-style:normal;color:var(--blue)}
+.enjeux{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);margin-top:11vh;border-top:1px solid var(--line)}
+.enjeu{position:relative;padding:34px 26px 40px;min-height:300px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--line);isolation:isolate;overflow:hidden;transition:color .5s var(--ease)}
+.enjeu:last-child{border-right:0}
+.enjeu::before{content:"";position:absolute;inset:0;background:var(--blue);z-index:-1;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);transition:clip-path .7s var(--ease)}
+.enjeu:hover{color:#fff}
+.enjeu:hover::before{clip-path:polygon(0 12%,100% 0,100% 100%,0 100%)}
+.enjeu small{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.18em;color:var(--blue);transition:color .4s}
+.enjeu:hover small{color:#fff}
+.enjeu h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.025em;line-height:1;font-size:clamp(24px,2.3vw,38px);margin:auto 0 14px;hyphens:manual}
+.enjeu p{font-size:16px;opacity:.75;max-width:280px}
+
+/* ---------- le lab RH (image annotée) ---------- */
+.rh-lab{padding:4vh 0 16vh}
+.lab{display:grid;grid-template-columns:1fr 1.5fr;gap:5vw;align-items:start}
+.lab-txt{position:sticky;top:120px}
+.lab-txt p{color:var(--ink-soft);font-size:18px;margin-top:4vh;max-width:460px}
+.lab-txt p strong{color:var(--ink)}
+.words{display:flex;flex-wrap:wrap;gap:10px;margin-top:5vh}
+.words span{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:9px 16px;border:1px solid var(--line);border-radius:99px}
+.lab-fig{position:relative;border-radius:22px;overflow:hidden;background:var(--ink);aspect-ratio:640/357;cursor:zoom-in}
+.lab-fig img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.lab-fig:hover img{transform:scale(1.03)}
+.pin{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:var(--blue);color:#fff;font:700 12px var(--display);display:grid;place-items:center;box-shadow:0 0 0 4px rgba(255,255,255,.35);transition:transform .4s var(--ease),background .3s;pointer-events:none}
+.pin::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:1.5px solid var(--blue-2);animation:pinp 2.2s var(--ease) infinite}
+@keyframes pinp{from{transform:scale(.8);opacity:1}to{transform:scale(1.8);opacity:0}}
+.pin.on{transform:scale(1.35);background:#fff;color:var(--blue)}
+.lab-list{list-style:none;margin-top:26px;border-top:1px solid var(--line)}
+.lab-list li{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;padding:18px 4px;border-bottom:1px solid var(--line);font-family:var(--display);font-weight:700;font-size:clamp(18px,1.6vw,24px);letter-spacing:-.01em;cursor:default;transition:padding .4s var(--ease),color .3s}
+.lab-list li small{font-size:13px;letter-spacing:.14em;color:var(--ink-soft);font-weight:600}
+.lab-list li em{font-style:normal;font-family:var(--body);font-weight:500;font-size:14px;color:var(--ink-soft)}
+.lab-list li:hover,.lab-list li.on{padding-left:14px;color:var(--blue)}
+.lab-cap{margin-top:14px;font-size:14px;color:var(--ink-soft)}
+
+/* ---------- plateforme d'usage (sombre) ---------- */
+.rh-platform{background:var(--ink);color:var(--paper);padding:16vh 0;overflow-x:clip}
+.rh-platform .head{display:grid;grid-template-columns:1.1fr 1fr;gap:6vw;align-items:end;margin-bottom:9vh}
+.rh-platform .head p{opacity:.75;font-size:18px;max-width:520px}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pillar{position:relative;border:1px solid var(--line-inv);border-radius:24px;padding:34px 30px;min-height:380px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate}
+.pillar::before{content:"";position:absolute;inset:0;background:var(--blue);z-index:-1;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);transition:clip-path .8s var(--ease)}
+.pillar:hover::before{clip-path:polygon(0 0,100% 14%,100% 100%,0 100%)}
+.pillar .n{font-family:var(--display);font-weight:900;font-size:clamp(70px,8vw,130px);line-height:.8;letter-spacing:-.05em;color:var(--blue-2);transition:color .4s}
+.pillar:hover .n{color:#fff}
+.pillar h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.025em;line-height:1;font-size:clamp(26px,2.4vw,40px);margin-bottom:12px}
+.pillar p{opacity:.75;font-size:16px}
+.adj{display:flex;flex-wrap:wrap;align-items:baseline;gap:.25em .5em;margin-top:12vh;font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.9;font-size:clamp(40px,8.4vw,150px)}
+.adj span:nth-child(2){color:var(--blue-2)}
+.devices{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px;margin-top:6vh;padding-top:30px;border-top:1px solid var(--line-inv)}
+.devices p{opacity:.75;max-width:520px}
+.devices ul{list-style:none;display:flex;gap:12px}
+.devices li{display:flex;align-items:center;gap:10px;padding:10px 16px;border:1px solid var(--line-inv);border-radius:99px;font:600 13px var(--display);letter-spacing:.12em;text-transform:uppercase}
+.devices svg{width:18px;height:18px;stroke:var(--blue-2);fill:none;stroke-width:1.8}
+
+/* ---------- bento galerie ---------- */
+.rh-gal{padding:16vh 0 14vh}
+.rh-gal .head{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap;margin-bottom:7vh}
+.rh-gal .head p{max-width:400px;color:var(--ink-soft)}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:clamp(150px,17vw,260px);gap:18px}
+.shot{position:relative;border-radius:22px;overflow:hidden;background:var(--ink);cursor:zoom-in;margin:0}
+.shot img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.shot:hover img{transform:scale(1.05)}
+.shot figcaption{position:absolute;left:16px;bottom:16px;right:16px;width:max-content;max-width:calc(100% - 32px);font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;
+  background:rgba(20,20,24,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:9px 16px;border-radius:99px;display:flex;gap:10px;align-items:center}
+.shot figcaption::before{content:"";width:12px;height:12px;flex:none;background:var(--blue-2);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
+.b1{grid-column:span 4;grid-row:span 2}
+.b2{grid-column:span 2}
+.b3{grid-column:span 2}
+.b4{grid-column:span 3;grid-row:span 2}
+.b5{grid-column:span 3;grid-row:span 2}
+
+/* ---------- suivant ---------- */
+.sv-next{display:block;background:var(--paper);padding:14vh 0;border-top:1px solid var(--line);position:relative;overflow:hidden;isolation:isolate}
+.sv-next::before{content:"";position:absolute;inset:0;background:var(--ink);z-index:-1;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);transition:clip-path .8s var(--ease)}
+.sv-next:hover::before{clip-path:polygon(0 12%,100% 0,100% 100%,0 100%)}
+.sv-next:hover{color:var(--paper)}
+.sv-next .wrap{display:flex;justify-content:space-between;align-items:end;gap:30px;transition:color .5s}
+.sv-next small{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:3vh}
+.sv-next h2{font-family:var(--display);font-weight:900;font-size:clamp(40px,7vw,120px);text-transform:uppercase;letter-spacing:-.04em;line-height:.9}
+.sv-next .go{width:clamp(70px,9vw,140px);height:clamp(70px,9vw,140px);border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-size:clamp(28px,3vw,48px);flex:none;transition:transform .7s var(--ease),background .4s}
+.sv-next:hover .go{transform:rotate(-45deg);background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:250;background:rgba(14,14,18,.92);backdrop-filter:blur(10px);display:grid;place-items:center;padding:5vh var(--gutter);opacity:0;pointer-events:none;transition:opacity .4s}
+.lb.open{opacity:1;pointer-events:auto}
+.lb img{max-width:100%;max-height:82vh;border-radius:16px;transform:scale(.94);transition:transform .5s var(--ease)}
+.lb.open img{transform:none}
+.lb p{color:var(--paper);font-family:var(--display);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:14px;margin-top:18px;text-align:center}
+.lb button{position:absolute;top:22px;right:var(--gutter);background:none;border:1px solid rgba(255,255,255,.4);color:#fff;width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer}
+
+@media (max-width:1000px){
+  .sv-head{max-width:none;right:var(--gutter);justify-content:flex-start;padding-top:14vh}
+  .sv-tag{display:none}
+  .sv-over{flex-direction:column;align-items:flex-start}
+  .enjeux{grid-template-columns:1fr 1fr}
+  .enjeu:nth-child(2){border-right:0}
+  .enjeu:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .lab,.rh-platform .head{grid-template-columns:1fr}
+  .lab-txt{position:relative;top:0}
+  .pillars{grid-template-columns:1fr}
+  .pillar{min-height:280px}
+}
+@media (max-width:640px){
+  .sv-title{hyphens:auto;-webkit-hyphens:auto}
+  .cta-big{font-size:clamp(48px,16vw,80px)}
+  .enjeux{grid-template-columns:1fr}
+  .enjeu{border-right:0;border-bottom:1px solid var(--line);min-height:220px}
+  .lab-list li{grid-template-columns:36px 1fr}
+  .lab-list li em{grid-column:2}
+  .pin{width:24px;height:24px;margin:-12px 0 0 -12px;font-size:11px}
+  .bento{grid-template-columns:1fr;grid-auto-rows:auto}
+  .bento .shot{grid-column:auto;grid-row:auto;aspect-ratio:640/357}
+  .devices ul{flex-wrap:wrap}
+  .sv-next .wrap{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  .pin::after{display:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="0 0 300 340">
+    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
+    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  </symbol>
+</svg>
+
+<div class="cursor" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a href="index.html" class="logo" aria-label="Art Exposium — accueil">
+    <svg viewBox="0 0 300 340"><use href="#mark"/></svg>
+    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  </a>
+  <ul>
+    <li><a href="index.html#concept">Concept</a></li>
+    <li><a href="index.html#univers">Secteurs</a></li>
+    <li><a href="index.html#fonctionnalites">Fonctionnalités</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <a href="demo.html" class="btn">Réserver une démo <span class="arr">→</span></a>
+  <button class="burger" aria-label="Menu" id="burger" type="button"><span></span><span></span></button>
+</header>
+
+<div class="mmenu" id="mmenu">
+  <a href="index.html">Accueil</a>
+  <a href="index.html#univers">Secteurs</a>
+  <a href="services.html">Services</a>
+  <a href="prochains-salons.html">Prochains salons</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<main>
+
+<!-- HERO : la porte s'ouvre sur l'espace RH -->
+<section class="sv-hero" id="hero">
+  <div class="sv-stick">
+    <div class="sv-img" id="svImg"><img src="assets/img/rh/rh-3.png" alt="Espace RH immersif en 3D : grand hall lumineux, écrans interactifs et alcôves d’échange"></div>
+    <div class="sv-door-wrap" id="doorWrap"><div class="sv-door" id="svDoor"></div></div>
+
+    <div class="sv-head" id="svHead">
+      <div class="crumb"><a href="index.html#univers">← Retour</a><i></i><span>Applications / Secteurs</span><i></i><span>05</span></div>
+      <h1 class="sv-title">
+        <span class="ln"><span>Solutions</span></span>
+        <span class="ln"><span>RH<span class="b">.</span></span></span>
+      </h1>
+      <p class="sv-sub"><strong>Des environnements immersifs</strong> dédiés aux ressources humaines.</p>
+    </div>
+
+    <span class="sv-tag" id="svTag">05 — Ressources humaines</span>
+    <span class="sv-hint" id="svHint">Entrez dans l’espace RH ↓</span>
+
+    <div class="sv-over" id="svOver">
+      <h2>Le capital humain,<br><span>mis en scène.</span></h2>
+      <div><p>Recrutement, intégration, formation et communication interne, dans des expériences 3D interactives.</p><a class="btn sv-enter" href="#lab">Découvrir le Lab RH <span class="arr">→</span></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO + ENJEUX -->
+<section class="rh-intro">
+  <div class="wrap">
+    <span class="eyebrow rv" style="color:var(--blue)">05 — Ressources humaines</span>
+    <p class="rh-lead rv d1" style="margin-top:5vh">ART EXPOSIUM propose des environnements immersifs dédiés aux ressources humaines, conçus pour accompagner <em>vos grands enjeux RH.</em></p>
+    <ol class="enjeux">
+      <li class="enjeu rv"><small>01</small><h3>Recru&shy;tement</h3><p>Présenter les métiers et les compétences recherchées.</p></li>
+      <li class="enjeu rv d1"><small>02</small><h3>Intégration</h3><p>Faire découvrir les parcours et la culture d’entreprise.</p></li>
+      <li class="enjeu rv d2"><small>03</small><h3>Formation</h3><p>Accompagner le développement des compétences.</p></li>
+      <li class="enjeu rv d3"><small>04</small><h3>Communi&shy;cation interne</h3><p>Partager l’information et valoriser les équipes.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- LE LAB RH -->
+<section class="rh-lab" id="lab">
+  <div class="wrap lab">
+    <div class="lab-txt">
+      <span class="eyebrow rv" style="color:var(--blue)">Le Lab RH</span>
+      <h2 class="h2 rv d1" style="margin-top:28px">Votre entreprise,<br>à visiter.</h2>
+      <p class="rv d2">Les espaces RH permettent de présenter <strong>les métiers, les parcours, les compétences et la culture d’entreprise</strong> à travers des expériences 3D interactives, <strong>accessibles sur tous les supports.</strong></p>
+      <div class="words rv d3"><span>Métiers</span><span>Parcours</span><span>Compétences</span><span>Culture</span></div>
+    </div>
+    <div class="rv d1">
+      <figure class="lab-fig" data-lb>
+        <img src="assets/img/rh/rh-4.png" alt="Le Lab RH en 3D : bornes de fiches métiers, vidéos « Un jour avec… », mur des compétences, carte des passerelles d’évolution et témoignages" loading="lazy">
+        <figcaption hidden>Le Lab RH</figcaption>
+        <span class="pin" data-pin="1" style="left:14%;top:46%">1</span>
+        <span class="pin" data-pin="2" style="left:40%;top:52%">2</span>
+        <span class="pin" data-pin="3" style="left:63%;top:50%">3</span>
+        <span class="pin" data-pin="4" style="left:52%;top:82%">4</span>
+        <span class="pin" data-pin="5" style="left:89%;top:58%">5</span>
+      </figure>
+      <ul class="lab-list" id="labList">
+        <li data-pin="1"><small>01</small><span>Fiches métiers interactives</span><em>Bornes</em></li>
+        <li data-pin="2"><small>02</small><span>Vidéos « Un jour avec… »</span><em>Immersion</em></li>
+        <li data-pin="3"><small>03</small><span>Compétences clés recherchées</span><em>Mur interactif</em></li>
+        <li data-pin="4"><small>04</small><span>Passerelles d’évolution</span><em>Sol projeté</em></li>
+        <li data-pin="5"><small>05</small><span>Témoignages de terrain</span><em>Alcôves</em></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PLATEFORME D'USAGE -->
+<section class="rh-platform">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue-2)">Une plateforme d’usage</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">Pensée pour<br>les équipes RH.</h2>
+      </div>
+      <p class="rv d2">Pensée comme une plateforme d’usage, la solution facilite la compréhension des organisations, valorise le capital humain et offre aux équipes RH un outil innovant, évolutif et mesurable.</p>
+    </div>
+    <div class="pillars">
+      <article class="pillar rv"><span class="n">01</span><div><h3>Comprendre</h3><p>Rendre lisibles les organisations, leurs métiers et leurs passerelles.</p></div></article>
+      <article class="pillar rv d1"><span class="n">02</span><div><h3>Valoriser</h3><p>Mettre en lumière le capital humain et ceux qui font l’entreprise.</p></div></article>
+      <article class="pillar rv d2"><span class="n">03</span><div><h3>Équiper</h3><p>Donner aux équipes RH un outil d’un nouveau genre, prêt à grandir avec elles.</p></div></article>
+    </div>
+    <p class="adj rv" aria-label="Innovant, évolutif, mesurable."><span>Innovant.</span><span>Évolutif.</span><span>Mesurable.</span></p>
+    <div class="devices rv">
+      <p>Des expériences 3D interactives, accessibles sur tous les supports, directement depuis un navigateur.</p>
+      <ul>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>Ordinateur</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M11 18h2"/></svg>Tablette</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>Mobile</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE BENTO -->
+<section class="rh-gal">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="eyebrow rv" style="color:var(--blue)">Espaces RH</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">Des lieux qui<br>donnent envie.</h2>
+      </div>
+      <p class="rv d2">Hall d’accueil, salle de communication interne, espace métiers : chaque lieu est conçu pour raconter l’entreprise autrement.</p>
+    </div>
+    <div class="bento">
+      <figure class="shot b1 rv" data-lb><img src="assets/img/rh/rh-1.png" alt="Atrium virtuel avec écrans « Réinventez l’expérience collaborateur » et « Développez vos compétences »" loading="lazy"><figcaption>Expérience collaborateur</figcaption></figure>
+      <figure class="shot b2 rv d1" data-lb><img src="assets/img/rh/rh-5.png" alt="Espace métiers : fiches métiers, compétences clés, témoignages et carte des passerelles d’évolution" loading="lazy"><figcaption>Espace métiers</figcaption></figure>
+      <figure class="shot b3 rv d2" data-lb><img src="assets/img/rh/rh-3.png" alt="Grand hall lumineux avec écrans incurvés et alcôves en bois" loading="lazy"><figcaption>Hall innovation</figcaption></figure>
+      <figure class="shot b4 rv" data-lb><img src="assets/img/rh/rh-2.png" alt="Salle de communication interne : mur d’actualités, agenda des événements, messages vidéo du dirigeant et espace success stories" loading="lazy"><figcaption>Communication interne</figcaption></figure>
+      <figure class="shot b5 rv d1" data-lb><img src="assets/img/rh/rh-4.png" alt="Le Lab RH : bornes interactives, vidéos et sol projeté" loading="lazy"><figcaption>Le Lab RH</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track">
+    <span>Recrutement <b class="dot"></b> Intégration <b class="dot"></b> Formation <b class="dot"></b> Communication interne <b class="dot"></b> Culture d’entreprise <b class="dot"></b></span>
+    <span>Recrutement <b class="dot"></b> Intégration <b class="dot"></b> Formation <b class="dot"></b> Communication interne <b class="dot"></b> Culture d’entreprise <b class="dot"></b></span>
+  </div>
+</div>
+
+<!-- SECTEUR SUIVANT -->
+<a class="sv-next" href="musees.html">
+  <div class="wrap">
+    <div><small>Secteur suivant — 06</small><h2>Musées</h2></div>
+    <span class="go">→</span>
+  </div>
+</a>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <svg class="cta-mark" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <div class="wrap">
+    <span class="eyebrow rv">Votre espace RH</span>
+    <h2 class="cta-big rv d1" style="margin-top:4vh"><span>Ouvrez</span><span class="o">vos portes</span><span>aux talents.</span></h2>
+    <div class="cta-row">
+      <p class="rv">Recrutement, intégration, formation, communication interne… Parlez-nous de vos enjeux : nous concevons l’espace 3D qui fera découvrir votre entreprise autrement.</p>
+      <a class="btn rv d1" href="mailto:contact@artexposium.fr?subject=Solutions%20RH">contact@artexposium.fr <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <a href="index.html" class="logo"><svg viewBox="0 0 300 340"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
+        <p class="about">Art Exposium par Vif-Argent — environnements immersifs 100% web pour l’événementiel, le tourisme, la formation, le retail et la culture.</p>
+      </div>
+      <div>
+        <h4>Siège social</h4>
+        <ul><li>Vif-Argent</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="tel:+33164700802">01 64 70 08 02</a></li><li><a href="tel:+33609770241">06 09 77 02 41</a></li><li><a href="mailto:contact@artexposium.fr">contact@artexposium.fr</a></li></ul>
+      </div>
+      <div>
+        <h4>Explorer</h4>
+        <ul><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-bot">
+      <span>Art Exposium par Vif-Argent © Tous droits réservés</span>
+      <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://www.instagram.com/agencevifargent/" target="_blank" rel="noopener">Instagram</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
+    </div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Aperçu"><button type="button" aria-label="Fermer">✕</button><div><img alt=""><p></p></div></div>
+
+<script>
+(() => {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = s => document.querySelector(s);
+  const clamp = (v,a=0,b=1) => Math.min(b,Math.max(a,v));
+  const lerp = (a,b,t) => a + (b - a) * t;
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  const easeIO = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+
+  /* ----- hero : la porte bleue s'ouvre, l'espace RH envahit l'écran ----- */
+  const hero = $('#hero'), img = $('#svImg'), wrap = $('#doorWrap'), door = $('#svDoor'),
+        head = $('#svHead'), over = $('#svOver'), tag = $('#svTag'), hint = $('#svHint'), nav = $('#nav');
+  let R, intro = 0;
+  function layout(){
+    const W = innerWidth, H = innerHeight, mob = W < 1000;
+    const w = mob ? W * .42 : Math.min(W * .24, H * .5), h = w * 2.8;
+    const hh = Math.min(h, H * (mob ? .5 : .74));
+    const ww = hh / 2.8;
+    R = { x: mob ? W - ww - W*.08 : W * .72 - ww / 2, y: mob ? H * .44 : (H - hh) / 2 + H * .02, w: ww, h: hh };
+    Object.assign(wrap.style, { left: R.x+'px', top: R.y+'px', width: R.w+'px', height: R.h+'px' });
+  }
+  function heroFrame(){
+    const W = innerWidth, H = innerHeight;
+    const p = clamp(-hero.getBoundingClientRect().top / (hero.offsetHeight - H));
+    const open = ease(clamp(p / .28));
+    const grow = easeIO(clamp((p - .22) / .5));
+    const fin = ease(clamp((p - .72) / .2));
+    door.style.transform = `rotateY(${lerp(intro, 84, open)}deg)`;
+    door.style.setProperty('--o', open);
+    wrap.style.opacity = 1 - clamp((p - .3) / .1);
+    const s1 = R.h * .105, s2 = R.h * .123;
+    const pts = [
+      [lerp(R.x, 0, grow),          lerp(R.y, 0, grow)],
+      [lerp(R.x + R.w, W, grow),    lerp(R.y + s1, 0, grow)],
+      [lerp(R.x + R.w, W, grow),    lerp(R.y + R.h, H, grow)],
+      [lerp(R.x, 0, grow),          lerp(R.y + R.h - s2, H, grow)],
+    ];
+    img.style.clipPath = `polygon(${pts.map(([x,y]) => `${x}px ${y}px`).join(',')})`;
+    img.style.setProperty('--shade', fin);
+    img.style.setProperty('--z', lerp(1.2, 1, grow));
+    head.style.opacity = 1 - clamp((p - .18) / .2);
+    head.style.transform = `translateY(${-clamp((p - .1) / .4) * 12}vh)`;
+    tag.style.opacity = hint.style.opacity = 1 - clamp(p / .1);
+    over.style.opacity = fin;
+    over.style.transform = `translateY(${(1 - fin) * 40}px)`;
+    over.classList.toggle('live', fin > .6);
+    return p;
+  }
+  layout();
+  if (!reduce) { const t0 = performance.now() + 900; (function a(now){ const k = clamp((now - t0) / 1200); intro = ease(k) * 28; heroFrame(); if (k < 1) requestAnimationFrame(a); })(performance.now()); }
+
+  /* ----- nav ----- */
+  const darks = [...document.querySelectorAll('.rh-platform,.cta,footer,.marquee')];
+  function navFrame(heroP){
+    nav.classList.toggle('scrolled', scrollY > 40);
+    const onDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
+    nav.classList.toggle('inv', onDark || (heroP > .55 && heroP < 1) || $('#mmenu').classList.contains('open'));
+  }
+  function loop(){ navFrame(heroFrame()); }
+  addEventListener('scroll', () => requestAnimationFrame(loop), {passive:true});
+  addEventListener('resize', () => { layout(); loop(); });
+  loop();
+
+  /* ----- reveal ----- */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:.15});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* ----- Lab RH : liste <-> repères ----- */
+  document.querySelectorAll('#labList li').forEach(li => {
+    const pin = document.querySelector(`.pin[data-pin="${li.dataset.pin}"]`);
+    li.addEventListener('mouseenter', () => { pin.classList.add('on'); li.classList.add('on'); });
+    li.addEventListener('mouseleave', () => { pin.classList.remove('on'); li.classList.remove('on'); });
+  });
+
+  /* ----- lightbox ----- */
+  const lb = $('#lb'), lbImg = lb.querySelector('img'), lbCap = lb.querySelector('p');
+  document.querySelectorAll('[data-lb]').forEach(f => f.addEventListener('click', () => {
+    const im = f.querySelector('img');
+    lbImg.src = im.src; lbImg.alt = im.alt;
+    lbCap.textContent = f.querySelector('figcaption')?.textContent || '';
+    lb.classList.add('open');
+  }));
+  const close = () => lb.classList.remove('open');
+  lb.addEventListener('click', e => { if (e.target !== lbImg) close(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  /* ----- curseur ----- */
+  if (!reduce && matchMedia('(hover:hover)').matches){
+    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0;
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    document.querySelectorAll('a,button,[data-lb]').forEach(el => {
+      el.addEventListener('mouseenter', () => cu.classList.add('big'));
+      el.addEventListener('mouseleave', () => cu.classList.remove('big'));
+    });
+  }
+
+  /* ----- menu mobile ----- */
+  const mm = $('#mmenu');
+  $('#burger').addEventListener('click', () => { mm.classList.toggle('open'); nav.classList.toggle('inv', mm.classList.contains('open')); });
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
+})();
+</script>
+</body>
+</html>
