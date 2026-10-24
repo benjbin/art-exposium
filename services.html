@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Services — Art Exposium par Vif-Argent</title>
-<meta name="description" content="Design graphique, développement web, réalité augmentée et virtuelle : le studio Vif-Argent, derrière Art Exposium, depuis plus de 30 ans.">
+<title>Services — Art Exposium</title>
+<meta name="description" content="Design graphique print & digital, développement web et 3D interactive, réalité augmentée et virtuelle : depuis plus de 30 ans, Art Exposium façonne des univers qui marquent, jusqu’à ses mondes immersifs 100% web.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -20,20 +20,22 @@
 .merc-canvas{width:100%!important;height:100%!important;display:block}
 .merc::after{content:"";position:absolute;left:18%;right:18%;bottom:8%;height:8%;border-radius:50%;background:radial-gradient(closest-side,rgba(20,20,24,.28),transparent);filter:blur(10px);z-index:-1}
 .sx-hero .wrap{position:relative;z-index:2;width:100%}
-.sx-eyebrow{display:flex;align-items:center;gap:14px;font-family:var(--display);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5vh}
+.sx-eyebrow{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;font-family:var(--display);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5vh}
 .sx-eyebrow b{color:var(--blue);font-weight:700}
-.sx-title{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.86;font-size:clamp(50px,min(9.4vw,16vh),170px);max-width:12ch}
+.sx-title{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.86;font-size:clamp(46px,min(9.4vw,16vh),170px);max-width:12ch}
 .sx-title .ln{display:block;overflow:hidden;padding-top:.12em;margin-top:-.12em}
 .sx-title .ln > span{display:inline-block;transform:translateY(110%);animation:rise 1.2s var(--ease) forwards}
 .sx-title .ln:nth-child(2) > span{animation-delay:.12s}
 .sx-title .ln:nth-child(3) > span{animation-delay:.24s}
-.sx-title .o{color:var(--blue)}
-.sx-title .b{color:var(--blue)}
-.sx-lead{margin-top:5vh;max-width:470px;font-size:18px;color:var(--ink-soft);opacity:0;animation:fade 1s .8s var(--ease) forwards}
+.sx-title .o,.sx-title .b{color:var(--blue)}
+.sx-lead{margin-top:5vh;max-width:480px;font-size:18px;color:var(--ink-soft);opacity:0;animation:fade 1s .8s var(--ease) forwards}
 .sx-lead strong{color:var(--ink)}
 .sx-verbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px;opacity:0;animation:fade 1s 1s var(--ease) forwards}
 .sx-verbs span{font-family:var(--display);font-weight:600;font-size:14px;padding:9px 16px;border-radius:99px;border:1px solid var(--line);background:rgba(244,243,238,.6);backdrop-filter:blur(6px)}
 .sx-verbs span:last-child{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sx-jump{display:flex;gap:22px;flex-wrap:wrap;margin-top:6vh;font-family:var(--display);font-weight:600;font-size:14px;opacity:0;animation:fade 1s 1.2s var(--ease) forwards}
+.sx-jump a{display:inline-flex;gap:8px;align-items:center;border-bottom:1.5px solid var(--line);padding-bottom:4px;transition:border-color .3s,color .3s}
+.sx-jump a:hover{border-color:var(--blue);color:var(--blue)}
 
 /* ---------- chiffres ---------- */
 .sx-stats{background:var(--ink);color:var(--paper);padding:12vh 0}
@@ -50,7 +52,7 @@
 .sx-talents .head{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:end;margin-bottom:8vh}
 .sx-talents .head p{max-width:460px;color:var(--ink-soft)}
 .tal{border-top:1px solid var(--line)}
-.tal-item{border-bottom:1px solid var(--line);position:relative;isolation:isolate}
+.tal-item{border-bottom:1px solid var(--line);position:relative;isolation:isolate;transition:color .5s}
 .tal-item::before{content:"";position:absolute;inset:0 calc(var(--gutter) * -1);background:var(--ink);z-index:-1;clip-path:polygon(0 0,0 0,0 100%,0 100%);transition:clip-path .8s var(--ease)}
 .tal-item.open::before{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
 .tal-item.open{color:var(--paper)}
@@ -68,28 +70,72 @@
 .tal-item.open .tal-body{grid-template-rows:1fr}
 .tal-body > div{overflow:hidden}
 .tal-in{display:grid;grid-template-columns:90px 1.2fr 1fr;gap:24px;padding:0 0 6vh}
-.tal-in p{grid-column:2;font-family:var(--display);font-weight:500;font-size:clamp(20px,1.9vw,28px);line-height:1.3;letter-spacing:-.01em;max-width:640px}
-.tal-in p em{font-style:normal;color:var(--blue-2)}
+.tal-txt{grid-column:2}
+.tal-txt .k{font-family:var(--display);font-weight:600;font-size:clamp(24px,2.4vw,36px);line-height:1.15;letter-spacing:-.015em;max-width:640px}
+.tal-txt p{margin-top:18px;font-size:clamp(17px,1.3vw,19px);line-height:1.6;max-width:600px;opacity:.82}
+.tal-txt em{font-style:normal;color:var(--blue-2)}
+.tal-side{display:flex;flex-direction:column;gap:22px}
 .tal-tags{display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start}
 .tal-tags span{font-family:var(--display);font-weight:600;font-size:13px;padding:8px 14px;border-radius:99px;border:1px solid rgba(244,243,238,.25)}
 .tal-tags span:first-child{background:var(--blue);border-color:var(--blue);color:#fff}
+.tal-link{font-family:var(--display);font-weight:600;font-size:14px;display:inline-flex;gap:8px;color:var(--blue-2)}
+.tal-link:hover{color:#fff}
+.tal-cta{display:flex;justify-content:flex-end;margin-top:5vh}
+
+/* marquee : pas de contour sur Outfit */
+.marquee .mq-track span i{color:var(--blue-2);-webkit-text-stroke:0}
+
+/* ---------- du studio à l'immersion ---------- */
+.sx-bridge{background:var(--blue);color:#fff;padding:16vh 0 14vh;overflow:hidden}
+.sx-bridge .mark-bg{position:absolute;left:-6vw;top:8vh;height:110%;width:auto;opacity:.1;pointer-events:none}
+.sx-bridge .mark-bg .mk-frame{fill:#fff}.sx-bridge .mark-bg .mk-door{fill:var(--ink)}
+.sx-bridge .wrap{position:relative}
+.br-head{display:grid;grid-template-columns:1.2fr 1fr;gap:6vw;align-items:end}
+.br-head .h2 em{font-style:normal;color:var(--ink)}
+.br-head p{font-size:clamp(17px,1.35vw,20px);max-width:520px;opacity:.92}
+.br-head p + p{margin-top:1em}
+.formula{margin:9vh 0 10vh;display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1.25fr;align-items:stretch;gap:14px}
+.formula > div{border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:24px 22px;display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-height:170px;background:rgba(255,255,255,.04)}
+.formula small{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.7}
+.formula b{font-family:var(--display);font-weight:800;font-size:clamp(20px,1.8vw,28px);line-height:1.05;letter-spacing:-.02em;text-transform:uppercase}
+.formula .op{align-self:center;font-family:var(--display);font-weight:300;font-size:clamp(28px,3vw,48px);opacity:.75}
+.formula .res{background:var(--ink);border-color:var(--ink);position:relative;overflow:hidden}
+.formula .res svg{position:absolute;right:16px;top:18px;height:56px;width:auto}
+.formula .res .mk-frame{fill:#fff}
+.formula .res .mk-door{fill:var(--blue-2)}
+.formula .res b{font-size:clamp(24px,2.3vw,36px)}
+.sect-t{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:3vh}
+.sect-t h3{font-family:var(--display);font-weight:800;font-size:clamp(26px,2.6vw,40px);text-transform:uppercase;letter-spacing:-.02em;line-height:1}
+.sect-t a{font-family:var(--display);font-weight:600;font-size:15px;border-bottom:1.5px solid rgba(255,255,255,.5);padding-bottom:3px}
+.sect-t a:hover{border-color:#fff}
+.sects{list-style:none;border-top:1px solid rgba(255,255,255,.3)}
+.sects a{display:grid;grid-template-columns:80px 1.1fr 1fr 56px;align-items:center;gap:24px;padding:26px 0;border-bottom:1px solid rgba(255,255,255,.3);position:relative;isolation:isolate;transition:color .45s}
+.sects a::before{content:"";position:absolute;inset:0 calc(var(--gutter) * -1);background:var(--ink);z-index:-1;transform:scaleY(0);transform-origin:bottom;transition:transform .55s var(--ease)}
+.sects a:hover::before,.sects a:focus-visible::before{transform:scaleY(1)}
+.sects a:focus-visible{outline:none}
+.sects small{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.14em;opacity:.7}
+.sects b{font-family:var(--display);font-weight:800;font-size:clamp(24px,3vw,48px);text-transform:uppercase;letter-spacing:-.03em;line-height:.95;transition:transform .55s var(--ease)}
+.sects a:hover b{transform:translateX(12px)}
+.sects span{font-size:16px;opacity:.85;max-width:420px}
+.sects i{font-style:normal;width:56px;height:56px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-size:20px;transition:transform .55s var(--ease),background .4s,border-color .4s}
+.sects a:hover i{transform:rotate(-45deg);background:var(--blue);border-color:var(--blue)}
 
 /* ---------- cas client ---------- */
-.sx-case{padding:4vh 0 16vh}
-.case{display:grid;grid-template-columns:1fr 1fr;border-radius:28px;overflow:hidden;background:var(--blue);color:#fff;min-height:560px}
+.sx-case{padding:16vh 0}
+.case{display:grid;grid-template-columns:1fr 1fr;border-radius:28px;overflow:hidden;background:var(--ink);color:var(--paper);min-height:560px}
 .case-l{padding:clamp(28px,4.5vw,64px);display:flex;flex-direction:column;justify-content:space-between;gap:40px}
-.case-l small{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;opacity:.8}
-.case-l h3{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.88;font-size:clamp(44px,5.4vw,92px);margin:22px 0}
-.case-l p{max-width:470px;opacity:.9}
+.case-l small{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-2)}
+.case-l h3{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.88;font-size:clamp(40px,5.4vw,92px);margin:22px 0}
+.case-l p{max-width:470px;opacity:.8}
 .case-l p + p{margin-top:1em}
-.case-l .btn{background:#fff;color:var(--ink);align-self:flex-start}
+.case-l .btn{background:var(--paper);color:var(--ink);align-self:flex-start}
 .case-l .btn:hover{color:#fff}
-.case-r{position:relative;background:var(--ink);overflow:hidden;display:grid;place-items:center}
+.case-r{position:relative;background:var(--blue);overflow:hidden;display:grid;place-items:center}
 .case-r .track{position:absolute;inset:-20% -10%;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;transform:rotate(-12deg)}
 .case-r .col{display:flex;flex-direction:column;gap:16px;animation:colup 22s linear infinite}
 .case-r .col:nth-child(2){animation-direction:reverse;animation-duration:26s}
-.case-r .tile{aspect-ratio:3/4;border-radius:14px;background:linear-gradient(160deg,#24242d,#16161b);border:1px solid var(--line-inv);display:flex;align-items:flex-end;padding:16px;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,243,238,.7)}
-.case-r .tile.b{background:linear-gradient(160deg,var(--blue-2),var(--blue-deep));color:#fff}
+.case-r .tile{aspect-ratio:3/4;border-radius:14px;background:linear-gradient(160deg,var(--blue-2),var(--blue-deep));border:1px solid rgba(255,255,255,.18);display:flex;align-items:flex-end;padding:16px;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.case-r .tile.b{background:linear-gradient(160deg,#24242d,#16161b);color:#fff}
 .case-r .tile.w{background:var(--paper);color:var(--ink)}
 @keyframes colup{to{transform:translateY(-50%)}}
 .case-r .badge{position:relative;z-index:2;font-family:var(--display);font-weight:900;font-size:clamp(40px,5vw,84px);letter-spacing:-.04em;text-transform:uppercase;line-height:.9;text-align:center;color:#fff;mix-blend-mode:difference}
@@ -99,13 +145,20 @@
 .sx-refs .head{display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap;margin-bottom:8vh}
 .sx-refs .head p{max-width:420px;opacity:.7}
 .refs{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-inv);border-left:1px solid var(--line-inv)}
-.ref{position:relative;min-height:150px;padding:22px;border-right:1px solid var(--line-inv);border-bottom:1px solid var(--line-inv);display:flex;flex-direction:column;justify-content:space-between;isolation:isolate;overflow:hidden;transition:color .4s}
+.ref{position:relative;min-height:160px;padding:22px;border-right:1px solid var(--line-inv);border-bottom:1px solid var(--line-inv);display:flex;flex-direction:column;justify-content:space-between;gap:16px;isolation:isolate;overflow:hidden;transition:color .4s}
 .ref::before{content:"";position:absolute;inset:0;background:var(--blue);z-index:-1;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);transition:clip-path .6s var(--ease)}
-.ref:hover::before{clip-path:polygon(0 12%,100% 0,100% 100%,0 100%)}
-.ref small{font-family:var(--display);font-size:12px;letter-spacing:.14em;opacity:.45}
+.ref:hover::before,.ref:focus-visible::before{clip-path:polygon(0 12%,100% 0,100% 100%,0 100%)}
+.ref:focus-visible{outline:2px solid var(--blue-2);outline-offset:-2px}
+.ref .top{display:flex;justify-content:space-between;gap:10px;font-family:var(--display);font-size:12px;letter-spacing:.14em;opacity:.45}
+.ref .top i{font-style:normal;transition:transform .5s var(--ease)}
+.ref:hover .top{opacity:.9}
+.ref:hover .top i{transform:rotate(-45deg)}
 .ref b{font-family:var(--display);font-weight:800;font-size:clamp(20px,1.8vw,28px);letter-spacing:-.02em;line-height:1.05;text-transform:uppercase}
-.ref.star b{color:var(--blue-2)}
-.ref.star:hover b{color:#fff}
+.ref em{display:block;margin-top:8px;font-style:normal;font-size:13px;opacity:.6}
+.refs-more{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:6vh}
+.refs-more p{opacity:.7;max-width:520px}
+.sx-refs .btn{background:var(--paper);color:var(--ink)}
+.sx-refs .btn:hover{color:#fff}
 
 /* ---------- partenaires ---------- */
 .sx-partners{padding:12vh 0}
@@ -115,8 +168,8 @@
 .partners .lbl{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);justify-content:center}
 .partners a{transition:background .4s,color .4s}
 .partners a:hover{background:var(--ink);color:var(--paper)}
-.partners a b{font-family:var(--display);font-weight:800;font-size:clamp(22px,2vw,32px);letter-spacing:-.02em}
-.partners a span{font-size:14px;opacity:.65}
+.partners b{font-family:var(--display);font-weight:800;font-size:clamp(22px,2vw,32px);letter-spacing:-.02em}
+.partners span{font-size:14px;opacity:.65}
 
 @media (max-width:1000px){
   .merc{position:relative;right:auto;top:auto;transform:none;width:min(92vw,560px);margin:-4vh auto 0}
@@ -125,24 +178,48 @@
   .sx-stats .wrap{grid-template-columns:1fr 1fr 1fr}
   .sx-stats .intro{grid-column:1/-1;margin-bottom:6vh}
   .sx-num:first-of-type{border-left:0;padding-left:0}
-  .sx-talents .head,.case{grid-template-columns:1fr}
+  .sx-talents .head,.case,.br-head{grid-template-columns:1fr}
+  .formula{grid-template-columns:1fr auto 1fr auto 1fr}
+  .formula .op.eq{display:none}
+  .formula .res{grid-column:1/-1}
+  .sects a{grid-template-columns:60px 1fr 48px}
+  .sects span{grid-column:2;grid-row:2;margin-top:-10px}
+  .sects i{grid-column:3;grid-row:1/3;width:48px;height:48px}
   .case-r{min-height:320px}
   .refs{grid-template-columns:repeat(2,1fr)}
   .partners{grid-template-columns:1fr 1fr}
   .partners .lbl{grid-column:1/-1;border-right:0;border-bottom:1px solid var(--line);min-height:0}
-  .partners > a:nth-child(3){border-right:0}
-  .partners > a:nth-child(-n+3){border-bottom:1px solid var(--line)}
+  .partners > :nth-child(3){border-right:0}
+  .partners > :nth-child(-n+3){border-bottom:1px solid var(--line)}
 }
 @media (max-width:640px){
+  .sx-title{font-size:clamp(40px,13vw,64px);hyphens:auto;-webkit-hyphens:auto}
   .sx-stats .wrap{grid-template-columns:1fr;gap:5vh}
   .sx-num{border-left:0;padding-left:0;border-top:1px solid var(--line-inv);padding-top:20px}
   .tal-btn{grid-template-columns:36px 1fr 48px;gap:12px}
   .tal-btn .pm{width:48px;height:48px}
+  .tal-btn h3{font-size:clamp(26px,8.6vw,40px);hyphens:auto;-webkit-hyphens:auto}
   .tal-in{grid-template-columns:1fr}
-  .tal-in p{grid-column:auto}
-  .ref{min-height:120px;padding:16px}
-  .ref b{font-size:17px;hyphens:auto}
-  .tal-btn h3{font-size:9.4vw;hyphens:auto}
+  .tal-txt{grid-column:auto}
+  .tal-cta{justify-content:flex-start}
+  .h2{hyphens:auto;-webkit-hyphens:auto}
+  .formula{grid-template-columns:1fr;gap:10px}
+  .formula .op{display:none}
+  .formula > div{min-height:0;gap:14px;padding:20px}
+  .sects a{grid-template-columns:36px 1fr 44px;gap:12px;padding:22px 0}
+  .sects b{font-size:clamp(22px,7vw,30px);hyphens:auto;-webkit-hyphens:auto}
+  .sects span{font-size:15px;margin-top:-4px}
+  .sects i{width:44px;height:44px}
+  .ref{min-height:130px;padding:16px}
+  .ref b{font-size:17px;hyphens:auto;-webkit-hyphens:auto}
+  .partners{grid-template-columns:1fr}
+  .partners > *{border-right:0!important;border-bottom:1px solid var(--line);min-height:0;gap:14px}
+  .partners > :last-child{border-bottom:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .sx-title .ln > span{transform:none}
+  .sx-lead,.sx-verbs,.sx-jump{opacity:1}
+  .case-r .col{animation:none}
 }
 </style>
 </head>
@@ -163,14 +240,14 @@
     <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
   </a>
   <ul>
-    <li><a href="index.html#concept">Concept</a></li>
     <li><a href="index.html#univers">Secteurs</a></li>
-    <li><a href="index.html#fonctionnalites">Fonctionnalités</a></li>
     <li><a href="services.html" aria-current="page">Services</a></li>
+    <li><a href="realisations.html">Réalisations</a></li>
+    <li><a href="a-propos.html">L’agence</a></li>
     <li><a href="blog.html">Blog</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
-  <a href="contact.html" class="btn">Démarrer un projet <span class="arr">→</span></a>
+  <a href="demo.html" class="btn">Réserver une démo <span class="arr">→</span></a>
   <button class="burger" aria-label="Menu" id="burger"><span></span><span></span></button>
 </header>
 
@@ -178,7 +255,8 @@
   <a href="index.html">Accueil</a>
   <a href="index.html#univers">Secteurs</a>
   <a href="services.html" aria-current="page">Services</a>
-  <a href="prochains-salons.html">Prochains salons</a>
+  <a href="realisations.html">Réalisations</a>
+  <a href="a-propos.html">L’agence</a>
   <a href="blog.html">Blog</a>
   <a href="contact.html">Contact</a>
 </div>
@@ -189,14 +267,15 @@
 <section class="sx-hero">
   <div class="merc" id="merc" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sx-eyebrow"><b>Services</b><span>— Vif-Argent, le studio derrière Art Exposium</span></div>
+    <div class="sx-eyebrow"><b>Services</b><span>— Design · Web · Réalité augmentée &amp; virtuelle</span></div>
     <h1 class="sx-title">
       <span class="ln"><span>Nous</span></span>
       <span class="ln"><span><span class="o">façonnons</span></span></span>
       <span class="ln"><span>des univers<span class="b">.</span></span></span>
     </h1>
-    <p class="sx-lead"><strong>Depuis plus de 30 ans</strong>, nous façonnons des univers qui marquent. La proximité avec nos clients est notre moteur : c’est elle qui transforme les idées en expériences fortes, et les projets en relations durables.</p>
+    <p class="sx-lead"><strong>Depuis plus de 30 ans</strong>, nous façonnons des univers qui marquent. La proximité avec nos clients est notre moteur : c’est ce lien direct qui transforme les idées en expériences fortes, et les projets en relations durables.</p>
     <div class="sx-verbs"><span>Nous écoutons</span><span>Nous échangeons</span><span>Nous créons</span></div>
+    <nav class="sx-jump" aria-label="Sur cette page"><a href="#talents">Nos talents ↓</a><a href="#immersion">Nos univers 3D ↓</a><a href="#references">Nos références ↓</a></nav>
   </div>
 </section>
 
@@ -204,8 +283,8 @@
 <section class="sx-stats">
   <div class="wrap">
     <div class="intro">
-      <span class="eyebrow rv" style="color:var(--blue-2)">Vif-Argent en chiffres</span>
-      <p class="rv d1">Une agence de communication à Fontainebleau : design, web, réalité augmentée et virtuelle.</p>
+      <span class="eyebrow rv" style="color:var(--blue-2)">En chiffres</span>
+      <p class="rv d1">Une équipe de création installée à Fontainebleau : design, web, réalité augmentée et virtuelle — et des univers immersifs 100% web.</p>
     </div>
     <div class="sx-num rv"><b><i>+</i><span data-count="32">0</span></b><span>années d’expérience</span></div>
     <div class="sx-num rv d1"><b><i>+</i><span data-count="180">0</span></b><span>clients accompagnés</span></div>
@@ -221,32 +300,51 @@
         <span class="eyebrow rv" style="color:var(--blue)">Nos talents</span>
         <h2 class="h2 rv d1" style="margin-top:28px">Trois métiers.<br>Une même audace.</h2>
       </div>
-      <p class="rv d2">L’expertise de nos équipes à votre service pour propulser vos ambitions — et donner vie à vos univers, du papier au virtuel.</p>
+      <p class="rv d2">L’expertise de nos équipes à votre service pour propulser vos ambitions — du papier à l’écran, de l’écran au monde virtuel.</p>
     </div>
 
     <div class="tal" id="tal">
       <div class="tal-item open rv">
-        <button class="tal-btn" aria-expanded="true"><small>01</small><h3>Design graphique, print &amp; digital</h3><span class="pm"></span></button>
-        <div class="tal-body"><div><div class="tal-in">
-          <p>Nous façonnons des identités qui vibrent et des supports qui marquent. Chaque trait, chaque pixel raconte une histoire : <em>la vôtre.</em> Notre obsession ? L’élégance, la cohérence, et ce petit éclat qui rend tout inoubliable.</p>
-          <div class="tal-tags"><span>Design graphique</span><span>Identité visuelle</span><span>Print</span><span>Digital</span><span>Vidéos</span></div>
+        <button class="tal-btn" aria-expanded="true" aria-controls="tal-1"><small>01</small><h3>Design graphique, print &amp; digital</h3><span class="pm" aria-hidden="true"></span></button>
+        <div class="tal-body" id="tal-1"><div><div class="tal-in">
+          <div class="tal-txt">
+            <p class="k">Nous façonnons des identités qui vibrent et des supports qui marquent.</p>
+            <p>Chaque trait, chaque pixel raconte une histoire : <em>la vôtre.</em> Notre obsession ? L’élégance, la cohérence, et ce petit éclat qui rend tout inoubliable.</p>
+          </div>
+          <div class="tal-side">
+            <div class="tal-tags"><span>Design graphique</span><span>Identité visuelle</span><span>Print</span><span>Digital</span><span>Édition</span><span>Vidéos</span></div>
+            <a class="tal-link" href="realisations.html">Voir les projets design →</a>
+          </div>
         </div></div></div>
       </div>
       <div class="tal-item rv">
-        <button class="tal-btn" aria-expanded="false"><small>02</small><h3>Développement web</h3><span class="pm"></span></button>
-        <div class="tal-body"><div><div class="tal-in">
-          <p>Des sites qui respirent, des interfaces qui vivent. Nous mêlons design et code pour créer des expériences web sur mesure — belles, fluides et efficaces. CMS, full stack ou 3D interactive : <em>à chaque projet, sa magie technique.</em></p>
-          <div class="tal-tags"><span>Développement</span><span>CMS</span><span>Full stack</span><span>3D interactive</span><span>IA</span></div>
+        <button class="tal-btn" aria-expanded="false" aria-controls="tal-2"><small>02</small><h3>Développement web</h3><span class="pm" aria-hidden="true"></span></button>
+        <div class="tal-body" id="tal-2"><div><div class="tal-in">
+          <div class="tal-txt">
+            <p class="k">Des sites qui respirent, des interfaces qui vivent.</p>
+            <p>Nous mêlons design et code pour créer des expériences web sur mesure — belles, fluides et efficaces. CMS, full stack ou 3D interactive : <em>à chaque projet, sa magie technique.</em></p>
+          </div>
+          <div class="tal-side">
+            <div class="tal-tags"><span>Développement</span><span>UX / UI</span><span>CMS</span><span>Full stack</span><span>3D interactive</span><span>IA</span></div>
+            <a class="tal-link" href="realisations.html">Voir les projets web →</a>
+          </div>
         </div></div></div>
       </div>
       <div class="tal-item rv">
-        <button class="tal-btn" aria-expanded="false"><small>03</small><h3>Réalité augmentée &amp; virtuelle</h3><span class="pm"></span></button>
-        <div class="tal-body"><div><div class="tal-in">
-          <p>Quand le réel ne suffit plus, on l’augmente. Quand l’imaginaire prend vie, on le virtualise. Nous créons des expériences qui dépassent les frontières entre ce que l’on voit et ce que l’on ressent. <em>Plongez !</em></p>
-          <div class="tal-tags"><span>RA • VR</span><span>3D</span><span>Événementiel</span><span>Art Exposium</span></div>
+        <button class="tal-btn" aria-expanded="false" aria-controls="tal-3"><small>03</small><h3>Réalité augmentée &amp; réalité virtuelle</h3><span class="pm" aria-hidden="true"></span></button>
+        <div class="tal-body" id="tal-3"><div><div class="tal-in">
+          <div class="tal-txt">
+            <p class="k">Quand le réel ne suffit plus, on l’augmente. Quand l’imaginaire prend vie, on le virtualise.</p>
+            <p>Nous créons des expériences qui dépassent les frontières — entre ce que l’on voit, et ce que l’on ressent. <em>Plongez !</em> L’histoire commence là où le digital devient vivant.</p>
+          </div>
+          <div class="tal-side">
+            <div class="tal-tags"><span>RA • VR</span><span>3D</span><span>Captation 360</span><span>Événementiel</span><span>Salons virtuels</span></div>
+            <a class="tal-link" href="#immersion">Découvrir nos univers 3D →</a>
+          </div>
         </div></div></div>
       </div>
     </div>
+    <div class="tal-cta rv"><a class="btn" href="contact.html">J’ai un projet <span class="arr">→</span></a></div>
   </div>
 </section>
 
@@ -258,8 +356,48 @@
   </div>
 </div>
 
+<!-- DU STUDIO À L'IMMERSION -->
+<section class="sx-bridge" id="immersion">
+  <svg class="mark-bg" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <div class="wrap">
+    <div class="br-head">
+      <div>
+        <span class="eyebrow rv">Du studio à l’immersion</span>
+        <h2 class="h2 rv d1" style="margin-top:28px">Nos métiers donnent vie à <em>nos univers 3D.</em></h2>
+      </div>
+      <div class="rv d2">
+        <p>Le design, le développement web et la réalité virtuelle se rejoignent dans ART EXPOSIUM, notre technologie immersive 100% web, conçue pour recréer — et amplifier — les expériences du monde réel.</p>
+        <p>Depuis un simple navigateur, vos visiteurs, clients, collaborateurs ou partenaires entrent dans des univers 3D ultra-réalistes, vivants et interactifs. Sans installation.</p>
+      </div>
+    </div>
+
+    <div class="formula rv" aria-label="Design graphique, plus développement web et 3D, plus réalité augmentée et virtuelle, égale ART EXPOSIUM">
+      <div><small>01</small><b>Design graphique</b></div>
+      <span class="op" aria-hidden="true">+</span>
+      <div><small>02</small><b>Web &amp; 3D interactive</b></div>
+      <span class="op" aria-hidden="true">+</span>
+      <div><small>03</small><b>Réalité augmentée &amp; virtuelle</b></div>
+      <span class="op eq" aria-hidden="true">=</span>
+      <div class="res"><svg viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg><small>Technologie immersive</small><b>ART EXPOSIUM</b></div>
+    </div>
+
+    <div class="sect-t rv">
+      <h3>Six univers métiers</h3>
+      <a href="demo.html">Réserver une démo →</a>
+    </div>
+    <ul class="sects">
+      <li class="rv"><a href="salons-virtuels.html"><small>01</small><b>Salons &amp; expositions virtuels</b><span>Qui rassemblent et font rayonner vos événements bien au-delà des murs.</span><i aria-hidden="true">↗</i></a></li>
+      <li class="rv"><a href="offices-de-tourisme-virtuels.html"><small>02</small><b>Offices de tourisme virtuels</b><span>Qui ouvrent leurs portes 24/7 au monde entier.</span><i aria-hidden="true">↗</i></a></li>
+      <li class="rv"><a href="salles-formation-immersives.html"><small>03</small><b>Salles de formation immersives</b><span>Où l’apprentissage devient manipulation, interaction et partage.</span><i aria-hidden="true">↗</i></a></li>
+      <li class="rv"><a href="retail-magasins-virtuels.html"><small>04</small><b>Retail &amp; magasins virtuels</b><span>Où vos idées prennent vie : tester, analyser, optimiser.</span><i aria-hidden="true">↗</i></a></li>
+      <li class="rv"><a href="solutions-rh.html"><small>05</small><b>Solutions RH</b><span>Recrutement, onboarding et salons emploi dans des espaces qui marquent.</span><i aria-hidden="true">↗</i></a></li>
+      <li class="rv"><a href="musees.html"><small>06</small><b>Musées</b><span>Des collections vivantes, accessibles partout, à manipuler et explorer en détail.</span><i aria-hidden="true">↗</i></a></li>
+    </ul>
+  </div>
+</section>
+
 <!-- CAS CLIENT -->
-<section class="sx-case" style="padding-top:16vh">
+<section class="sx-case">
   <div class="wrap">
     <span class="eyebrow rv" style="color:var(--blue)">Cas pratique</span>
     <h2 class="h2 rv d1" style="margin:28px 0 8vh">Plutôt que de longs<br>discours.</h2>
@@ -268,10 +406,10 @@
         <div>
           <small>Design — Développement web</small>
           <h3>Peugeot Sport<br>Press Kit</h3>
-          <p>Pour le Championnat du Monde d’Endurance FIA WEC et les 24 Heures du Mans, Peugeot Sport souhaitait un support média modulable par les filiales du groupe présentes sur les cinq continents.</p>
-          <p>L’enjeu : un outil hautement graphique et dynamique, fidèle à l’identité de la marque, tout en restant personnalisable par chaque filiale internationale.</p>
+          <p>Dans le cadre du Championnat du Monde d’Endurance FIA WEC et des 24 Heures du Mans, Peugeot Sport souhaitait concevoir un support média modulable par les filiales du groupe présentes sur les cinq continents.</p>
+          <p>L’enjeu : créer un outil hautement graphique et dynamique, fidèle à l’identité visuelle de la marque, tout en permettant la personnalisation par les filiales internationales.</p>
         </div>
-        <a class="btn" href="https://vif-argent.fr/projets/peugeotSport.html">Voir le cas <span class="arr">→</span></a>
+        <a class="btn" href="realisations.html">Voir nos réalisations <span class="arr">→</span></a>
       </div>
       <div class="case-r" aria-hidden="true">
         <div class="track">
@@ -286,16 +424,20 @@
 </section>
 
 <!-- RÉFÉRENCES -->
-<section class="sx-refs">
+<section class="sx-refs" id="references">
   <div class="wrap">
     <div class="head">
       <div>
         <span class="eyebrow rv" style="color:var(--blue-2)">Références</span>
         <h2 class="h2 rv d1" style="margin-top:28px">Des marques qui<br>partagent notre audace.</h2>
       </div>
-      <p class="rv d2">Sport automobile, institutions, industrie, culture : quelques-uns des projets que nous avons portés.</p>
+      <p class="rv d2">Sport automobile, institutions, industrie, édition, culture : quelques-unes des marques qui nous ont confié leurs projets.</p>
     </div>
     <div class="refs" id="refs"></div>
+    <div class="refs-more">
+      <p class="rv">Vivez nos créations : contexte, attentes et solutions concrètes, projet par projet.</p>
+      <a class="btn rv d1" href="realisations.html">Toutes nos réalisations <span class="arr">→</span></a>
+    </div>
   </div>
 </section>
 
@@ -304,10 +446,10 @@
   <div class="wrap">
     <div class="partners rv">
       <div class="lbl">Nos marques<br>&amp; partenaires</div>
-      <a href="https://www.zappar.com/"><b>Zappar</b><span>Réalité augmentée</span></a>
-      <a href="https://matterport.com/"><b>Matterport</b><span>Jumeaux numériques 3D</span></a>
-      <a href="https://prinker-europe.com/"><b>Prinker</b><span>Impression</span></a>
-      <a href="index.html"><b>Art Exposium</b><span>Nos univers immersifs</span></a>
+      <a href="https://www.zappar.com/" target="_blank" rel="noopener"><b>Zappar</b><span>Réalité augmentée</span></a>
+      <a href="https://matterport.com/" target="_blank" rel="noopener"><b>Matterport</b><span>Jumeaux numériques 3D</span></a>
+      <a href="https://prinker-europe.com/" target="_blank" rel="noopener"><b>Prinker</b><span>Impression</span></a>
+      <div><b>Argen</b><span>Partenaire</span></div>
     </div>
   </div>
 </section>
@@ -316,11 +458,11 @@
 <section class="cta" id="contact">
   <svg class="cta-mark" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
   <div class="wrap">
-    <span class="eyebrow rv">Contact</span>
+    <span class="eyebrow rv">Discutons-en !</span>
     <h2 class="cta-big rv d1" style="margin-top:4vh"><span>Faites</span><span class="o">vibrer</span><span>votre image.</span></h2>
     <div class="cta-row">
-      <p class="rv">Identité, site web, expérience en réalité augmentée ou univers virtuel : discutons-en.</p>
-      <a class="btn rv d1" href="mailto:contact@vif-argent.fr">contact@vif-argent.fr <span class="arr">→</span></a>
+      <p class="rv">Identité visuelle, site web, expérience en réalité augmentée ou univers virtuel : parlez-nous de votre projet.</p>
+      <a class="btn rv d1" href="mailto:contact@artexposium.fr?subject=Projet">contact@artexposium.fr <span class="arr">→</span></a>
     </div>
   </div>
 </section>
@@ -332,25 +474,25 @@
     <div class="foot-top">
       <div>
         <a href="index.html" class="logo"><svg viewBox="0 0 300 340"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
-        <p class="about">Art Exposium par Vif-Argent — environnements immersifs 100% web pour l’événementiel, le tourisme, la formation, le retail et la culture.</p>
+        <p class="about">Art Exposium — agence de création et technologie immersive 100% web : design, web, réalité augmentée et salons 3D, depuis plus de 30 ans.</p>
       </div>
       <div>
         <h4>Siège social</h4>
-        <ul><li>Vif-Argent</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+        <ul><li>Art Exposium</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
       </div>
       <div>
         <h4>Contact</h4>
-        <ul><li><a href="tel:+33164700802">01 64 70 08 02</a></li><li><a href="tel:+33609770241">06 09 77 02 41</a></li><li><a href="mailto:contact@vif-argent.fr">contact@vif-argent.fr</a></li></ul>
+        <ul><li><a href="tel:+33164700802">01 64 70 08 02</a></li><li><a href="tel:+33609770241">06 09 77 02 41</a></li><li><a href="mailto:contact@artexposium.fr">contact@artexposium.fr</a></li></ul>
       </div>
       <div>
         <h4>Explorer</h4>
-        <ul><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
+        <ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="a-propos.html">L’agence</a></li><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
       </div>
     </div>
-    <div class="foot-giant" aria-hidden="true">Vif-Argent</div>
+    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
     <div class="foot-bot">
-      <span>Art Exposium par Vif-Argent © Tous droits réservés</span>
-      <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://www.instagram.com/agencevifargent/" target="_blank" rel="noopener">Instagram</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
+      <span>Art Exposium © Tous droits réservés</span>
+      <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
     </div>
   </div>
 </footer>
@@ -364,24 +506,34 @@
   const nav = $('#nav');
 
   /* références */
-  const REFS = ['UPU — La Poste','WEC','Avantis Group','Peugeot Sport','AR GEN','Legs & Donations','Sodebo','SEMEA','Science Expériences','Geberit','La Poste','Olympique Lyonnais','Art Exposium','LexisNexis','Citroën','Asian Le Mans Series','Encyclopédies 24H du Mans','Poulain','Baselworld Genève','Iles Formula'];
-  $('#refs').innerHTML = REFS.map((r,i) => `<div class="ref rv${r === 'Art Exposium' ? ' star' : ''}"><small>${String(i+1).padStart(2,'0')}</small><b>${r}</b></div>`).join('');
+  const REFS = [
+    ['Peugeot Sport','Dossier de presse interactif'],['WEC','UX · Web · Interactif'],['UPU — La Poste','IA · VR'],['Avantis Group','UX · Web'],
+    ['LexisNexis','Design graphique · Web'],['Sodebo','VR · AR · Interactif'],['Olympique Lyonnais','RA · Tournage'],['Citroën','RA · Interactif'],
+    ['Geberit','Développement · 3D'],['La Poste','VR · Captation 360'],['Asian Le Mans Series','Design · Événements'],['Encyclopédies 24H du Mans','Print · Design graphique'],
+    ['Baselworld Genève','RA · Lancement virtuel'],['Poulain','RA · 3D'],['Iles Formula','3D · Lancement produits'],['Science Expériences','Vidéo · 3D'],
+    ['SEMEA','Édition · Design graphique'],['AR GEN','IA'],['Valeo','Référence'],['Servier','Référence'],
+    ['ELMS','Référence'],['Endurance Info','Référence'],['Fontainebleau','Référence'],['Legs &amp; Donations','Web · UX / UI']
+  ];
+  $('#refs').innerHTML = REFS.map(([n,s],i) => `<a class="ref rv" href="realisations.html"><span class="top"><span>${String(i+1).padStart(2,'0')}</span><i aria-hidden="true">↗</i></span><span><b>${n}</b><em>${s}</em></span></a>`).join('');
 
   /* accordéon des talents */
-  document.querySelectorAll('.tal-item').forEach(item => {
+  const items = [...document.querySelectorAll('.tal-item')];
+  items.forEach(item => {
     item.querySelector('.tal-btn').addEventListener('click', () => {
       const open = !item.classList.contains('open');
-      document.querySelectorAll('.tal-item').forEach(o => { o.classList.remove('open'); o.querySelector('.tal-btn').setAttribute('aria-expanded', false); });
-      if (open) { item.classList.add('open'); item.querySelector('.tal-btn').setAttribute('aria-expanded', true); }
+      items.forEach(o => { o.classList.remove('open'); o.querySelector('.tal-btn').setAttribute('aria-expanded', 'false'); });
+      if (open) { item.classList.add('open'); item.querySelector('.tal-btn').setAttribute('aria-expanded', 'true'); }
     });
   });
 
   /* nav */
-  const darks = [...document.querySelectorAll('.sx-stats,.sx-refs,.cta,footer,.marquee')];
+  const darks = [...document.querySelectorAll('.sx-stats,.sx-bridge,.sx-refs,.cta,footer,.marquee')];
   function navFrame(){
     nav.classList.toggle('scrolled', scrollY > 40);
+    if (mm.classList.contains('open')) return;
     nav.classList.toggle('inv', darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; }));
   }
+  const mm = $('#mmenu');
   addEventListener('scroll', () => requestAnimationFrame(navFrame), {passive:true});
   navFrame();
 
@@ -390,7 +542,9 @@
     if (!e.isIntersecting) return;
     e.target.classList.add('in');
     e.target.querySelectorAll('[data-count]').forEach(c => {
-      const to = +c.dataset.count, t0 = performance.now();
+      const to = +c.dataset.count;
+      if (reduce) { c.textContent = to.toLocaleString('fr-FR'); return; }
+      const t0 = performance.now();
       const tick = now => { const k = clamp((now - t0) / 1800); c.textContent = Math.round(ease(k) * to).toLocaleString('fr-FR'); if (k < 1) requestAnimationFrame(tick); };
       requestAnimationFrame(tick);
     });
@@ -410,7 +564,6 @@
   }
 
   /* menu mobile */
-  const mm = $('#mmenu');
   $('#burger').addEventListener('click', () => { mm.classList.toggle('open'); nav.classList.toggle('inv', mm.classList.contains('open')); });
   mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
 })();

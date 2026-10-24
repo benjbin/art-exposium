@@ -1,4 +1,4 @@
-/* Vif-Argent — goutte de mercure liquide (three.js)
+/* Art Exposium — goutte de mercure liquide (three.js)
    mountMercury(el) : sphère chromée qui ondule et se déforme vers le pointeur */
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
