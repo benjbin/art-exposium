@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Art Exposium — Mondes immersifs 100% web</title>
-<meta name="description" content="ART EXPOSIUM : technologie immersive 100% web pour salons virtuels, offices de tourisme, formation, retail, RH et musées.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>Neokrome — Mondes immersifs 100% web</title>
+<meta name="description" content="NEOKROME : technologie immersive 100% web pour salons virtuels, offices de tourisme, formation, retail, RH et musées.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,9 +15,10 @@
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="mark" viewBox="0 0 300 340">
-    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
-    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  <symbol id="mark" viewBox="0 0 220 230">
+    <polygon class="mk-frame" points="0,42 99,112 99,229 0,172"/>
+    <polygon class="mk-frame" points="140,122 219,72 219,172 140,229"/>
+    <polygon class="mk-door" points="78,45 204,1 205,69 139,100"/>
   </symbol>
 </svg>
 
@@ -24,9 +26,9 @@
 
 <!-- NAV -->
 <header class="nav" id="nav">
-  <a href="#top" class="logo" aria-label="Art Exposium — accueil">
-    <svg viewBox="0 0 300 340"><use href="#mark"/></svg>
-    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  <a href="#top" class="logo" aria-label="Neokrome — accueil">
+    <svg viewBox="0 0 220 230"><use href="#mark"/></svg>
+    <span class="wm"><b>NEO<i class="k">K</i>ROME</b><small><i class="td"></i>tech</small></span>
   </a>
   <ul>
     <li><a href="index.html#univers">Secteurs</a></li>
@@ -57,6 +59,7 @@
   <div class="hero-stick">
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
+    <div class="hero-night" id="night"></div>
 
     <h1 class="hero-title t1" id="t1">
       <span class="ln"><span>Recréez</span></span>
@@ -64,10 +67,14 @@
     </h1>
 
     <div class="stage" id="stage" aria-hidden="true">
-      <div class="portal-glow" id="glow"></div>
-      <div class="portal" id="portal"></div>
-      <div class="frame"></div>
-      <div class="door-wrap"><div class="door" id="door"><div class="door-shade" id="shade"></div></div></div>
+      <div class="bx-floor" id="bxFloor"></div>
+      <div class="bx-beam" id="bxBeam"><i></i></div>
+      <div class="bx-glow" id="bxGlow"></div>
+      <div class="bx-core" id="bxCore"></div>
+      <div class="bx-p bx-l" id="bxL"><i></i></div>
+      <div class="bx-p bx-r" id="bxR"><i></i></div>
+      <div class="bx-lid" id="bxLid"><i></i></div>
+      <div class="bx-sparks" id="bxSparks"></div>
     </div>
 
     <div class="hero-title t2" id="t2">
@@ -75,10 +82,10 @@
       <span class="ln"><span><span class="o">-</span>le<span class="b">.</span></span></span>
     </div>
 
-    <p class="hero-tag" id="tag"><strong>Technologie immersive 100% web.</strong> Des univers 3D ultra-réalistes, accessibles depuis un simple navigateur.</p>
+    <p class="hero-tag" id="tag"><strong>L’intelligence visuelle.<br>L’expérience numérique.</strong><br>Création visuelle et univers 3D 100% web, accessibles depuis un simple navigateur.</p>
 
     <div class="hero-meta" id="meta">
-      <div class="scroll-ind"><i></i> Poussez la porte</div>
+      <div class="scroll-ind"><i></i> Ouvrez la boîte</div>
       <span>AR · VR · MR · Full web</span>
     </div>
     <div class="hero-flash" id="flash"></div>
@@ -87,14 +94,14 @@
 
 <!-- CONCEPT -->
 <section class="concept" id="concept">
-  <svg class="concept-shape" viewBox="0 0 300 340" aria-hidden="true"><polygon fill="#fff" points="5,95 198,5 198,55 85,108 85,250 5,290"/></svg>
+  <svg class="concept-shape" viewBox="0 0 220 230" aria-hidden="true"><g fill="#fff"><polygon points="0,42 99,112 99,229 0,172"/><polygon points="140,122 219,72 219,172 140,229"/><polygon points="78,45 204,1 205,69 139,100"/></g></svg>
   <div class="wrap">
     <div>
       <span class="eyebrow rv">Concept</span>
       <h2 class="h2 rv d1" style="margin-top:28px">Bienvenue dans une <em>nouvelle dimension</em> d’expériences</h2>
     </div>
     <div class="rv d2">
-      <p class="lead">ART EXPOSIUM est une technologie immersive 100% web, conçue pour recréer — et amplifier — les expériences du monde réel.</p>
+      <p class="lead">NEOKROME est une technologie immersive 100% web, conçue pour recréer — et amplifier — les expériences du monde réel.</p>
       <p>Depuis un simple navigateur, vos visiteurs, clients, collaborateurs ou partenaires entrent dans des univers 3D ultra-réalistes, vivants et interactifs. On s’y déplace, on échange, on découvre, on manipule, on teste… comme si l’on y était.</p>
     </div>
   </div>
@@ -119,7 +126,7 @@
       <p class="rv d2">Ce salon tourne en direct dans votre navigateur, sans rien installer. Marchez entre les stands, approchez les produits, découvrez chaque exposant.</p>
     </div>
     <div class="demo-stage rv">
-      <div id="demoHall" class="demo-hall" role="img" aria-label="Salon virtuel Art Exposium en 3D temps réel"></div>
+      <div id="demoHall" class="demo-hall" role="img" aria-label="Salon virtuel Neokrome en 3D temps réel"></div>
       <span class="demo-live"><i></i> En direct · rendu temps réel</span>
       <button class="btn demo-go" id="demoGo" type="button">Entrer dans le salon <span class="arr">→</span></button>
     </div>
@@ -142,7 +149,7 @@
         <span class="eyebrow rv" style="color:var(--blue)">Applications / Secteurs</span>
         <h2 class="h2 rv d1" style="margin-top:28px">Une technologie.<br>Des univers.</h2>
       </div>
-      <p class="rv d2">ART EXPOSIUM conçoit des environnements immersifs dédiés à chaque secteur, pour présenter, valoriser et transmettre contenus, savoir-faire et expériences — accessibles à tous, sur tous les supports.</p>
+      <p class="rv d2">NEOKROME conçoit des environnements immersifs dédiés à chaque secteur, pour présenter, valoriser et transmettre contenus, savoir-faire et expériences — accessibles à tous, sur tous les supports.</p>
     </div>
 
     <div class="cards">
@@ -214,7 +221,7 @@
 <section class="manifesto">
   <div class="wrap">
     <span class="eyebrow" style="color:var(--blue-2);margin-bottom:6vh;display:inline-flex">Plus qu’une visite, une expérience</span>
-    <p class="manif-text" id="manif">Nous croyons que le virtuel ne doit pas se limiter à reproduire le réel : il doit *l’enrichir. Avec ART EXPOSIUM, la *distance *disparaît, la *rencontre *reste, et l’expérience devient *mémorable.</p>
+    <p class="manif-text" id="manif">Nous croyons que le virtuel ne doit pas se limiter à reproduire le réel : il doit *l’enrichir. Avec NEOKROME, la *distance *disparaît, la *rencontre *reste, et l’expérience devient *mémorable.</p>
     <div class="manif-foot">
       <div class="signature">Recréez le réel.<br><span>Dépassez-le.</span></div>
       <p>Organisez des salons, ouvrez un office de tourisme 24/7, formez en immersion, testez vos concepts retail — sans contrainte physique.</p>
@@ -263,7 +270,7 @@
 
 <!-- CTA -->
 <section class="cta" id="contact">
-  <svg class="cta-mark" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <svg class="cta-mark" viewBox="0 0 220 230" aria-hidden="true"><use href="#mark"/></svg>
   <div class="wrap">
     <span class="eyebrow rv">Contact</span>
     <h2 class="cta-big rv d1" style="margin-top:4vh"><span>Entrez</span><span class="o">dans le</span><span>réel+</span></h2>
@@ -280,12 +287,12 @@
   <div class="wrap">
     <div class="foot-top">
       <div>
-        <a href="#top" class="logo"><svg viewBox="0 0 300 340"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
-        <p class="about">Art Exposium — agence de création et technologie immersive 100% web : design, web, réalité augmentée et salons 3D, depuis plus de 30 ans.</p>
+        <a href="#top" class="logo"><svg viewBox="0 0 220 230"><use href="#mark"/></svg><span class="wm"><b>NEO<i class="k">K</i>ROME</b><small><i class="td"></i>tech</small></span></a>
+        <p class="about">Neokrome — L’intelligence visuelle. L’expérience numérique. Agence de création et technologie immersive 100% web : design, web, réalité augmentée et salons 3D, depuis plus de 30 ans.</p>
       </div>
       <div>
         <h4>Siège social</h4>
-        <ul><li>Art Exposium</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+        <ul><li>Neokrome</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
       </div>
       <div>
         <h4>Contact</h4>
@@ -296,9 +303,9 @@
         <ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="a-propos.html">L’agence</a></li><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
       </div>
     </div>
-    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-giant" aria-hidden="true">Neokrome</div>
     <div class="foot-bot">
-      <span>© Art Exposium — Tous droits réservés</span>
+      <span>© Neokrome — Tous droits réservés</span>
       <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
     </div>
   </div>
@@ -313,33 +320,86 @@
   const ease = t => 1 - Math.pow(1 - t, 3);
   const easeIn = t => t * t * t;
 
-  /* ----- hero : la porte s'ouvre, on la traverse ----- */
-  const hero = $('#hero'), stage = $('#stage'), door = $('#door'), shade = $('#shade'),
-        portal = $('#portal'), glow = $('#glow'), flash = $('#flash'),
+  /* ----- hero : la boîte s'assemble, le couvercle s'ouvre, on plonge dans la lumière ----- */
+  const hero = $('#hero'), stage = $('#stage'), flash = $('#flash'), night = $('#night'),
+        bxL = $('#bxL'), bxR = $('#bxR'), bxLid = $('#bxLid'), bxCore = $('#bxCore'), bxGlow = $('#bxGlow'),
+        bxBeam = $('#bxBeam'), bxFloor = $('#bxFloor'), bxSparks = $('#bxSparks'),
+        rimL = bxL.firstElementChild, rimR = bxR.firstElementChild, lidIn = bxLid.firstElementChild,
         t1 = $('#t1'), t2 = $('#t2'), tag = $('#tag'), meta = $('#meta'), nav = $('#nav');
-  let ready = false; setTimeout(() => ready = true, 2000);
+  const easeBack = t => { const c = 1.9; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+  // couvercle : charnière A→B (arête avant), coins arrière F1/F2 qui pivotent vers le haut
+  const A = [139,100], B = [205,69], V1 = [-61,-55], V2 = [-1,-68];
+  const pt = (x,y) => `${(x / 2.2).toFixed(2)}% ${(y / 2.3).toFixed(2)}%`;
+  function lidShape(deg){
+    const a = deg * Math.PI / 180, c = Math.cos(a), s = Math.sin(a);
+    const l1 = Math.hypot(...V1), l2 = Math.hypot(...V2);
+    const f1 = [A[0] + c * V1[0], A[1] + c * V1[1] - s * l1], f2 = [B[0] + c * V2[0], B[1] + c * V2[1] - s * l2];
+    return `polygon(${pt(...f1)},${pt(...f2)},${pt(...B)},${pt(...A)})`;
+  }
+  const T0 = performance.now();
+  let heroP = 0, px = 0, py = 0, tx = 0, ty = 0;
 
-  function heroFrame(){
+  if (!reduce) {
+    for (let i = 0; i < 18; i++) {
+      const sp = document.createElement('span');
+      sp.style.cssText = `--x:${20 + Math.random() * 60}%;--y:${18 + Math.random() * 30}%;--dy:${-140 - Math.random() * 220}px;--s:${3 + Math.random() * 6}px;--d:${2.2 + Math.random() * 2.6}s;--w:${-Math.random() * 4}s;--dx:${(Math.random() - .5) * 140}px;--r:${(Math.random() - .5) * 540}deg`;
+      bxSparks.appendChild(sp);
+    }
+    if (matchMedia('(pointer:fine)').matches)
+      addEventListener('pointermove', e => { tx = e.clientX / innerWidth * 2 - 1; ty = e.clientY / innerHeight * 2 - 1; }, {passive:true});
+  } else {
+    [bxL, bxR, bxLid].forEach(el => el.style.opacity = 1);
+  }
+
+  function heroFrame(now){
+    if (reduce) { heroP = 0; return; }
     const r = hero.getBoundingClientRect();
-    const total = hero.offsetHeight - innerHeight;
-    const p = clamp(-r.top / total);
-    // phase 1 (0 → .45) : la porte pivote
-    const open = ease(clamp(p / .45));
-    // phase 2 (.4 → 1) : on plonge dans le portail
-    const dive = easeIn(clamp((p - .4) / .6));
-    if (ready || p > 0) door.style.transform = `rotateY(${open * 78}deg)`;
-    door.style.animation = (ready || p > 0) ? 'none' : '';
-    shade.style.opacity = open;
-    portal.style.opacity = clamp(open * 1.6);
-    glow.style.opacity = clamp(open * 1.3) * (1 - dive * .3);
-    stage.style.transform = `scale(${1 + dive * 38})`;
+    const total = Math.max(1, hero.offsetHeight - innerHeight);
+    const p = heroP = clamp(-r.top / total);
+    if (r.bottom < 0) return;
+    const t = ((now || performance.now()) - T0) / 1000;
+
+    // 1. assemblage (temps)
+    const kL = ease(clamp((t - .15) / .95)), kR = ease(clamp((t - .32) / .95));
+    const kLid = clamp((t - .9) / 1.05), bLid = easeBack(kLid);
+    const pop = t > 1.75 ? Math.exp(-(t - 1.75) * 3.2) : 0;
+    const breath = t > 2.2 ? (.5 - .5 * Math.cos((t - 2.2) * 1.9)) * clamp((t - 2.2) / 1.5) : 0;
+
+    // 2. scroll : ouverture → lumière → plongée
+    const open = ease(clamp(p / .42));
+    const light = clamp(p / .32);
+    const dive = easeIn(clamp((p - .38) / .62));
+    px += (tx - px) * .06; py += (ty - py) * .06;
+    const par = 1 - dive;
+
+    bxL.style.opacity = kL;
+    bxL.style.transform = `translate(${(1 - kL) * -42 + px * -4 * par}%,${(1 - kL) * 16 + py * -2 * par}%)`;
+    bxR.style.opacity = kR;
+    bxR.style.transform = `translate(${(1 - kR) * 42 + px * 4 * par}%,${(1 - kR) * 16 + py * -2 * par}%)`;
+    const ang = 58 * (1 - bLid) + breath * 7 * (1 - open) + open * 108;
+    bxLid.style.opacity = clamp(kLid * 3);
+    bxLid.style.clipPath = bxLid.style.webkitClipPath = lidShape(ang);
+    bxLid.style.transform = `translate(${px * 5 * par}%,${(1 - ease(kLid)) * -60 + py * -3 * par}%)`;
+    const coreO = Math.max(light, pop * .55);
+    bxCore.style.opacity = coreO;
+    bxGlow.style.opacity = Math.max(light * (1 - dive * .4), pop * .7, breath * .25);
+    bxGlow.style.transform = `translate(${px * 10}%,${py * 6}%) scale(${.85 + light * .35 + breath * .05})`;
+    bxBeam.style.opacity = clamp(open * 1.3) * (1 - dive);
+    rimL.style.opacity = rimR.style.opacity = Math.max(light, pop * .6);
+    lidIn.style.opacity = clamp((ang - 62) / 40) * .95 + clamp(open * 3) * .05;
+    bxSparks.style.opacity = clamp((p - .06) / .2) * (1 - dive);
+    bxFloor.style.opacity = Math.min(kL, kR) * (1 - clamp(p / .25));
+    night.style.opacity = ease(clamp((p - .04) / .34)) * .97;
+
+    stage.style.transform = `scale(${1 + dive * 60})`;
     const spread = open * 18;
     t1.style.transform = `translateY(${-spread}vh)`;
     t2.style.transform = `translateY(${spread}vh)`;
-    t1.style.opacity = t2.style.opacity = 1 - clamp((p - .15) / .3);
-    tag.style.opacity = meta.style.opacity = 1 - clamp(p / .12);
-    flash.style.opacity = clamp((p - .82) / .16);
+    t1.style.opacity = t2.style.opacity = 1 - clamp((p - .02) / .16);
+    tag.style.opacity = meta.style.opacity = 1 - clamp(p / .1);
+    flash.style.opacity = clamp((p - .84) / .14);
   }
+  (function tick(now){ heroFrame(now); requestAnimationFrame(tick); })(performance.now());
 
   /* ----- nav ----- */
   const invSections = [...document.querySelectorAll('.concept,.demo,.manifesto,.features,.cta,footer,.marquee:not(.light)')];
@@ -347,8 +407,7 @@
     nav.classList.toggle('scrolled', scrollY > 40);
     const y = 40;
     const onDark = invSections.some(s => { const b = s.getBoundingClientRect(); return b.top <= y && b.bottom >= y; });
-    const heroP = clamp(-hero.getBoundingClientRect().top / (hero.offsetHeight - innerHeight));
-    nav.classList.toggle('inv', onDark || (heroP > .86 && heroP < 1));
+    nav.classList.toggle('inv', onDark || (heroP > .2 && heroP < 1));
   }
 
   /* ----- manifesto : mots qui s'allument ----- */
@@ -428,15 +487,15 @@
       const hz = H * .35, cx = W/2;
       ctx.lineWidth = 1;
       for (let i = -24; i <= 24; i++){
-        ctx.strokeStyle = 'rgba(90,80,255,.35)';
+        ctx.strokeStyle = 'rgba(77,130,255,.35)';
         ctx.beginPath(); ctx.moveTo(cx + i*14, hz); ctx.lineTo(cx + i*W*.12, H); ctx.stroke();
       }
       for (let k = 0; k < 18; k++){
         const z = ((k + off) / 18), y = hz + Math.pow(z, 2.4) * (H - hz);
-        ctx.strokeStyle = `rgba(90,80,255,${.08 + z*.4})`;
+        ctx.strokeStyle = `rgba(77,130,255,${.08 + z*.4})`;
         ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
       }
-      const g = ctx.createLinearGradient(0,0,0,hz+80); g.addColorStop(0,'#141418'); g.addColorStop(1,'rgba(20,20,24,0)');
+      const g = ctx.createLinearGradient(0,0,0,hz+80); g.addColorStop(0,'#0B214A'); g.addColorStop(1,'rgba(11,33,74,0)');
       ctx.fillStyle = g; ctx.fillRect(0,0,W,hz+80);
       if (!reduce) off = (off + .012) % 1;
     }

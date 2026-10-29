@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Contact — Art Exposium</title>
-<meta name="description" content="Parlez-nous de votre projet : téléphone, e-mail, formulaire ou rendez-vous. Art Exposium, 179 rue Grande, 77300 Fontainebleau.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>Contact — Neokrome</title>
+<meta name="description" content="Parlez-nous de votre projet : téléphone, e-mail, formulaire ou rendez-vous. Neokrome, 179 rue Grande, 77300 Fontainebleau.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -46,7 +47,7 @@
 .ct-hours a:hover{background:var(--ink);color:var(--paper)}
 
 .ct-card{position:sticky;top:96px;background:var(--ink);color:var(--paper);border-radius:28px;padding:clamp(26px,3.4vw,48px);overflow:hidden;isolation:isolate}
-.ct-card::before{content:"";position:absolute;right:-12%;top:-18%;width:60%;aspect-ratio:1;background:radial-gradient(closest-side,rgba(90,80,255,.45),transparent 70%);z-index:-1;pointer-events:none}
+.ct-card::before{content:"";position:absolute;right:-12%;top:-18%;width:60%;aspect-ratio:1;background:radial-gradient(closest-side,rgba(77,130,255,.45),transparent 70%);z-index:-1;pointer-events:none}
 .ct-card h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,2.8vw,44px);text-transform:uppercase;letter-spacing:-.025em;line-height:1;margin:16px 0 10px}
 .ct-card > p{opacity:.7;margin-bottom:30px;max-width:460px}
 .ct-card .eyebrow{color:var(--blue-2)}
@@ -60,15 +61,9 @@
 .place-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:6vw;align-items:center;margin-top:10vh}
 .pl-stage{position:relative;width:min(400px,72vw);aspect-ratio:300/340;margin:0 auto}
 .pl-stage > *{position:absolute}
-.pl-frame{inset:0;background:var(--paper);clip-path:polygon(1.6% 27.9%,66% 1.5%,66% 16.2%,28.3% 31.8%,28.3% 73.5%,1.6% 85.3%)}
-.pl-portal{left:67.3%;top:16.2%;width:30%;height:83.8%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);
-  background:radial-gradient(120% 70% at 50% 60%,#fff 0%,#DCD9FF 25%,var(--blue-2) 60%,var(--blue) 100%)}
-.pl-glow{left:35%;top:-5%;width:100%;height:110%;filter:blur(50px);opacity:0;transition:opacity 1.6s .8s;background:radial-gradient(closest-side,rgba(90,80,255,.9),transparent 70%)}
-.pl-door-wrap{left:67.3%;top:16.2%;width:30%;height:83.8%;perspective:900px}
-.pl-door{position:absolute;inset:0;background:var(--blue);transform-origin:100% 50%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);transition:transform 1.8s .5s var(--ease);box-shadow:inset -20px 0 40px rgba(0,0,0,.2)}
-.pl-stage.in .pl-door{transform:rotateY(74deg)}
-.pl-stage.in .pl-glow{opacity:.75}
-.pl-pin{left:73%;top:52%;width:18%;transform:translate(-10%,-50%);font-family:var(--display);font-weight:800;font-size:clamp(11px,1.1vw,14px);letter-spacing:.08em;color:var(--blue-deep);text-align:center;opacity:0;transition:opacity 1s 1.6s}
+.pl-stage .nk-box{left:4%;right:4%;top:2%;--nb-delay:.15s}
+.pl-stage:not(.in) .nk-box *,.pl-stage:not(.in) .nk-box *::after{animation-play-state:paused}
+.pl-pin{left:33.7%;top:31%;width:40%;transform:translateY(-50%);font-family:var(--display);font-weight:800;font-size:clamp(11px,1.1vw,14px);letter-spacing:.14em;color:var(--blue-deep);text-align:center;opacity:0;transition:opacity 1s 2.6s}
 .pl-stage.in .pl-pin{opacity:1}
 .pl-coord{left:0;bottom:-34px;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.5;white-space:nowrap}
 .place-info .eyebrow{color:var(--blue-2)}
@@ -123,18 +118,19 @@
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="mark" viewBox="0 0 300 340">
-    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
-    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  <symbol id="mark" viewBox="0 0 220 230">
+    <polygon class="mk-frame" points="0,42 99,112 99,229 0,172"/>
+    <polygon class="mk-frame" points="140,122 219,72 219,172 140,229"/>
+    <polygon class="mk-door" points="78,45 204,1 205,69 139,100"/>
   </symbol>
 </svg>
 
 <div class="cursor" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
-  <a href="index.html" class="logo" aria-label="Art Exposium — accueil">
-    <svg viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
-    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  <a href="index.html" class="logo" aria-label="Neokrome — accueil">
+    <svg viewBox="0 0 220 230" aria-hidden="true"><use href="#mark"/></svg>
+    <span class="wm"><b>NEO<i class="k">K</i>ROME</b><small><i class="td"></i>tech</small></span>
   </a>
   <ul>
     <li><a href="index.html#univers">Secteurs</a></li>
@@ -164,7 +160,7 @@
     <div class="crumb"><a href="index.html">← Accueil</a><i></i><span>Contact</span></div>
     <h1 class="ct-title" aria-label="Parlons-en.">
       <span class="ln" aria-hidden="true"><span>Parlons</span></span>
-      <span class="ln l2" aria-hidden="true"><svg class="ct-door" viewBox="0 0 300 340"><use href="#mark"/></svg><span>-en<span class="b">.</span></span></span>
+      <span class="ln l2" aria-hidden="true"><svg class="ct-door" viewBox="0 0 220 230"><use href="#mark"/></svg><span>-en<span class="b">.</span></span></span>
     </h1>
     <div class="ct-intro">
       <div>
@@ -183,7 +179,7 @@
         <li class="rv"><a class="ct-line" href="tel:+33164700802"><small><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Téléphone</small><span class="v">01 64 70 08 02</span><span class="go" aria-hidden="true">→</span></a></li>
         <li class="rv d1"><a class="ct-line" href="tel:+33609770241"><small><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Mobile</small><span class="v">06 09 77 02 41</span><span class="go" aria-hidden="true">→</span></a></li>
         <li class="rv d2"><a class="ct-line" href="mailto:contact@artexposium.fr"><small><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>E-mail</small><span class="v mail">contact@artexposium.fr</span><span class="go" aria-hidden="true">→</span></a></li>
-        <li class="rv"><a class="ct-line" href="https://www.google.com/maps/search/?api=1&amp;query=179%20rue%20Grande%2077300%20Fontainebleau" target="_blank" rel="noopener"><small><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Adresse · itinéraire</small><span class="v addr">Art Exposium<br>179, rue Grande<br>77300 Fontainebleau</span><span class="go" aria-hidden="true">↗</span><span class="sr-only">(ouvre un plan dans un nouvel onglet)</span></a></li>
+        <li class="rv"><a class="ct-line" href="https://www.google.com/maps/search/?api=1&amp;query=179%20rue%20Grande%2077300%20Fontainebleau" target="_blank" rel="noopener"><small><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Adresse · itinéraire</small><span class="v addr">Neokrome<br>179, rue Grande<br>77300 Fontainebleau</span><span class="go" aria-hidden="true">↗</span><span class="sr-only">(ouvre un plan dans un nouvel onglet)</span></a></li>
       </ul>
       <div class="ct-hours rv">
         <a href="demo.html">Voir la démo →</a>
@@ -242,11 +238,8 @@
     <h2 class="place-word rv d1" id="placeTitle">Fontainebleau<span class="b">.</span></h2>
     <div class="place-grid">
       <div class="pl-stage rv" aria-hidden="true">
-        <div class="pl-glow"></div>
-        <div class="pl-frame"></div>
-        <div class="pl-portal"></div>
+        <div class="nk-box inv"><i class="nb-glow"></i><i class="nb-core"></i><i class="nb-l"></i><i class="nb-r"></i><i class="nb-lid"></i></div>
         <div class="pl-pin">77300</div>
-        <div class="pl-door-wrap"><div class="pl-door"></div></div>
         <div class="pl-coord">48°24′ N — 2°42′ E</div>
       </div>
       <div class="place-info">
@@ -254,7 +247,7 @@
         <h3 class="rv d1">Une porte ouverte à Fontainebleau, des univers accessibles partout dans le monde.</h3>
         <p class="rv d2">Notre studio est basé à Fontainebleau, en Seine-et-Marne, mais nous accompagnons des clients partout en France et à l’international. Lorsque le projet le nécessite, nous intervenons aussi sur site pour des phases de captation, de modélisation ou de préparation de contenus.</p>
         <dl class="place-dl rv d2">
-          <div><dt>Adresse</dt><dd>Art Exposium<br>179, rue Grande<br>77300 Fontainebleau</dd></div>
+          <div><dt>Adresse</dt><dd>Neokrome<br>179, rue Grande<br>77300 Fontainebleau</dd></div>
           <div><dt>Téléphone</dt><dd><a href="tel:+33164700802">01 64 70 08 02</a><br><a href="tel:+33609770241">06 09 77 02 41</a></dd></div>
           <div><dt>Rayon d’action</dt><dd>France<br>&amp; international</dd></div>
         </dl>
@@ -273,7 +266,7 @@
     <div class="tiles">
       <a class="tile rv" href="demo.html"><div class="num">01<span aria-hidden="true">→</span></div><div><h3>Voir la démo</h3><p>Passez de l’idée à l’expérience, en un clic.</p></div></a>
       <a class="tile dark rv d1" href="rendez-vous.html"><div class="num">02<span aria-hidden="true">→</span></div><div><h3>Prendre rendez-vous</h3><p>Vous avez un projet, une idée… Parlons-en !</p></div></a>
-      <a class="tile rv d2" href="faq.html"><div class="num">03<span aria-hidden="true">→</span></div><div><h3>FAQ</h3><p>Vos questions sur les solutions Art Exposium.</p></div></a>
+      <a class="tile rv d2" href="faq.html"><div class="num">03<span aria-hidden="true">→</span></div><div><h3>FAQ</h3><p>Vos questions sur les solutions Neokrome.</p></div></a>
     </div>
   </div>
 </section>
@@ -283,12 +276,12 @@
   <div class="wrap">
     <div class="foot-top">
       <div>
-        <a href="index.html" class="logo" aria-label="Art Exposium — accueil"><svg viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
-        <p class="about">Art Exposium — agence de création et technologie immersive 100% web : design, web, réalité augmentée et salons 3D, depuis plus de 30 ans.</p>
+        <a href="index.html" class="logo" aria-label="Neokrome — accueil"><svg viewBox="0 0 220 230" aria-hidden="true"><use href="#mark"/></svg><span class="wm"><b>NEO<i class="k">K</i>ROME</b><small><i class="td"></i>tech</small></span></a>
+        <p class="about">Neokrome — L’intelligence visuelle. L’expérience numérique. Agence de création et technologie immersive 100% web : design, web, réalité augmentée et salons 3D, depuis plus de 30 ans.</p>
       </div>
       <div>
         <h4>Siège social</h4>
-        <ul><li>Art Exposium</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+        <ul><li>Neokrome</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
       </div>
       <div>
         <h4>Contact</h4>
@@ -299,9 +292,9 @@
         <ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="a-propos.html">L’agence</a></li><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
       </div>
     </div>
-    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-giant" aria-hidden="true">Neokrome</div>
     <div class="foot-bot">
-      <span>© Art Exposium — Tous droits réservés</span>
+      <span>© Neokrome — Tous droits réservés</span>
       <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
     </div>
   </div>
@@ -435,7 +428,7 @@ axForm(document.getElementById('ctForm'), v => {
     'Entreprise : ' + (v('entreprise') || '—'),
     'E-mail : ' + v('email'),
     'Projet : ' + (v('projet') || '—'),
-    '', 'Message envoyé depuis la page Contact du site Art Exposium.'
+    '', 'Message envoyé depuis la page Contact du site Neokrome.'
   ].join('\r\n');
   return {subject, body};
 });

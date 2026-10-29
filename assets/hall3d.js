@@ -1,4 +1,4 @@
-/* Art Exposium — salon virtuel 3D temps réel (three.js r160)
+/* Neokrome — salon virtuel 3D temps réel (three.js r160)
    mountHall(el, { mode: 'scroll' | 'attract', getProgress, base })
    - scroll  : la caméra franchit la porte et avance dans le hall selon getProgress() (0 → 1)
    - attract : travelling cinématique automatique ; un clic ouvre la visite libre
@@ -17,13 +17,19 @@ import { FullScreenQuad } from 'three/addons/postprocessing/Pass.js';
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
-const BLUE = 0x3B2FF0, BLUE2 = 0x5A50FF;
+const BLUE = 0x145CFF, BLUE2 = 0x4D82FF;
 const L = 66;          // longueur du hall
 const HW = 9;          // demi-largeur
 const H = 8.2;         // hauteur sous plafond
 const EYE = 1.7;
 const NOREFL = 1;      // calque exclu de la réflexion du sol
-const FOG = 0x0a0a12;
+const FOG = 0x070b16;  // noir teinté bleu nuit
+/* marque Neokrome (viewBox 220×230, y vers le bas) */
+const MK = {
+  left: [[0, 42], [99, 112], [99, 229], [0, 172]],
+  right: [[140, 122], [219, 72], [219, 172], [140, 229]],
+  lid: [[78, 45], [204, 1], [205, 69], [139, 100]],
+};
 
 const STANDS = [
   { img: 'salon1-header-1.jpg', title: 'Stand LMP2', sub: 'Racing Market', side: -1, z: -11, aspect: 2208 / 796,
@@ -130,14 +136,14 @@ export function mountHall(el, opts = {}) {
   const aniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
 
   /* ---------- interface ---------- */
-  const MARK = `<svg viewBox="0 0 300 340" aria-hidden="true"><polygon class="f" points="5,95 198,5 198,55 85,108 85,250 5,290"/><polygon class="d" points="202,55 292,85 292,340 202,307"/></svg>`;
+  const MARK = `<svg viewBox="0 0 220 230" aria-hidden="true"><polygon class="f" points="0,42 99,112 99,229 0,172"/><polygon class="f" points="140,122 219,72 219,172 140,229"/><polygon class="d" points="78,45 204,1 205,69 139,100"/></svg>`;
   const ui = document.createElement('div');
   ui.className = 'hall-ui';
   const tap = matchMedia('(hover: none)').matches ? 'Toucher' : 'Clic';
   ui.innerHTML = `
     <div class="hall-load"><div class="hall-load-mark">${MARK}</div><span>Chargement du salon</span><b>0%</b><i><em></em></i></div>
     <div class="hall-spots"></div>
-    <div class="hall-brand">${MARK}<span>Art Exposium<small>Salon virtuel · visite libre</small></span></div>
+    <div class="hall-brand">${MARK}<span>Neokrome<em><b>.</b>tech</em><small>Salon virtuel · visite libre</small></span></div>
     <button class="hall-close" type="button">✕ <span>Quitter le salon</span></button>
     <aside class="hall-panel">
       <button class="hall-panel-t" type="button" aria-expanded="true"><span>Plan du salon</span><b>6 espaces</b></button>
@@ -192,6 +198,12 @@ export function mountHall(el, opts = {}) {
     const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); parent.add(m); return m;
   };
   const rbox = (w, h, d, r = .03, seg = 2) => new RoundedBoxGeometry(w, h, d, seg, Math.min(r, w / 2.01, h / 2.01, d / 2.01));
+  // marque extrudée : origine en bas à gauche, hauteur hgt (viewBox 220×230)
+  const markGeo = (hgt, depth, bevel = .02) => {
+    const k = hgt / 230, sh = pts => new THREE.Shape(pts.map(([x, y]) => new THREE.Vector2(x * k, (229 - y) * k)));
+    const ex = { depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel * .7, bevelSegments: 2 };
+    return { panels: new THREE.ExtrudeGeometry([sh(MK.left), sh(MK.right)], ex), lid: new THREE.ExtrudeGeometry(sh(MK.lid), ex) };
+  };
   const photo = name => {
     const t = loader.load(base + name);
     t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = aniso;
@@ -206,25 +218,53 @@ export function mountHall(el, opts = {}) {
     run(); document.fonts?.ready.then(run);
     return t;
   };
-  const drawMark = (g, x, y, s, frame = '#fff', door = '#5A50FF') => {
-    const P = pts => { g.beginPath(); pts.forEach(([a, b], i) => g[i ? 'lineTo' : 'moveTo'](x + a * s / 340, y + b * s / 340)); g.closePath(); g.fill(); };
-    g.fillStyle = frame; P([[5, 95], [198, 5], [198, 55], [85, 108], [85, 250], [5, 290]]);
-    g.fillStyle = door; P([[202, 55], [292, 85], [292, 340], [202, 307]]);
+  // marque Neokrome : boîte ouverte (2 panneaux + couvercle bleu), viewBox 220×230 ; s = hauteur
+  const drawMark = (g, x, y, s, panel = '#fff', lid = '#145CFF') => {
+    const P = pts => { g.beginPath(); pts.forEach(([a, b], i) => g[i ? 'lineTo' : 'moveTo'](x + a * s / 230, y + b * s / 230)); g.closePath(); g.fill(); };
+    g.fillStyle = panel; P(MK.left); P(MK.right);
+    g.fillStyle = lid; P(MK.lid);
   };
+  // logotype NEOKROME (bras supérieur du K en bleu) + « .tech » à point bleu ; renvoie la largeur
+  const drawWordmark = (g, x, y, px, ink = '#fff', o = {}) => {
+    const blue = o.blue || '#145CFF', tech = o.tech !== false;
+    g.save(); g.textBaseline = 'alphabetic'; g.textAlign = 'left';
+    g.font = `800 ${px}px Outfit, system-ui, sans-serif`;
+    g.letterSpacing = (o.track ?? .02) * px + 'px';
+    const pre = 'NEO', word = 'NEOKROME';
+    const wPre = g.measureText(pre).width, wK = g.measureText('K').width, wAll = g.measureText(word).width;
+    g.fillStyle = ink; g.fillText(word, x, y);
+    // bras supérieur du K : on repeint la moitié haute droite du glyphe
+    const kx = x + wPre, cap = px * .72;
+    g.save(); g.beginPath(); g.rect(kx + wK * .36, y - cap - px * .1, wK, cap * .53 + px * .1); g.clip();
+    g.fillStyle = blue; g.fillText('K', kx, y); g.restore();
+    let w = wAll;
+    if (tech) {
+      const tp = px * .46, gap = px * .06;
+      g.letterSpacing = '0px';
+      g.fillStyle = blue; g.beginPath(); g.arc(x + w + gap + tp * .17, y - tp * .14, tp * .15, 0, 7); g.fill();
+      g.font = `600 ${tp}px Outfit, system-ui, sans-serif`; g.fillStyle = ink;
+      g.fillText('tech', x + w + gap + tp * .42, y);
+      w += gap + tp * .42 + g.measureText('tech').width;
+    }
+    g.restore();
+    return w;
+  };
+  const TAGLINE = ['L’intelligence visuelle.', 'L’expérience numérique.'];
 
   /* ---------- textures générées ---------- */
   function signTex(title, sub, w = 1400, h = 128, bg = '#101015') {
     return canvasTex(w, h, g => {
       if (bg) { g.fillStyle = bg; g.fillRect(0, 0, w, h); }
-      const m = h * .5, mx = h * .42;
-      drawMark(g, mx, (h - m) / 2, m, '#ffffff', '#5A50FF');
-      const tx = mx + m * .95 + h * .28;
+      const m = h * .54, mx = h * .42;
+      drawMark(g, mx, (h - m) / 2, m, '#ffffff', '#145CFF');
+      const tx = mx + m * .96 + h * .28;
       g.textBaseline = 'middle'; g.fillStyle = '#fff';
       g.font = `800 ${h * .4}px Outfit, system-ui, sans-serif`;
       const T = title.toUpperCase();
-      g.fillText(T, tx, h * .53);
+      let tw;
+      if (T === 'NEOKROME') tw = drawWordmark(g, tx, h * .53 + h * .4 * .36, h * .4, '#fff');
+      else { g.fillText(T, tx, h * .53); tw = g.measureText(T).width; }
       if (sub) {
-        const tw = g.measureText(T).width;
         g.font = `500 ${h * .2}px Outfit, system-ui, sans-serif`; g.fillStyle = 'rgba(255,255,255,.55)';
         g.letterSpacing = '4px';
         g.fillText(sub.toUpperCase(), tx + tw + h * .4, h * .55);
@@ -278,7 +318,7 @@ export function mountHall(el, opts = {}) {
   function wallTex() {
     const w = 512, h = 1024;
     const map = canvasTex(w, h, g => {
-      g.fillStyle = '#1b1b21'; g.fillRect(0, 0, w, h);
+      g.fillStyle = '#181c26'; g.fillRect(0, 0, w, h);
       // variations douces
       for (let i = 0; i < 260; i++) { g.fillStyle = `rgba(${Math.random() < .5 ? '255,255,255' : '0,0,0'},.015)`; g.fillRect(Math.random() * w, Math.random() * h, 2 + Math.random() * 60, 2 + Math.random() * 120); }
       const ppm = h / H;  // px par mètre
@@ -291,7 +331,7 @@ export function mountHall(el, opts = {}) {
       const ppm = h2 / H;
       g.fillStyle = '#000'; g.fillRect(0, 0, w2, h2);
       let gr = g.createLinearGradient(0, h2 - .16 * ppm, 0, h2 - 1.9 * ppm);
-      gr.addColorStop(0, 'rgba(90,80,255,.9)'); gr.addColorStop(.25, 'rgba(70,60,230,.32)'); gr.addColorStop(1, 'rgba(59,47,240,0)');
+      gr.addColorStop(0, 'rgba(77,130,255,.9)'); gr.addColorStop(.25, 'rgba(20,92,255,.32)'); gr.addColorStop(1, 'rgba(20,92,255,0)');
       g.fillStyle = gr; g.fillRect(0, h2 - 1.9 * ppm, w2, 1.74 * ppm);
       gr = g.createLinearGradient(0, 0, 0, 2.2 * ppm);
       gr.addColorStop(0, 'rgba(255,214,170,.3)'); gr.addColorStop(1, 'rgba(255,214,170,0)');
@@ -343,24 +383,24 @@ export function mountHall(el, opts = {}) {
       const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide }));
       m.position.set(x, y - EYE, z); m.rotation.set(rx, ry, 0); s.add(m);
     };
-    const room = new THREE.Mesh(new THREE.BoxGeometry(18, H, 80), new THREE.MeshBasicMaterial({ color: new THREE.Color(.016, .016, .022), side: THREE.BackSide }));
+    const room = new THREE.Mesh(new THREE.BoxGeometry(18, H, 80), new THREE.MeshBasicMaterial({ color: new THREE.Color(.012, .016, .03), side: THREE.BackSide }));
     room.position.set(0, H / 2 - EYE, -24); s.add(room);
-    add(18, 80, new THREE.Color(.03, .03, .036), 0, .02, -24, -Math.PI / 2);
+    add(18, 80, new THREE.Color(.026, .03, .042), 0, .02, -24, -Math.PI / 2);
     for (let z = 2; z > -62; z -= 5) add(9, 3, new THREE.Color(2.2, 2.25, 2.45), 0, 6.85, z, Math.PI / 2);
     for (const sd of [-1, 1]) {
-      add(80, .3, new THREE.Color(.3, .25, 2.2), sd * 8.95, .22, -24, 0, -sd * Math.PI / 2);
+      add(80, .3, new THREE.Color(.1, .38, 2.3), sd * 8.95, .22, -24, 0, -sd * Math.PI / 2);
       add(80, 1.6, new THREE.Color(.5, .4, .3), sd * 8.95, 7.4, -24, 0, -sd * Math.PI / 2);
     }
     for (const st of STANDS) add(6, 3.2, new THREE.Color(1.1, .85, .65), st.side * 8.5, 2.9, st.z, 0, -st.side * Math.PI / 2);
     add(11, 5, new THREE.Color(1, 1, 1.25), 1.8, 3.6, -65.6);
-    add(6, 5.5, new THREE.Color(.35, .35, .5), 0, 2.8, 4.2);
+    add(6, 5.5, new THREE.Color(.28, .36, .58), 0, 2.8, 4.2);
     const t = pmrem.fromScene(s, .03, .1, 120).texture;
     s.traverse(o => { o.geometry?.dispose(); o.material?.dispose(); });
     return t;
   }
 
   /* ---------- lumières globales ---------- */
-  scene.add(new THREE.HemisphereLight(0x8d90c8, 0x0c0c10, .2));
+  scene.add(new THREE.HemisphereLight(0x8a9fd0, 0x080b14, .2));
   if (!mobile) {
     RectAreaLightUniformsLib.init();
     for (const z of [-5, -24, -43]) {
@@ -474,14 +514,16 @@ export function mountHall(el, opts = {}) {
 
   /* ---------- architecture ---------- */
   const M = {
-    metal: std({ color: 0x1c1c22, roughness: .34, metalness: .8 }),
-    black: std({ color: 0x0c0c0f, roughness: .45, metalness: .3 }),
+    metal: std({ color: 0x1a1d26, roughness: .34, metalness: .8 }),
+    black: std({ color: 0x0a0c12, roughness: .45, metalness: .3 }),
     white: std({ color: 0xcfccc4, roughness: .55 }),
-    fabric: std({ color: 0x252079, roughness: .92 }),
-    fabricGrey: std({ color: 0x34343d, roughness: .95 }),
+    fabric: std({ color: 0x102a5c, roughness: .92 }),
+    fabricGrey: std({ color: 0x30343f, roughness: .95 }),
     chrome: phys({ color: 0xffffff, metalness: 1, roughness: .1 }),
     glass: phys({ color: 0xe8ecff, metalness: 0, roughness: .03, transparent: true, opacity: .13, depthWrite: false, envMapIntensity: 1.6 }),
-    ceil: std({ color: 0x0b0b0e, roughness: .9 }),
+    ceil: std({ color: 0x090c15, roughness: .9 }),
+    // couvercle de la marque : bleu électrique émissif (émission légèrement décalée vers le cyan pour éviter la dérive violette de l’ACES)
+    lid: std({ color: 0x061840, emissive: 0x1a6cff, emissiveIntensity: .95, roughness: .45, metalness: 0, envMapIntensity: .35 }),
   };
   const wt = wallTex();
   const wallMats = [];
@@ -531,10 +573,10 @@ export function mountHall(el, opts = {}) {
     frameShape.holes.push(hole);
     const fg = new THREE.ExtrudeGeometry(frameShape, { depth: .22, bevelEnabled: true, bevelThickness: .012, bevelSize: .012, bevelSegments: 2, curveSegments: 1 });
     fg.rotateX(-Math.PI / 2);
-    const frames = new THREE.InstancedMesh(fg, std({ color: 0x15151a, roughness: .3, metalness: .85 }), cells.length + dim.length);
+    const frames = new THREE.InstancedMesh(fg, std({ color: 0x141821, roughness: .3, metalness: .85 }), cells.length + dim.length);
     const pg = new THREE.CircleGeometry(R, 6); pg.rotateX(Math.PI / 2);
     const panels = new THREE.InstancedMesh(pg, new THREE.MeshBasicMaterial({ map: hexTex(), color: new THREE.Color(1.25, 1.28, 1.4) }), cells.length);
-    const darkPanels = new THREE.InstancedMesh(pg, std({ color: 0x0a0a0d, roughness: .6 }), Math.max(1, dim.length));
+    const darkPanels = new THREE.InstancedMesh(pg, std({ color: 0x080b12, roughness: .6 }), Math.max(1, dim.length));
     const m4 = new THREE.Matrix4(), col = new THREE.Color(), r = rng(3);
     cells.forEach(([x, z], i) => {
       const y = Y + Math.sin(x * .7 + z * .3) * .02;
@@ -555,73 +597,106 @@ export function mountHall(el, opts = {}) {
     rods.count = n; rods.layers.set(NOREFL); scene.add(rods);
   }
 
-  /* ---------- façade d'entrée + porte du logo ---------- */
-  const doorPivot = new THREE.Group();
+  /* ---------- façade d'entrée : la boîte ouverte Neokrome à l’échelle monumentale ----------
+     Les deux panneaux de la marque encadrent la porte (l’écart du « Y » devient le passage),
+     le couvercle bleu, articulé sur son arête basse, s’ouvre au-dessus des visiteurs. */
+  const entryLid = new THREE.Group();
   {
-    const fz = 4, fd = .5;
-    const facade = std({ color: 0x17171c, roughness: .5, metalness: .25 });
-    mesh(new THREE.BoxGeometry(HW - 3.35 + .3, H, fd), facade, -(HW + 3.35 + .3) / 2 + .15 - .15, H / 2, fz).receiveShadow = true;
-    mesh(new THREE.BoxGeometry(HW - 3.35 + .3, H, fd), facade, (HW + 3.35 + .3) / 2 - .15 + .15, H / 2, fz).receiveShadow = true;
-    const lint = new THREE.Shape([new THREE.Vector2(-3.4, 5.95), new THREE.Vector2(3.4, 5.65), new THREE.Vector2(3.4, H), new THREE.Vector2(-3.4, H)]);
+    const fz = 4, fd = .5, fF = fz + fd / 2;          // fF : nu avant de la façade
+    // projection de la marque (viewBox 220×230) sur la façade : l’écart 99→140 = la porte (±3 m)
+    const kx = .038, ky = .035;
+    const X = x => x <= 99 ? -3 - (99 - x) * kx : x >= 140 ? 3 + (x - 140) * kx : -3 + (x - 99) * 6 / 41;
+    const Y = y => (229 - y) * ky;
+    const V = ([x, y]) => new THREE.Vector2(X(x), Y(y));
+    const facade = std({ color: 0x101827, roughness: .5, metalness: .25 });
+    for (const s of [-1, 1]) mesh(new THREE.BoxGeometry(HW + .3 - 3, H, fd), facade, s * (3 + (HW + .3 - 3) / 2), H / 2, fz).receiveShadow = true;
+    // linteau : son arête basse suit l’arête de charnière du couvercle
+    const L0 = V(MK.lid[0]), L3 = V(MK.lid[3]), sl = (L3.y - L0.y) / (L3.x - L0.x);
+    const yAt = x => L0.y + (x - L0.x) * sl;
+    const lint = new THREE.Shape([new THREE.Vector2(-3, yAt(-3)), new THREE.Vector2(3, yAt(3)), new THREE.Vector2(3, H), new THREE.Vector2(-3, H)]);
     const lg = new THREE.ExtrudeGeometry(lint, { depth: fd, bevelEnabled: false }); lg.translate(0, 0, -fd / 2);
     mesh(lg, facade, 0, 0, fz);
-    // portique blanc biseauté
-    const white = std({ color: 0xe6e3dc, roughness: .42, metalness: .05 });
-    mesh(rbox(.36, 5.95, .8, .04), white, -3.17, 5.95 / 2, fz);
-    mesh(rbox(.36, 5.65, .8, .04), white, 3.17, 5.65 / 2, fz);
-    const band = new THREE.Shape([new THREE.Vector2(-3.35, 5.7), new THREE.Vector2(3.35, 5.4), new THREE.Vector2(3.35, 5.76), new THREE.Vector2(-3.35, 6.06)]);
-    const bg2 = new THREE.ExtrudeGeometry(band, { depth: .8, bevelEnabled: true, bevelThickness: .02, bevelSize: .02, bevelSegments: 1 }); bg2.translate(0, 0, -.4);
-    mesh(bg2, white, 0, 0, fz);
-    // révélation LED bleue
-    const led = glow(BLUE2, 2.8);
-    mesh(new THREE.BoxGeometry(.03, 5.6, .03), led, -2.985, 2.8, fz + .41);
-    mesh(new THREE.BoxGeometry(.03, 5.35, .03), led, 2.985, 2.67, fz + .41);
-    // enseigne rétroéclairée
-    const st = mesh(new THREE.PlaneGeometry(7.2, .66), new THREE.MeshBasicMaterial({ map: signTex('Art Exposium', 'Salon virtuel', 1400, 128, null), transparent: true, color: new THREE.Color(1.6, 1.6, 1.6) }), 0, 6.75, fz + fd / 2 + .01);
-    st.layers.set(NOREFL);
-    const sti = mesh(new THREE.PlaneGeometry(5.6, .52), new THREE.MeshBasicMaterial({ map: signTex('Bienvenue', 'Salon virtuel', 1400, 128, null), transparent: true, color: new THREE.Color(1.1, 1.1, 1.1) }), 0, 6.6, fz - fd / 2 - .01);
+    // panneaux blancs (fond sombre) — bas ramenés au sol
+    const pd = .34, white = std({ color: 0xe9edf4, roughness: .38, metalness: .05 });
+    const panel = pts => {
+      const sh = new THREE.Shape(pts.map(p => { const v = V(p); v.y = Math.max(0, p[1] > 150 ? 0 : v.y); return v; }));
+      const geo = new THREE.ExtrudeGeometry(sh, { depth: pd, bevelEnabled: true, bevelThickness: .02, bevelSize: .02, bevelSegments: 2 });
+      const m = mesh(geo, white, 0, 0, fF); m.castShadow = m.receiveShadow = true; return m;
+    };
+    panel(MK.left); panel(MK.right);
+    // filets LED bleus sur les arêtes intérieures (le passage)
+    const led = glow(BLUE2, 2.8), zF = fF + pd + .02;
+    mesh(new THREE.BoxGeometry(.03, Y(112), .03), led, -2.985, Y(112) / 2, zF);
+    mesh(new THREE.BoxGeometry(.03, Y(122), .03), led, 2.985, Y(122) / 2, zF);
+    // logotype (panneau gauche) + signature (panneau droit), encre bleu nuit
+    const wmTex = canvasTex(1400, 300, (g, w) => {
+      const px = 168, ww = drawWordmark(g, 0, -1000, px, '#0B214A');   // mesure (hors champ)
+      const x0 = (w - ww) / 2;
+      drawWordmark(g, x0, 170, px, '#0B214A');
+      g.font = '600 40px Outfit, system-ui, sans-serif'; g.fillStyle = 'rgba(11,33,74,.62)'; g.letterSpacing = '12px';
+      g.textAlign = 'left'; g.fillText('SALON VIRTUEL · 24/7', x0 + 6, 262); g.letterSpacing = '0px';
+    });
+    const wm = mesh(new THREE.PlaneGeometry(3.3, 3.3 * 300 / 1400), new THREE.MeshBasicMaterial({ map: wmTex, transparent: true, color: new THREE.Color(.92, .92, .92) }), (X(0) + X(99)) / 2, 2.35, fF + pd + .028);
+    wm.layers.set(NOREFL);
+    const tagTex = canvasTex(900, 300, (g, w) => {
+      g.fillStyle = '#145CFF'; g.fillRect(0, 18, 70, 8);
+      g.font = '700 62px Outfit, system-ui, sans-serif'; g.fillStyle = '#0B214A'; g.textBaseline = 'top';
+      TAGLINE.forEach((t, i) => g.fillText(t, 0, 60 + i * 80, w));
+    });
+    const tg = mesh(new THREE.PlaneGeometry(2.4, .8), new THREE.MeshBasicMaterial({ map: tagTex, transparent: true, color: new THREE.Color(.92, .92, .92) }), X(140) + .3 + 1.2, 2.2, fF + pd + .028);
+    tg.layers.set(NOREFL);
+    // enseigne intérieure
+    const sti = mesh(new THREE.PlaneGeometry(5.6, .52), new THREE.MeshBasicMaterial({ map: signTex('Bienvenue', 'Salon virtuel', 1400, 128, null), transparent: true, color: new THREE.Color(1.1, 1.1, 1.1) }), 0, 6.75, fz - fd / 2 - .01);
     sti.rotation.y = Math.PI;
-    // la porte bleue du logo, grande ouverte
-    const k = 5.4 / 340, ds = new THREE.Shape([[-90, 33], [0, 0], [0, 255], [-90, 285]].map(([x, y]) => new THREE.Vector2(x * k * 1.8, y * k * 1.32)));
-    doorPivot.position.set(2.96, 0, fz + .34); doorPivot.rotation.y = 1.12; scene.add(doorPivot);
-    const door = mesh(new THREE.ExtrudeGeometry(ds, { depth: .09, bevelEnabled: true, bevelThickness: .015, bevelSize: .015, bevelSegments: 2 }),
-      std({ color: BLUE, emissive: BLUE, emissiveIntensity: .45, roughness: .28, metalness: .15 }), 0, .02, 0, doorPivot);
-    door.castShadow = true;
-    // parvis : halo lumineux qui s’échappe de la porte + totems
-    const spill = mesh(new THREE.PlaneGeometry(9, 9), new THREE.MeshBasicMaterial({ map: softTex('dot'), color: new THREE.Color(.16, .15, .32), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false }), 0, .006, fz + 4);
+    // couvercle bleu : charnière = arête basse-gauche du couvercle de la marque
+    const hd = new THREE.Vector2().subVectors(L3, L0).normalize(), phi = Math.atan2(hd.y, hd.x);
+    const c = Math.cos(-phi), s2 = Math.sin(-phi);
+    const lidShape = new THREE.Shape(MK.lid.map(p => { const v = V(p).sub(L3); return new THREE.Vector2(v.x * c - v.y * s2, v.x * s2 + v.y * c); }));
+    const hinge = new THREE.Group(); hinge.position.set(L3.x, L3.y, fF + .14); hinge.rotation.z = phi; scene.add(hinge);
+    hinge.add(entryLid);
+    const lgeo = new THREE.ExtrudeGeometry(lidShape, { depth: .2, bevelEnabled: true, bevelThickness: .025, bevelSize: .025, bevelSegments: 2 }); lgeo.translate(0, 0, -.1);
+    const lid = mesh(lgeo, M.lid, 0, 0, 0, entryLid);
+    lid.castShadow = true;
+    entryLid.rotation.x = .5;
+    // charnière (barre sombre)
+    const hl = L0.distanceTo(L3);
+    mesh(new THREE.CylinderGeometry(.05, .05, hl, 16), M.metal, -hl / 2, 0, 0, hinge).rotation.z = Math.PI / 2;
+    // parvis : halo bleu qui s’échappe du passage + totems
+    const spill = mesh(new THREE.PlaneGeometry(9, 9), new THREE.MeshBasicMaterial({ map: softTex('dot'), color: new THREE.Color(.06, .15, .4), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false }), 0, .006, fz + 4);
     spill.rotation.x = -Math.PI / 2; spill.layers.set(NOREFL);
-    const fl = new THREE.SpotLight(0xd8d6ff, 120, 22, .7, .8, 2); fl.position.set(0, 7.5, 13); fl.target.position.set(0, 3.6, fz); scene.add(fl, fl.target);
+    const fl = new THREE.SpotLight(0xdde6ff, 120, 22, .7, .8, 2); fl.position.set(0, 7.5, 13); fl.target.position.set(0, 3.6, fz); scene.add(fl, fl.target);
     const totemTex = canvasTex(360, 1040, (g, w, h) => {
-      const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#1a1488'); gr.addColorStop(1, '#3B2FF0');
+      const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#0B214A'); gr.addColorStop(.55, '#0A3FCC'); gr.addColorStop(1, '#145CFF');
       g.fillStyle = gr; g.fillRect(0, 0, w, h);
-      drawMark(g, 60, 70, 120);
+      drawMark(g, 58, 64, 110, '#ffffff', '#4D82FF');
+      drawWordmark(g, 58, 236, 42, '#fff', { blue: '#4D82FF' });
       g.fillStyle = '#fff'; g.font = '800 64px Outfit, system-ui, sans-serif'; g.textBaseline = 'top';
-      ['SALON', 'VIRTUEL'].forEach((t, i) => g.fillText(t, 56, 260 + i * 70));
-      g.font = '500 30px Manrope, system-ui, sans-serif'; g.fillStyle = 'rgba(255,255,255,.75)';
-      ['Ouvert 24h/24', '100% web', 'Sans installation'].forEach((t, i) => g.fillText(t, 58, 470 + i * 50));
+      ['SALON', 'VIRTUEL'].forEach((t, i) => g.fillText(t, 56, 330 + i * 70));
+      g.font = '500 30px Manrope, system-ui, sans-serif'; g.fillStyle = 'rgba(255,255,255,.78)';
+      ['Ouvert 24h/24', '100% web', 'Sans installation'].forEach((t, i) => g.fillText(t, 58, 520 + i * 50));
+      g.font = '600 24px Manrope, system-ui, sans-serif'; g.fillStyle = 'rgba(255,255,255,.6)';
+      TAGLINE.forEach((t, i) => g.fillText(t, 58, 740 + i * 34));
       g.fillStyle = 'rgba(255,255,255,.9)'; g.fillRect(58, 860, 80, 4);
       g.font = '700 26px Outfit, system-ui, sans-serif'; g.fillText('ENTRÉE →', 58, 890);
     });
-    // lavage lumineux de façade (uplights) — texture additive
-    const wash = canvasTex(512, 512, (g, w, h) => {
+    // lavage lumineux des trumeaux extérieurs (uplights) — texture additive
+    const wash = canvasTex(256, 512, (g, w, h) => {
       g.fillStyle = '#000'; g.fillRect(0, 0, w, h);
-      for (const cx of [w * .25, w * .75]) {
-        const gr = g.createRadialGradient(cx, h * 1.02, 4, cx, h * .95, h * .95);
-        gr.addColorStop(0, 'rgba(200,196,255,.95)'); gr.addColorStop(.35, 'rgba(120,110,255,.35)'); gr.addColorStop(1, 'rgba(60,50,240,0)');
-        g.save(); g.scale(1, 1); g.fillStyle = gr; g.beginPath(); g.ellipse(cx, h, w * .2, h * .95, 0, Math.PI, 0); g.fill(); g.restore();
-      }
+      const gr = g.createRadialGradient(w / 2, h * 1.02, 4, w / 2, h * .95, h * .95);
+      gr.addColorStop(0, 'rgba(190,212,255,.95)'); gr.addColorStop(.35, 'rgba(60,120,255,.35)'); gr.addColorStop(1, 'rgba(20,92,255,0)');
+      g.fillStyle = gr; g.beginPath(); g.ellipse(w / 2, h, w * .42, h * .95, 0, Math.PI, 0); g.fill();
     });
     for (const s of [-1, 1]) {
-      const wm = mesh(new THREE.PlaneGeometry(5.6, 6.2), new THREE.MeshBasicMaterial({ map: wash, color: new THREE.Color(.55, .55, .6), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }), s * 6.2, 3.1, fz + fd / 2 + .012);
-      wm.layers.set(NOREFL);
-      for (const x of [-1.4, 1.4]) mesh(new THREE.BoxGeometry(.3, .08, .18), M.black, s * 6.2 + x, .04, fz + .38);
+      const xw = s * (X(219) + HW) / 2;
+      const wmm = mesh(new THREE.PlaneGeometry(2.6, 6.2), new THREE.MeshBasicMaterial({ map: wash, color: new THREE.Color(.5, .5, .55), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }), xw, 3.1, fF + .012);
+      wmm.layers.set(NOREFL);
+      mesh(new THREE.BoxGeometry(.3, .08, .18), M.black, xw, .04, fz + .38);
     }
     for (const s of [-1, 1]) {
       const t = mesh(rbox(1, 2.9, .32, .05), M.black, s * 5.4, 1.45, fz + 3.2);
       t.castShadow = true;
-      const f = mesh(new THREE.PlaneGeometry(.9, 2.6), new THREE.MeshBasicMaterial({ map: totemTex, color: new THREE.Color(1.05, 1.05, 1.05) }), s * 5.4, 1.47, fz + 3.37);
+      mesh(new THREE.PlaneGeometry(.9, 2.6), new THREE.MeshBasicMaterial({ map: totemTex, color: new THREE.Color(1.05, 1.05, 1.05) }), s * 5.4, 1.47, fz + 3.37);
       contactShadow(1.8, 1.1, s * 5.4, fz + 3.2, scene, true);
-      void f;
     }
   }
 
@@ -638,14 +713,15 @@ export function mountHall(el, opts = {}) {
     contactShadow(4.4, 2.0, 0, -.1, g);
 
     const dirTex = canvasTex(600, 1100, (c, w, h) => {
-      c.fillStyle = '#0f0f14'; c.fillRect(0, 0, w, h);
-      drawMark(c, 50, 50, 70);
+      c.fillStyle = '#0B1630'; c.fillRect(0, 0, w, h);
+      drawMark(c, 50, 46, 72, '#ffffff', '#145CFF');
+      drawWordmark(c, 138, 104, 46, '#fff', { blue: '#4D82FF' });
       c.fillStyle = '#fff'; c.font = '800 50px Outfit, system-ui, sans-serif'; c.textBaseline = 'top';
       c.fillText('PLAN DU SALON', 50, 150);
-      c.fillStyle = '#5A50FF'; c.fillRect(50, 222, 90, 5);
+      c.fillStyle = '#4D82FF'; c.fillRect(50, 222, 90, 5);
       [...STANDS, STAGE].forEach((d, i) => {
         const y = 270 + i * 128;
-        c.fillStyle = '#3B2FF0'; c.beginPath(); c.arc(82, y + 34, 30, 0, 7); c.fill();
+        c.fillStyle = '#145CFF'; c.beginPath(); c.arc(82, y + 34, 30, 0, 7); c.fill();
         c.fillStyle = '#fff'; c.font = '700 26px Outfit, system-ui, sans-serif'; c.textAlign = 'center'; c.fillText(String(i + 1).padStart(2, '0'), 82, y + 21); c.textAlign = 'left';
         c.font = '700 32px Outfit, system-ui, sans-serif'; c.fillText(d.title, 136, y + 6);
         c.fillStyle = 'rgba(255,255,255,.55)'; c.font = '500 24px Manrope, system-ui, sans-serif';
@@ -668,10 +744,11 @@ export function mountHall(el, opts = {}) {
     pos.forEach(([x, z], i) => {
       const [a, b, c] = texts[i];
       const tx = canvasTex(400, 1100, (g, w, h) => {
-        const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, i % 2 ? '#F4F3EE' : '#3B2FF0'); gr.addColorStop(1, i % 2 ? '#E2E0D8' : '#2a20c8');
+        const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, i % 2 ? '#FFFFFF' : '#0B214A'); gr.addColorStop(.6, i % 2 ? '#F1F4FA' : '#0A3FCC'); gr.addColorStop(1, i % 2 ? '#E3E8F2' : '#145CFF');
         g.fillStyle = gr; g.fillRect(0, 0, w, h);
-        const ink = i % 2 ? '#141418' : '#ffffff';
-        drawMark(g, 60, 70, 110, ink, i % 2 ? '#3B2FF0' : '#ffffff');
+        const ink = i % 2 ? '#0B214A' : '#ffffff';
+        drawMark(g, 60, 70, 110, ink, i % 2 ? '#145CFF' : '#4D82FF');
+        drawWordmark(g, 58, 262, 50, ink, { blue: i % 2 ? '#145CFF' : '#4D82FF' });
         g.fillStyle = ink; g.textBaseline = 'top';
         g.font = '800 92px Outfit, system-ui, sans-serif'; g.fillText(a, 52, 560);
         g.font = `800 ${b.length > 6 ? 54 : 92}px Outfit, system-ui, sans-serif`; g.fillText(b, 52, 660);
@@ -701,14 +778,14 @@ export function mountHall(el, opts = {}) {
     gaps.forEach(([side, z], i) => {
       const [a, b, c] = posters[i];
       const tx = canvasTex(1024, 640, (g, w, h) => {
-        const gr = g.createLinearGradient(0, 0, w, h); gr.addColorStop(0, '#0f0d3a'); gr.addColorStop(.55, '#2a20c8'); gr.addColorStop(1, '#5A50FF');
+        const gr = g.createLinearGradient(0, 0, w, h); gr.addColorStop(0, '#0B214A'); gr.addColorStop(.55, '#0A3FCC'); gr.addColorStop(1, '#4D82FF');
         g.fillStyle = gr; g.fillRect(0, 0, w, h);
-        g.globalAlpha = .12; drawMark(g, w - 420, 60, 560); g.globalAlpha = 1;
+        g.globalAlpha = .12; drawMark(g, w - 470, 50, 540, '#ffffff', '#ffffff'); g.globalAlpha = 1;
         g.fillStyle = '#fff'; g.textBaseline = 'top';
         g.font = '800 96px Outfit, system-ui, sans-serif'; g.fillText(a.toUpperCase(), 70, 150);
-        g.fillStyle = '#c9c5ff'; g.fillText(b.toUpperCase(), 70, 250);
+        g.fillStyle = '#AFC6FF'; g.fillText(b.toUpperCase(), 70, 250);
         g.fillStyle = 'rgba(255,255,255,.8)'; g.font = '500 34px Manrope, system-ui, sans-serif'; g.fillText(c, 74, 400);
-        drawMark(g, 74, 520, 50); g.font = '700 26px Outfit, system-ui, sans-serif'; g.fillStyle = '#fff'; g.fillText('ART EXPOSIUM', 130, 532);
+        drawMark(g, 74, 516, 54, '#ffffff', '#4D82FF'); drawWordmark(g, 140, 562, 34, '#fff', { blue: '#4D82FF' });
       });
       const grp = new THREE.Group(); grp.position.set(side * (HW - .02), 0, z); grp.rotation.y = -side * Math.PI / 2; scene.add(grp);
       mesh(rbox(5.4, 3.5, .14, .03), M.black, 0, 3.3, .07, grp);
@@ -729,23 +806,32 @@ export function mountHall(el, opts = {}) {
 
   /* ---------- espace networking (rond central) ---------- */
   const ring = { x: 0, z: -24, r: 2.25 };
-  const logoSpin = new THREE.Group();
+  const logoSpin = new THREE.Group(), lidHinge = new THREE.Group();
   {
     const g = new THREE.Group(); g.position.set(ring.x, 0, ring.z); scene.add(g);
     const prof = [[1.35, 0], [2.05, 0], [2.1, .05], [2.1, .42], [2.05, .46], [1.35, .46], [1.3, .42], [1.3, .05]].map(([x, y]) => new THREE.Vector2(x, y));
     const seat = mesh(new THREE.LatheGeometry(prof, 72), M.fabric, 0, 0, 0, g); seat.castShadow = seat.receiveShadow = true;
     mesh(new THREE.TorusGeometry(1.31, .015, 6, 96), glow(BLUE2, 2.8), 0, .05, 0, g).rotation.x = Math.PI / 2;
-    mesh(new THREE.CylinderGeometry(.75, .8, .9, 64), std({ color: 0x111116, roughness: .25, metalness: .5 }), 0, .45, 0, g).castShadow = true;
+    mesh(new THREE.CylinderGeometry(.75, .8, .9, 64), std({ color: 0x0d1220, roughness: .25, metalness: .5 }), 0, .45, 0, g).castShadow = true;
     mesh(new THREE.CylinderGeometry(.7, .7, .02, 64), glow(BLUE, 2), 0, .91, 0, g);
     contactShadow(5.4, 5.4, 0, 0, g, true);
-    // logo en lévitation
-    const k = 1.1 / 340, P = pts => new THREE.Shape(pts.map(([x, y]) => new THREE.Vector2((x - 150) * k, (340 - y) * k)));
-    const ex = { depth: .12, bevelEnabled: true, bevelThickness: .015, bevelSize: .012, bevelSegments: 2 };
-    const fg = new THREE.ExtrudeGeometry(P([[5, 95], [198, 5], [198, 55], [85, 108], [85, 250], [5, 290]]), ex); fg.translate(0, 0, -.06);
-    const dg = new THREE.ExtrudeGeometry(P([[202, 55], [292, 85], [292, 340], [202, 307]]), ex); dg.translate(0, 0, -.06);
-    logoSpin.position.set(0, 1.35, 0); g.add(logoSpin);
-    mesh(fg, phys({ color: 0xf2f1ec, roughness: .2, metalness: .1, clearcoat: 1 }), 0, 0, 0, logoSpin).castShadow = true;
-    mesh(dg, std({ color: BLUE, emissive: BLUE, emissiveIntensity: .8, roughness: .3 }), 0, 0, 0, logoSpin);
+    // la marque en vrai volume : boîte ouverte en lévitation, couvercle qui respire
+    {
+      const sz = .6, t = .045, gp = .11, h = sz / 2;
+      const shell = phys({ color: 0xf2f3f6, roughness: .2, metalness: .1, clearcoat: 1 });
+      logoSpin.position.set(0, 1.4, 0); g.add(logoSpin);
+      const box = new THREE.Group(); logoSpin.add(box);
+      const W = (w, hh, d, x, y, z) => mesh(rbox(w, hh, d, .012), shell, x, y, z, box);
+      W(sz, t, sz, 0, -h + t / 2, 0);                                // fond
+      // 4 parois, écartées sur deux arêtes opposées : l’écart du « Y » se lit sous tous les angles
+      W(sz - gp, sz, t, -gp / 2, 0, h - t / 2);                      // avant
+      W(t, sz, sz - gp, h - t / 2, 0, -gp / 2);                      // droite
+      W(sz - gp, sz, t, gp / 2, 0, -h + t / 2);                      // dos (porte la charnière)
+      W(t, sz, sz - gp, -h + t / 2, 0, gp / 2);                      // gauche
+      mesh(new THREE.PlaneGeometry(sz - 2 * t, sz - 2 * t), glow(BLUE, 2.4), 0, -h + t + .003, 0, box).rotation.x = -Math.PI / 2;   // lumière intérieure
+      lidHinge.position.set(0, h, -h); box.add(lidHinge);
+      mesh(rbox(sz + .02, t, sz + .02, .012), M.lid, 0, t / 2, sz / 2, lidHinge);
+    }
     // anneau lumineux suspendu
     mesh(new THREE.TorusGeometry(2.0, .05, 12, 128), glow(0xfff0dc, 3.2), 0, 5.2, 0, g).rotation.x = Math.PI / 2;
     mesh(new THREE.TorusGeometry(2.0, .075, 12, 128, Math.PI * 2), M.black, 0, 5.26, 0, g).rotation.x = Math.PI / 2;
@@ -758,7 +844,7 @@ export function mountHall(el, opts = {}) {
   const seatsBox = { x0: -3.4, x1: 7, z0: -L + 6.6, z1: -L + 12.8 };
   {
     const z0 = -L;
-    const plat = mesh(rbox(HW * 2 - .3, .55, 5, .03), std({ color: 0x141418, roughness: .35, metalness: .2 }), 0, .275, z0 + 2.5);
+    const plat = mesh(rbox(HW * 2 - .3, .55, 5, .03), std({ color: 0x111521, roughness: .35, metalness: .2 }), 0, .275, z0 + 2.5);
     plat.receiveShadow = true;
     mesh(new THREE.BoxGeometry(HW * 2 - .4, .025, .03), glow(BLUE2, 2.8), 0, .52, z0 + 5.01);
     mesh(new THREE.BoxGeometry(HW * 2 - .4, .025, .03), glow(BLUE2, 2.5), 0, .04, z0 + 5.02);
@@ -771,13 +857,12 @@ export function mountHall(el, opts = {}) {
     for (const x of [1.8 - sw / 2 - .55, 1.8 + sw / 2 + .55]) mesh(new THREE.BoxGeometry(.08, sh + .3, .05), glow(BLUE2, 3.6), x, 3.75, z0 + .3);
     // pupitre
     const lect = mesh(rbox(.7, 1.15, .5, .04), M.white, 4.6, .55 + .575, z0 + 3.4); lect.castShadow = true;
-    mesh(new THREE.PlaneGeometry(.5, .14), new THREE.MeshBasicMaterial({ map: signTex('Art Exposium', '', 900, 128, null), transparent: true }), 4.6, 1.35, z0 + 3.66);
-    // logo en volume
-    const k = 4.4 / 340, P = pts => new THREE.Shape(pts.map(([x, y]) => new THREE.Vector2(x * k, (340 - y) * k)));
-    const ex = { depth: .35, bevelEnabled: true, bevelThickness: .03, bevelSize: .02, bevelSegments: 2 };
-    const logo = new THREE.Group(); logo.position.set(-7.9, .55, z0 + .9); scene.add(logo);
-    mesh(new THREE.ExtrudeGeometry(P([[5, 95], [198, 5], [198, 55], [85, 108], [85, 250], [5, 290]]), ex), std({ color: 0xe8e6e0, roughness: .35, metalness: .1 }), 0, 0, 0, logo).castShadow = true;
-    mesh(new THREE.ExtrudeGeometry(P([[202, 55], [292, 85], [292, 340], [202, 307]]), ex), std({ color: BLUE, emissive: BLUE, emissiveIntensity: .75, roughness: .3 }), 0, 0, 0, logo);
+    mesh(new THREE.PlaneGeometry(.5, .14), new THREE.MeshBasicMaterial({ map: signTex('Neokrome', '', 900, 128, null), transparent: true }), 4.6, 1.35, z0 + 3.66);
+    // logo en volume (marque extrudée, proportions exactes)
+    const logo = new THREE.Group(); logo.position.set(-7.95, .55, z0 + .9); logo.rotation.y = .18; scene.add(logo);
+    const mk = markGeo(3.8, .35, .03);
+    mesh(mk.panels, std({ color: 0xe9ecf2, roughness: .35, metalness: .1 }), 0, 0, 0, logo).castShadow = true;
+    mesh(mk.lid, M.lid, 0, 0, .06, logo);
     // pont lumière
     mesh(new THREE.BoxGeometry(HW * 2 - .6, .3, .3), M.metal, 0, 6.7, z0 + 6.5);
     const cans = [];
@@ -790,7 +875,7 @@ export function mountHall(el, opts = {}) {
     const st = new THREE.SpotLight(0xfff3e6, 260, 26, .62, .7, 2);
     st.position.set(1.8, 6.45, z0 + 6.5); st.target.position.set(1.8, 1.2, z0 + 2); scene.add(st, st.target);
     if (!mobile) { st.castShadow = true; st.shadow.mapSize.set(1024, 1024); st.shadow.bias = -.0004; st.shadow.normalBias = .02; st.shadow.camera.near = 1; st.shadow.camera.far = 14; }
-    for (const x of [-6, 7]) { const w = new THREE.PointLight(0x5a50ff, 22, 9, 2); w.position.set(x, 3.4, z0 + 2.2); scene.add(w); }
+    for (const x of [-6, 7]) { const w = new THREE.PointLight(0x3f8cff, 22, 9, 2); w.position.set(x, 3.4, z0 + 2.2); scene.add(w); }
     // gradins
     const chair = rbox(.5, .1, .5, .03), back = rbox(.5, .55, .07, .025), leg = new THREE.BoxGeometry(.04, .42, .04);
     const N = 36, seatM = new THREE.InstancedMesh(chair, M.fabric, N), backM = new THREE.InstancedMesh(back, M.fabric, N), legM = new THREE.InstancedMesh(leg, M.metal, N * 2);
@@ -818,7 +903,7 @@ export function mountHall(el, opts = {}) {
   function builtinStand({ data, index }) {
     const g = new THREE.Group(), pk = [], lights = [];
     const add = (geo, mat, x, y, z, cast = true, recv = true) => { const m = mesh(geo, mat, x, y, z, g); m.castShadow = cast; m.receiveShadow = recv; return m; };
-    const accent = [BLUE2, 0xff7a3d, 0x2fd3c4, 0x5A50FF, 0xd8b46a][index % 5];
+    const accent = [BLUE2, 0xff7a3d, 0x2fd3c4, 0x4D82FF, 0xd8b46a][index % 5];
     pk.push(add(rbox(9.2, .16, 4.8, .03), std({ color: 0x5f5c57, roughness: .62 }), 0, .08, -.2, false));
     add(new THREE.BoxGeometry(9.0, .02, .02), glow(accent, 3), 0, .03, 2.21, false, false);
     pk.push(add(rbox(9.2, 5.4, .3, .04), std({ color: 0x1a1a20, roughness: .62 }), 0, 2.86, -2.45, false));
@@ -989,8 +1074,8 @@ export function mountHall(el, opts = {}) {
   /* ---------- marqueur au sol ---------- */
   const marker = new THREE.Group(); marker.visible = false; scene.add(marker);
   {
-    const ringM = new THREE.Mesh(new THREE.PlaneGeometry(.9, .9), new THREE.MeshBasicMaterial({ map: softTex('ring'), color: new THREE.Color(1.3, 1.3, 1.8), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
-    const dotM = new THREE.Mesh(new THREE.PlaneGeometry(.22, .22), new THREE.MeshBasicMaterial({ map: softTex('dot'), color: new THREE.Color(.9, .9, 1.6), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    const ringM = new THREE.Mesh(new THREE.PlaneGeometry(.9, .9), new THREE.MeshBasicMaterial({ map: softTex('ring'), color: new THREE.Color(1.1, 1.35, 1.9), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    const dotM = new THREE.Mesh(new THREE.PlaneGeometry(.22, .22), new THREE.MeshBasicMaterial({ map: softTex('dot'), color: new THREE.Color(.75, .95, 1.7), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
     for (const m of [ringM, dotM]) { m.rotation.x = -Math.PI / 2; m.position.y = .012; m.layers.set(NOREFL); marker.add(m); }
     marker.userData.ring = ringM;
   }
@@ -1250,13 +1335,13 @@ export function mountHall(el, opts = {}) {
     g.fillStyle = 'rgba(255,255,255,.04)'; g.strokeStyle = 'rgba(255,255,255,.25)'; g.lineWidth = 1;
     g.fillRect(X(4), Y(-HW), L * s, HW * 2 * s); g.strokeRect(X(4) + .5, Y(-HW) + .5, L * s - 1, HW * 2 * s - 1);
     STANDS.forEach((d, i) => {
-      g.fillStyle = i === current ? '#5A50FF' : 'rgba(90,80,255,.45)';
+      g.fillStyle = i === current ? '#4D82FF' : 'rgba(77,130,255,.45)';
       const x0 = d.side < 0 ? -HW : 4.2, x1 = d.side < 0 ? -4.2 : HW;
       g.fillRect(X(d.z + 4.6), Y(x0), 9.2 * s, (x1 - x0) * s);
     });
-    g.fillStyle = current === 5 ? '#5A50FF' : 'rgba(255,255,255,.3)'; g.fillRect(X(-L + 5), Y(-HW), 5 * s, HW * 2 * s);
+    g.fillStyle = current === 5 ? '#4D82FF' : 'rgba(255,255,255,.3)'; g.fillRect(X(-L + 5), Y(-HW), 5 * s, HW * 2 * s);
     g.strokeStyle = 'rgba(255,255,255,.35)'; g.beginPath(); g.arc(X(ring.z), Y(ring.x), ring.r * s, 0, 7); g.stroke();
-    g.fillStyle = '#5A50FF'; g.fillRect(X(4) - 1, Y(-3), 2, 6 * s);
+    g.fillStyle = '#4D82FF'; g.fillRect(X(4) - 1, Y(-3), 2, 6 * s);
     // visiteur
     const cx = X(cam.pos.z), cy = Y(cam.pos.x), base = -cam.yaw;
     g.fillStyle = 'rgba(255,255,255,.18)'; g.beginPath(); g.moveTo(cx, cy);
@@ -1380,7 +1465,9 @@ export function mountHall(el, opts = {}) {
     camera.rotation.set(cam.pitch + Math.sin(time * .53 + 1) * .004 * br, cam.yaw + Math.sin(time * .37) * .006 * br, Math.sin(time * .29) * .0025 * br, 'YXZ');
 
     for (const u of updaters) { try { u(dt, time); } catch (e) { updaters.splice(updaters.indexOf(u), 1); console.warn('[hall] update', e); } }
-    logoSpin.rotation.y += dt * .45; logoSpin.position.y = 1.35 + Math.sin(time * 1.1) * .05;
+    logoSpin.rotation.y += dt * .45; logoSpin.position.y = 1.4 + Math.sin(time * 1.1) * .05;
+    lidHinge.rotation.x = -(.78 + Math.sin(time * .9) * .16);
+    entryLid.rotation.x = .5 + Math.sin(time * .6) * .05;
     banners.forEach((b, i) => { b.rotation.y = Math.sin(time * .35 + i * 1.7) * .035; });
     updateDust(dt, time);
     if (marker.visible) {

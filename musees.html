@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Musées virtuels — Art Exposium</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>Musées virtuels — Neokrome</title>
 <meta name="description" content="Des musées virtuels immersifs pour valoriser l’histoire, le patrimoine, les savoir-faire et les innovations des marques, des entreprises et des institutions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +16,7 @@
 .sv-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--paper)}
 .sv-img{position:absolute;inset:0;z-index:1;background:#05050a}
 .sv-img img{width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1.2));will-change:transform}
-.sv-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,20,24,.15) 30%,rgba(20,20,24,.85));opacity:var(--shade,0)}
+.sv-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,33,74,.15) 30%,rgba(11,33,74,.85));opacity:var(--shade,0)}
 .sv-door-wrap{position:absolute;z-index:2;perspective:1100px;pointer-events:none}
 .sv-door{position:absolute;inset:0;background:var(--blue);transform-origin:100% 50%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);
   box-shadow:inset -30px 0 60px rgba(0,0,0,.2);will-change:transform}
@@ -53,7 +54,7 @@
 .valeur b{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.95;font-size:clamp(40px,8vw,140px);transition:color .4s,transform .6s var(--ease)}
 .valeur:hover b{color:var(--blue);transform:translateX(18px)}
 .valeur span{font-family:var(--display);font-size:14px;letter-spacing:.14em;color:var(--ink-soft);white-space:nowrap}
-.mu-float{position:fixed;left:0;top:0;width:300px;aspect-ratio:640/357;border-radius:16px;overflow:hidden;pointer-events:none;z-index:50;opacity:0;transform:translate(-50%,-50%) scale(.85) rotate(-4deg);transition:opacity .35s,transform .5s var(--ease);box-shadow:0 30px 60px rgba(20,20,24,.25)}
+.mu-float{position:fixed;left:0;top:0;width:300px;aspect-ratio:640/357;border-radius:16px;overflow:hidden;pointer-events:none;z-index:50;opacity:0;transform:translate(-50%,-50%) scale(.85) rotate(-4deg);transition:opacity .35s,transform .5s var(--ease);box-shadow:0 30px 60px rgba(11,33,74,.25)}
 .mu-float.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-4deg)}
 .mu-float img{width:100%;height:100%;object-fit:cover}
 .audiences{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:6vh}
@@ -69,7 +70,7 @@
 .frise{position:relative;padding:40px 0}
 .frise-ol{position:relative;list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
 .frise svg.wave{position:absolute;left:0;right:0;top:50%;width:100%;height:160px;transform:translateY(-50%);overflow:visible;pointer-events:none}
-.frise .wave path{fill:none;stroke:var(--blue);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.4s var(--ease);filter:drop-shadow(0 0 10px rgba(90,80,255,.5))}
+.frise .wave path{fill:none;stroke:var(--blue);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.4s var(--ease);filter:drop-shadow(0 0 10px rgba(77,130,255,.5))}
 .frise.in .wave path{stroke-dashoffset:0}
 .node{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px}
 .node:nth-child(odd){transform:translateY(-36px)}
@@ -83,8 +84,8 @@
 .frise-foot b{font-family:var(--display);font-weight:800;font-size:clamp(22px,2.4vw,36px);text-transform:uppercase;letter-spacing:-.02em;line-height:1}
 .frise-foot b span{color:var(--blue)}
 .live-chip{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:99px;border:1px solid var(--line);font:600 13px var(--display);letter-spacing:.14em;text-transform:uppercase}
-.live-chip i{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 0 rgba(59,47,240,.5);animation:livep 1.8s infinite}
-@keyframes livep{to{box-shadow:0 0 0 10px rgba(59,47,240,0)}}
+.live-chip i{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 0 rgba(20,92,255,.5);animation:livep 1.8s infinite}
+@keyframes livep{to{box-shadow:0 0 0 10px rgba(20,92,255,0)}}
 
 /* ---------- salles (cartes empilées) ---------- */
 .mu-salles{background:var(--ink);color:var(--paper);padding:16vh 0 10vh}
@@ -103,7 +104,7 @@
 .shot img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
 .shot:hover img{transform:scale(1.05)}
 .shot figcaption{position:absolute;left:16px;bottom:16px;max-width:calc(100% - 32px);font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;
-  background:rgba(20,20,24,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:9px 16px;border-radius:99px;display:flex;gap:10px;align-items:center}
+  background:rgba(11,33,74,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:9px 16px;border-radius:99px;display:flex;gap:10px;align-items:center}
 .shot figcaption::before{content:"";width:12px;height:12px;flex:none;background:var(--blue-2);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
 
 /* ---------- manifeste ---------- */
@@ -174,18 +175,19 @@
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="mark" viewBox="0 0 300 340">
-    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
-    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  <symbol id="mark" viewBox="0 0 220 230">
+    <polygon class="mk-frame" points="0,42 99,112 99,229 0,172"/>
+    <polygon class="mk-frame" points="140,122 219,72 219,172 140,229"/>
+    <polygon class="mk-door" points="78,45 204,1 205,69 139,100"/>
   </symbol>
 </svg>
 
 <div class="cursor" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
-  <a href="index.html" class="logo" aria-label="Art Exposium — accueil">
-    <svg viewBox="0 0 300 340"><use href="#mark"/></svg>
-    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  <a href="index.html" class="logo" aria-label="Neokrome — accueil">
+    <svg viewBox="0 0 220 230"><use href="#mark"/></svg>
+    <span class="wm"><b>NEO<i class="k">K</i>ROME</b><small><i class="td"></i>tech</small></span>
   </a>
   <ul>
     <li><a href="index.html#univers">Secteurs</a></li>
@@ -240,7 +242,7 @@
 <section class="mu-intro">
   <div class="wrap">
     <span class="eyebrow rv" style="color:var(--blue)">06 — Culture</span>
-    <p class="mu-lead rv d1" style="margin-top:5vh">ART EXPOSIUM développe des musées virtuels immersifs permettant de valoriser <em>ce qui vous rend unique.</em></p>
+    <p class="mu-lead rv d1" style="margin-top:5vh">NEOKROME développe des musées virtuels immersifs permettant de valoriser <em>ce qui vous rend unique.</em></p>
     <ul class="valeurs" id="valeurs">
       <li class="valeur rv" data-img="assets/img/musees/musee-1.png"><b>L’histoire</b><span>01</span></li>
       <li class="valeur rv" data-img="assets/img/musees/musee-3.png"><b>Le patrimoine</b><span>02</span></li>
@@ -344,7 +346,7 @@
 
 <!-- CTA -->
 <section class="cta" id="contact">
-  <svg class="cta-mark" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <svg class="cta-mark" viewBox="0 0 220 230" aria-hidden="true"><use href="#mark"/></svg>
   <div class="wrap">
     <span class="eyebrow rv">Votre musée</span>
     <h2 class="cta-big rv d1" style="margin-top:4vh"><span>Ouvrez</span><span class="o">vos portes</span><span>à tous.</span></h2>
@@ -361,12 +363,12 @@
   <div class="wrap">
     <div class="foot-top">
       <div>
-        <a href="index.html" class="logo"><svg viewBox="0 0 300 340"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
-        <p class="about">Art Exposium — agence de création et technologie immersive 100% web : design, web, réalité augmentée et salons 3D, depuis plus de 30 ans.</p>
+        <a href="index.html" class="logo"><svg viewBox="0 0 220 230"><use href="#mark"/></svg><span class="wm"><b>NEO<i class="k">K</i>ROME</b><small><i class="td"></i>tech</small></span></a>
+        <p class="about">Neokrome — L’intelligence visuelle. L’expérience numérique. Agence de création et technologie immersive 100% web : design, web, réalité augmentée et salons 3D, depuis plus de 30 ans.</p>
       </div>
       <div>
         <h4>Siège social</h4>
-        <ul><li>Art Exposium</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+        <ul><li>Neokrome</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
       </div>
       <div>
         <h4>Contact</h4>
@@ -377,9 +379,9 @@
         <ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="a-propos.html">L’agence</a></li><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
       </div>
     </div>
-    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-giant" aria-hidden="true">Neokrome</div>
     <div class="foot-bot">
-      <span>© Art Exposium — Tous droits réservés</span>
+      <span>© Neokrome — Tous droits réservés</span>
       <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
     </div>
   </div>

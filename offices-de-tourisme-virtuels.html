@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Offices de tourisme virtuels — Art Exposium</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>Offices de tourisme virtuels — Neokrome</title>
 <meta name="description" content="Des offices de tourisme virtuels immersifs : hôtes en hologramme, panoramas 360°, cartes interactives, réalité augmentée. Une porte d’entrée digitale vers votre destination.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +16,7 @@
 .sv-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--paper)}
 .sv-img{position:absolute;inset:0;z-index:1;background:#05050a;clip-path:polygon(0 0,0 0,0 0,0 0)}
 .sv-img img{width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1.25));will-change:transform}
-.sv-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,20,24,.1) 30%,rgba(20,20,24,.85));opacity:var(--shade,0)}
+.sv-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,33,74,.1) 30%,rgba(11,33,74,.85));opacity:var(--shade,0)}
 .sv-door-wrap{position:absolute;z-index:2;perspective:1100px;pointer-events:none}
 .sv-door{position:absolute;inset:0;background:var(--blue);transform-origin:100% 50%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);box-shadow:inset -30px 0 60px rgba(0,0,0,.2);will-change:transform}
 .sv-door::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.4),transparent);opacity:var(--o,0)}
@@ -47,7 +48,7 @@
 .shot img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
 .shot:hover img{transform:scale(1.05)}
 .shot figcaption{position:absolute;left:18px;bottom:18px;font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;
-  background:rgba(20,20,24,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:9px 16px;border-radius:99px;display:flex;gap:10px;align-items:center}
+  background:rgba(11,33,74,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:9px 16px;border-radius:99px;display:flex;gap:10px;align-items:center}
 .shot figcaption::before{content:"";width:12px;height:12px;background:var(--blue-2);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
 .mq-track span i{color:var(--blue-2);-webkit-text-stroke:0}
 
@@ -119,7 +120,7 @@
 .ot-result h2 span{color:var(--blue)}
 .ot-result .grid > div > p{margin-top:4vh;color:var(--ink-soft);font-size:18px;max-width:480px}
 .cards{position:relative;height:clamp(380px,48vw,640px)}
-.pc{position:absolute;width:64%;background:#fff;padding:12px 12px 0;border-radius:18px;box-shadow:0 30px 60px -30px rgba(20,20,24,.45);transition:transform .9s var(--ease),z-index 0s .2s}
+.pc{position:absolute;width:64%;background:#fff;padding:12px 12px 0;border-radius:18px;box-shadow:0 30px 60px -30px rgba(11,33,74,.45);transition:transform .9s var(--ease),z-index 0s .2s}
 .pc .shot{aspect-ratio:1032/796;border-radius:10px}
 .pc .shot figcaption{display:none}
 .pc p{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:14px 4px 16px;display:flex;justify-content:space-between;gap:10px}
@@ -179,18 +180,19 @@
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="mark" viewBox="0 0 300 340">
-    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
-    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  <symbol id="mark" viewBox="0 0 220 230">
+    <polygon class="mk-frame" points="0,42 99,112 99,229 0,172"/>
+    <polygon class="mk-frame" points="140,122 219,72 219,172 140,229"/>
+    <polygon class="mk-door" points="78,45 204,1 205,69 139,100"/>
   </symbol>
 </svg>
 
 <div class="cursor" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
-  <a href="index.html" class="logo" aria-label="Art Exposium — accueil">
-    <svg viewBox="0 0 300 340"><use href="#mark"/></svg>
-    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  <a href="index.html" class="logo" aria-label="Neokrome — accueil">
+    <svg viewBox="0 0 220 230"><use href="#mark"/></svg>
+    <span class="wm"><b>NEO<i class="k">K</i>ROME</b><small><i class="td"></i>tech</small></span>
   </a>
   <ul>
     <li><a href="index.html#univers">Secteurs</a></li>
@@ -246,7 +248,7 @@
 <section class="ot-intro" id="visite">
   <div class="wrap">
     <span class="eyebrow rv" style="color:var(--blue)">L’office de tourisme, réinventé</span>
-    <p class="ot-lead rv d1">Les offices de tourisme virtuels d’ART EXPOSIUM réinventent la manière de <em>séduire, d’inspirer et d’informer</em> les voyageurs.</p>
+    <p class="ot-lead rv d1">Les offices de tourisme virtuels d’NEOKROME réinventent la manière de <em>séduire, d’inspirer et d’informer</em> les voyageurs.</p>
     <div class="ot-intro-row">
       <p class="rv">Bien plus qu’un simple site internet : <strong>un véritable espace immersif et interactif</strong>, où chaque utilisateur devient <strong>acteur de sa découverte.</strong></p>
       <figure class="shot rv d1" data-lb>
@@ -319,7 +321,7 @@
 <section class="ot-manif">
   <div class="wrap">
     <span class="eyebrow rv" style="color:var(--blue)">Une porte d’entrée digitale</span>
-    <p class="q rv d1" style="margin-top:5vh">Véritable <b>porte d’entrée digitale vers une destination</b>, l’office de tourisme virtuel ART EXPOSIUM transforme la préparation du voyage en une expérience vivante et mémorable.</p>
+    <p class="q rv d1" style="margin-top:5vh">Véritable <b>porte d’entrée digitale vers une destination</b>, l’office de tourisme virtuel NEOKROME transforme la préparation du voyage en une expérience vivante et mémorable.</p>
     <div class="trio">
       <div class="rv"><small>01</small><b>Innovation</b></div>
       <div class="rv d1"><small>02</small><b>Émotion</b></div>
@@ -367,7 +369,7 @@
 
 <!-- CTA -->
 <section class="cta" id="contact">
-  <svg class="cta-mark" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <svg class="cta-mark" viewBox="0 0 220 230" aria-hidden="true"><use href="#mark"/></svg>
   <div class="wrap">
     <span class="eyebrow rv">Votre destination</span>
     <h2 class="cta-big rv d1" style="margin-top:4vh"><span>Faites</span><span class="o">voyager</span><span>avant le départ.</span></h2>
@@ -384,12 +386,12 @@
   <div class="wrap">
     <div class="foot-top">
       <div>
-        <a href="index.html" class="logo"><svg viewBox="0 0 300 340"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
-        <p class="about">Art Exposium — agence de création et technologie immersive 100% web : design, web, réalité augmentée et salons 3D, depuis plus de 30 ans.</p>
+        <a href="index.html" class="logo"><svg viewBox="0 0 220 230"><use href="#mark"/></svg><span class="wm"><b>NEO<i class="k">K</i>ROME</b><small><i class="td"></i>tech</small></span></a>
+        <p class="about">Neokrome — L’intelligence visuelle. L’expérience numérique. Agence de création et technologie immersive 100% web : design, web, réalité augmentée et salons 3D, depuis plus de 30 ans.</p>
       </div>
       <div>
         <h4>Siège social</h4>
-        <ul><li>Art Exposium</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+        <ul><li>Neokrome</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
       </div>
       <div>
         <h4>Contact</h4>
@@ -400,9 +402,9 @@
         <ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="a-propos.html">L’agence</a></li><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
       </div>
     </div>
-    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-giant" aria-hidden="true">Neokrome</div>
     <div class="foot-bot">
-      <span>© Art Exposium — Tous droits réservés</span>
+      <span>© Neokrome — Tous droits réservés</span>
       <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
     </div>
   </div>

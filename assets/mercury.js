@@ -1,10 +1,10 @@
-/* Art Exposium — goutte de mercure liquide (three.js)
+/* Neokrome — goutte de mercure liquide (three.js)
    mountMercury(el) : sphère chromée qui ondule et se déforme vers le pointeur */
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 
-const BLUE = 0x3B2FF0;
+const BLUE = 0x145CFF;
 
 export function mountMercury(el) {
   const probe = document.createElement('canvas');

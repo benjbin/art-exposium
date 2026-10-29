@@ -1,5 +1,5 @@
 /* =========================================================
-   Art Exposium — pages secondaires
+   Neokrome — pages secondaires
    (contact, démo, rendez-vous, FAQ, pages légales)
    Complète site.css — ne redéfinit pas ses tokens.
    ========================================================= */
@@ -37,9 +37,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .pg-meta b{color:var(--ink);font-weight:600}
 
 /* ---------- formulaires ---------- */
-.fx{--f-ink:var(--ink);--f-soft:var(--ink-soft);--f-line:rgba(20,20,24,.22);--f-fill:rgba(20,20,24,.035);--f-accent:var(--blue);--f-err:#C4183C;
+.fx{--f-ink:var(--ink);--f-soft:var(--ink-soft);--f-line:rgba(11,33,74,.22);--f-fill:rgba(11,33,74,.035);--f-accent:var(--blue);--f-err:#C4183C;
   display:grid;grid-template-columns:1fr 1fr;gap:26px 22px;color:var(--f-ink)}
-.fx.dk{--f-ink:var(--paper);--f-soft:rgba(244,243,238,.6);--f-line:rgba(244,243,238,.24);--f-fill:rgba(244,243,238,.05);--f-accent:var(--blue-2);--f-err:#FF7A90}
+.fx.dk{--f-ink:var(--paper);--f-soft:rgba(255,255,255,.6);--f-line:rgba(255,255,255,.24);--f-fill:rgba(255,255,255,.05);--f-accent:var(--blue-2);--f-err:#FF7A90}
 .fx-field{display:flex;flex-direction:column;gap:8px;min-width:0;border:0;position:relative}
 .fx-field.full{grid-column:1/-1}
 .fx-field > label,.fx-field > legend,.fx-lab{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--f-soft);padding:0;transition:color .3s}
@@ -123,7 +123,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .fq-search svg{position:absolute;left:22px;top:50%;width:22px;height:22px;transform:translateY(-50%);stroke:var(--ink-soft);fill:none;stroke-width:2;pointer-events:none}
 .fq-search input{-webkit-appearance:none;appearance:none;width:100%;font:500 19px var(--body);color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:20px 56px 20px 58px;transition:border-color .3s,box-shadow .3s}
 .fq-search input::-webkit-search-cancel-button{-webkit-appearance:none}
-.fq-search input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 5px rgba(59,47,240,.14)}
+.fq-search input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 5px rgba(20,92,255,.14)}
 .fq-clear{all:unset;position:absolute;right:12px;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--ink-soft);font-size:16px}
 .fq-clear:hover{background:var(--paper-2);color:var(--ink)}
 .fq-clear:focus-visible{outline:2px solid var(--blue)}
@@ -146,7 +146,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .fq-q:hover{color:var(--blue)}
 .fq-q:hover .pl{border-color:var(--blue)}
 .fq-q:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:8px}
-.fq-q mark{background:rgba(59,47,240,.16);color:inherit;border-radius:4px;padding:0 2px}
+.fq-q mark{background:rgba(20,92,255,.16);color:inherit;border-radius:4px;padding:0 2px}
 .fq-item.open .fq-q{padding-left:12px}
 .fq-item.open .fq-q small{color:var(--blue)}
 .fq-item.open .fq-q .pl{background:var(--blue);border-color:var(--blue);color:#fff;transform:rotate(180deg)}

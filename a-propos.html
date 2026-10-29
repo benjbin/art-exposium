@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>L’agence — Art Exposium</title>
-<meta name="description" content="Depuis plus de 30 ans à Fontainebleau, Art Exposium réunit un studio de création — design, web, réalité augmentée et virtuelle — et une technologie immersive 100% web. Nous écoutons, nous échangeons, nous créons.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<title>L’agence — Neokrome</title>
+<meta name="description" content="Depuis plus de 30 ans à Fontainebleau, Neokrome réunit un studio de création — design, web, réalité augmentée et virtuelle — et une technologie immersive 100% web. Nous écoutons, nous échangeons, nous créons.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,7 +16,7 @@
 .ap-hero::before{content:"";position:absolute;inset:0;opacity:.5;
   background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:80px 80px;
   mask-image:radial-gradient(circle at 72% 50%,#000 0,transparent 62%);-webkit-mask-image:radial-gradient(circle at 72% 50%,#000 0,transparent 62%)}
-.ap-hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(50vmax 50vmax at 76% 52%,rgba(59,47,240,.12),transparent 60%)}
+.ap-hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(50vmax 50vmax at 76% 52%,rgba(20,92,255,.12),transparent 60%)}
 .ap-hero .wrap{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:1.6fr 1fr;gap:4vw;align-items:center}
 .ap-eyebrow{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;font-family:var(--display);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5vh}
 .ap-eyebrow b{color:var(--blue);font-weight:700}
@@ -32,15 +33,8 @@
 .ap-meta span::before{content:"";width:12px;height:12px;background:var(--blue);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
 
 .ap-door{position:relative;justify-self:center;width:min(30vw,52vh,420px);aspect-ratio:300/340}
-.ap-door > *{position:absolute}
-.ap-door .fr{inset:0;background:var(--ink);clip-path:polygon(1.6% 27.9%,66% 1.5%,66% 16.2%,28.3% 31.8%,28.3% 73.5%,1.6% 85.3%);opacity:0;animation:fade 1s .3s var(--ease) forwards}
-.ap-door .glow{left:30%;top:0;width:110%;height:100%;filter:blur(50px);opacity:0;background:radial-gradient(closest-side,rgba(90,80,255,.85),rgba(59,47,240,0) 70%);animation:fade 1.6s 1.6s var(--ease) forwards}
-.ap-door .pt{left:67.3%;top:16.2%;width:30%;height:83.8%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);
-  background:radial-gradient(120% 70% at 50% 60%,#fff 0%,#DCD9FF 25%,var(--blue-2) 60%,var(--blue) 100%)}
-.ap-door .leaf-wrap{left:67.3%;top:16.2%;width:30%;height:83.8%;perspective:900px}
-.ap-door .leaf{position:absolute;inset:0;background:var(--blue);transform-origin:100% 50%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);
-  box-shadow:inset -20px 0 40px rgba(0,0,0,.15);transform:translateY(-120%);animation:drop 1.1s .5s cubic-bezier(.6,1.4,.4,1) forwards,swing 1.8s 1.7s var(--ease) forwards}
-@keyframes swing{from{transform:none}to{transform:rotateY(64deg)}}
+.ap-door > .tag{position:absolute}
+.ap-door .nk-box{position:absolute;inset:0;margin:auto;width:84%;height:auto;top:4%;bottom:auto}
 .ap-door .tag{left:-8%;bottom:-2%;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:9px 14px;border-radius:99px;background:var(--paper);border:1px solid var(--line);white-space:nowrap;opacity:0;animation:fade 1s 2.2s var(--ease) forwards}
 
 /* ---------- manifeste ---------- */
@@ -201,26 +195,26 @@
 }
 @media (prefers-reduced-motion:reduce){
   .ap-title .ln > span{transform:none}
-  .ap-lead,.ap-meta,.ap-door .fr,.ap-door .glow,.ap-door .tag{opacity:1}
-  .ap-door .leaf{transform:rotateY(64deg)}
+  .ap-lead,.ap-meta,.ap-door .tag{opacity:1}
 }
 </style>
 </head>
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="mark" viewBox="0 0 300 340">
-    <polygon class="mk-frame" points="5,95 198,5 198,55 85,108 85,250 5,290"/>
-    <polygon class="mk-door" points="202,55 292,85 292,340 202,307"/>
+  <symbol id="mark" viewBox="0 0 220 230">
+    <polygon class="mk-frame" points="0,42 99,112 99,229 0,172"/>
+    <polygon class="mk-frame" points="140,122 219,72 219,172 140,229"/>
+    <polygon class="mk-door" points="78,45 204,1 205,69 139,100"/>
   </symbol>
 </svg>
 
 <div class="cursor" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
-  <a href="index.html" class="logo" aria-label="Art Exposium — accueil">
-    <svg viewBox="0 0 300 340"><use href="#mark"/></svg>
-    <span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span>
+  <a href="index.html" class="logo" aria-label="Neokrome — accueil">
+    <svg viewBox="0 0 220 230"><use href="#mark"/></svg>
+    <span class="wm"><b>NEO<i class="k">K</i>ROME</b><small><i class="td"></i>tech</small></span>
   </a>
   <ul>
     <li><a href="index.html#univers">Secteurs</a></li>
@@ -259,11 +253,8 @@
       <p class="ap-lead"><strong>Depuis plus de 30 ans, nous façonnons des univers qui marquent</strong> : de l’identité visuelle au site web, de la réalité augmentée aux salons 3D. Un studio de création et une technologie immersive, réunis sous un même toit.</p>
       <div class="ap-meta"><span>179, rue Grande — Fontainebleau</span><span>Design · Web · RA / RV · 3D</span></div>
     </div>
-    <div class="ap-door" role="img" aria-label="Le logo Art Exposium : un cadre sombre dont la porte bleue s’ouvre sur une lumière">
-      <div class="glow"></div>
-      <div class="fr"></div>
-      <div class="pt"></div>
-      <div class="leaf-wrap"><div class="leaf"></div></div>
+    <div class="ap-door" role="img" aria-label="Le logo Neokrome : une boîte sombre dont le couvercle bleu s’ouvre sur une lumière">
+      <div class="nk-box" style="--nb-delay:.2s"><i class="nb-glow"></i><i class="nb-core"></i><i class="nb-l"></i><i class="nb-r"></i><i class="nb-lid"></i></div>
       <span class="tag">Entrez, c’est ouvert</span>
     </div>
   </div>
@@ -293,15 +284,15 @@
     </div>
     <div class="steps">
       <article class="step rv">
-        <small><span>01</span><svg viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg></small>
+        <small><span>01</span><svg viewBox="0 0 220 230" aria-hidden="true"><use href="#mark"/></svg></small>
         <div><h3>Nous écoutons</h3><p>Tout commence par vous : votre histoire, vos publics, vos ambitions. Avant de tracer la moindre ligne, nous prenons le temps de comprendre.</p></div>
       </article>
       <article class="step rv d1">
-        <small><span>02</span><svg viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg></small>
+        <small><span>02</span><svg viewBox="0 0 220 230" aria-hidden="true"><use href="#mark"/></svg></small>
         <div><h3>Nous échangeons</h3><p>Un lien direct, tout au long du projet. Les idées se confrontent, s’affinent et prennent forme ensemble.</p></div>
       </article>
       <article class="step on rv d2">
-        <small><span>03</span><svg viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg></small>
+        <small><span>03</span><svg viewBox="0 0 220 230" aria-hidden="true"><use href="#mark"/></svg></small>
         <div><h3>Nous créons</h3><p>Identité, site web, expérience augmentée ou univers 3D : nous donnons vie au projet avec élégance, cohérence et ce petit éclat qui rend tout inoubliable.</p></div>
       </article>
     </div>
@@ -310,14 +301,14 @@
 
 <!-- CONVERGENCE -->
 <section class="ap-conv">
-  <svg class="mark-bg" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <svg class="mark-bg" viewBox="0 0 220 230" aria-hidden="true"><use href="#mark"/></svg>
   <div class="wrap">
     <div class="intro">
       <div>
         <span class="eyebrow rv">Qui nous sommes</span>
         <h2 class="h2 rv d1" style="margin-top:28px">Un studio de création. <em>Une technologie immersive.</em></h2>
       </div>
-      <p class="rv d2">Nos trois métiers de création se rejoignent dans ART EXPOSIUM : la même équipe qui conçoit vos identités et vos sites imagine et construit vos univers 3D. Une seule équipe, une seule voix, du premier croquis à l’expérience en ligne.</p>
+      <p class="rv d2">Nos trois métiers de création se rejoignent dans NEOKROME : la même équipe qui conçoit vos identités et vos sites imagine et construit vos univers 3D. Une seule équipe, une seule voix, du premier croquis à l’expérience en ligne.</p>
     </div>
     <div class="duo">
       <article class="duo-c rv">
@@ -330,7 +321,7 @@
       <span class="plus" aria-hidden="true">+</span>
       <article class="duo-c dark rv d1">
         <small>La technologie</small>
-        <h3>ART EXPOSIUM, 100% web</h3>
+        <h3>NEOKROME, 100% web</h3>
         <p>Une technologie immersive conçue pour recréer — et amplifier — les expériences du monde réel. Depuis un simple navigateur, on se déplace, on échange, on découvre, on manipule, on teste… comme si l’on y était.</p>
         <ul><li>Salons &amp; expositions virtuels</li><li>Offices de tourisme, formation, retail</li><li>Solutions RH &amp; musées</li></ul>
         <a class="lk" href="index.html#univers">Nos univers métiers →</a>
@@ -408,7 +399,7 @@
         <div>
           <span class="eyebrow" style="color:var(--blue)">Nous trouver</span>
           <p class="city">Fontaine&shy;bleau<span>.</span></p>
-          <address>Art Exposium<br>179, rue Grande<br>77300 Fontainebleau — France</address>
+          <address>Neokrome<br>179, rue Grande<br>77300 Fontainebleau — France</address>
         </div>
         <div class="place-btns">
           <a class="btn" href="rendez-vous.html">Prendre rendez-vous <span class="arr">→</span></a>
@@ -416,7 +407,7 @@
         </div>
       </div>
       <div class="place-r">
-        <svg class="bg" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+        <svg class="bg" viewBox="0 0 220 230" aria-hidden="true"><use href="#mark"/></svg>
         <h4>Une ligne directe</h4>
         <a href="tel:+33164700802">01 64 70 08 02</a>
         <a href="tel:+33609770241">06 09 77 02 41</a>
@@ -441,7 +432,7 @@
 
 <!-- CTA -->
 <section class="cta" id="contact">
-  <svg class="cta-mark" viewBox="0 0 300 340" aria-hidden="true"><use href="#mark"/></svg>
+  <svg class="cta-mark" viewBox="0 0 220 230" aria-hidden="true"><use href="#mark"/></svg>
   <div class="wrap">
     <span class="eyebrow rv">Discutons-en !</span>
     <h2 class="cta-big rv d1" style="margin-top:4vh"><span>Prêt à</span><span class="o">faire vibrer</span><span>votre image ?</span></h2>
@@ -458,12 +449,12 @@
   <div class="wrap">
     <div class="foot-top">
       <div>
-        <a href="index.html" class="logo"><svg viewBox="0 0 300 340"><use href="#mark"/></svg><span class="wm"><b>ART EXPOSIUM</b><small>.tech</small></span></a>
-        <p class="about">Art Exposium — agence de création et technologie immersive 100% web : design, web, réalité augmentée et salons 3D, depuis plus de 30 ans.</p>
+        <a href="index.html" class="logo"><svg viewBox="0 0 220 230"><use href="#mark"/></svg><span class="wm"><b>NEO<i class="k">K</i>ROME</b><small><i class="td"></i>tech</small></span></a>
+        <p class="about">Neokrome — L’intelligence visuelle. L’expérience numérique. Agence de création et technologie immersive 100% web : design, web, réalité augmentée et salons 3D, depuis plus de 30 ans.</p>
       </div>
       <div>
         <h4>Siège social</h4>
-        <ul><li>Art Exposium</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
+        <ul><li>Neokrome</li><li>179, rue Grande</li><li>77300 Fontainebleau</li><li>France</li></ul>
       </div>
       <div>
         <h4>Contact</h4>
@@ -474,9 +465,9 @@
         <ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="a-propos.html">L’agence</a></li><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
       </div>
     </div>
-    <div class="foot-giant" aria-hidden="true">Art Exposium</div>
+    <div class="foot-giant" aria-hidden="true">Neokrome</div>
     <div class="foot-bot">
-      <span>Art Exposium © Tous droits réservés</span>
+      <span>Neokrome © Tous droits réservés</span>
       <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
     </div>
   </div>

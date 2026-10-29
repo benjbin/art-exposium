@@ -1,4 +1,4 @@
-/* Art Exposium — 5 stands d'exposition premium pour le hall 3D (three.js 0.160)
+/* Neokrome — 5 stands d'exposition premium pour le hall 3D (three.js 0.160)
  *
  *   export function buildStand({ THREE, data, index, mobile, photo, sign, envMap })
  *     → { group, pickables, anchor, focus, lights, update }
@@ -10,7 +10,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
-const BLUE = 0x3B2FF0;
+const BLUE = 0x145CFF;
 const PH = 0.12;          // hauteur du plancher de stand
 const WZ = -2.35;         // face avant du mur de fond
 const PI = Math.PI;
@@ -264,7 +264,7 @@ function kioskTex() {
     g.fillStyle = gr; g.fillRect(0, 0, W, H);
     g.fillStyle = 'rgba(255,255,255,.08)'; g.fillRect(0, 0, W, 54);
     g.fillStyle = '#fff'; g.font = '700 26px system-ui, sans-serif'; g.fillText('PLANÈTE TERRE', 22, 36);
-    g.fillStyle = '#5A50FF'; g.beginPath(); g.arc(W - 34, 27, 9, 0, PI * 2); g.fill();
+    g.fillStyle = '#4D82FF'; g.beginPath(); g.arc(W - 34, 27, 9, 0, PI * 2); g.fill();
     const lc = landCanvas(), ld = lc.getContext('2d').getImageData(0, 0, 512, 256).data;
     g.fillStyle = '#6fd3ff';
     for (let y = 0; y < 34; y++) for (let x = 0; x < 72; x++) {
@@ -276,7 +276,7 @@ function kioskTex() {
     g.globalAlpha = 1;
     ['Climat', 'Océans', 'Énergie'].forEach((t, i) => {
       const x = 22 + i * 160;
-      g.fillStyle = i === 0 ? '#3B2FF0' : 'rgba(255,255,255,.1)';
+      g.fillStyle = i === 0 ? '#145CFF' : 'rgba(255,255,255,.1)';
       g.beginPath(); g.roundRect?.(x, 284, 146, 46, 12); if (!g.roundRect) g.rect(x, 284, 146, 46); g.fill();
       g.fillStyle = '#fff'; g.font = '600 20px system-ui, sans-serif'; g.fillText(t, x + 22, 314);
     });
@@ -303,7 +303,7 @@ function dialTex(style) {
       g.restore();
     }
     g.fillStyle = 'rgba(255,255,255,.85)'; g.font = '600 22px Georgia, serif'; g.textAlign = 'center';
-    g.fillText('EXPOSIUM', m, m * .62); g.font = '400 13px system-ui'; g.fillText('GARDE TEMPS · GENÈVE', m, m * 1.5);
+    g.fillText('NEOKROME', m, m * .62); g.font = '400 13px system-ui'; g.fillText('GARDE TEMPS · GENÈVE', m, m * 1.5);
     const hand = (ang, len, w) => { g.save(); g.translate(m, m); g.rotate(ang); g.fillStyle = '#e3c27a'; g.beginPath(); g.moveTo(-w, 20); g.lineTo(-w * .6, -len); g.lineTo(0, -len - 14); g.lineTo(w * .6, -len); g.lineTo(w, 20); g.fill(); g.fillStyle = '#f6f3ea'; g.fillRect(-w * .35, -len + 14, w * .7, len * .6); g.restore(); };
     hand(-PI / 3 * 1.0 - .17, m * .5, 11); hand(PI / 3, m * .78, 8);
     g.fillStyle = '#e3c27a'; g.beginPath(); g.arc(m, m, 12, 0, PI * 2); g.fill();
@@ -312,7 +312,7 @@ function dialTex(style) {
 }
 function fallbackSign(title) {
   const c = canvas(1400, 114), g = c.getContext('2d');
-  g.fillStyle = '#111116'; g.fillRect(0, 0, 1400, 114);
+  g.fillStyle = '#0B1630'; g.fillRect(0, 0, 1400, 114);
   g.fillStyle = '#fff'; g.font = '800 48px system-ui, sans-serif'; g.textBaseline = 'middle';
   g.fillText(String(title || '').toUpperCase(), 60, 60);
   return finishTex(c, true, false);
@@ -364,14 +364,15 @@ const MF = {
   rug: () => S({ map: rugTex(), roughness: 1, envMapIntensity: .5 }),
   hazard: () => S({ map: hazardTex(), roughness: .5 }),
   checker: () => S({ map: checkerTex(), roughness: .45 }),
+  navy: () => P({ color: 0x0B214A, roughness: .32, clearcoat: .8, clearcoatRoughness: .1 }),
   ledBlue: () => led(BLUE, 3.4),
   ledCyan: () => led(0x4fb6ff, 2.6),
   ledYellow: () => led(0xffc400, 2.3),
   warmLED: () => led(0xffd6a6, 2.4),
   coolLED: () => led(0xeef3ff, 2.2),
-  coreBlue: () => P({ color: 0x050d2e, roughness: .25, clearcoat: 1, clearcoatRoughness: .05, emissive: 0x0a1a5a, emissiveIntensity: .35 }),
+  coreBlue: () => P({ color: 0x06122e, roughness: .25, clearcoat: 1, clearcoatRoughness: .05, emissive: 0x0B214A, emissiveIntensity: .35 }),
   cone: () => coneMat(0xffe6c4, .07),
-  coneBlue: () => coneMat(0x5b7cff, .08),
+  coneBlue: () => coneMat(0x4D82FF, .08),
   kiosk: () => new THREE.MeshBasicMaterial({ map: kioskTex(), color: new THREE.Color(.9, .9, .9), toneMapped: false }),
   glowFrame: () => new THREE.MeshBasicMaterial({ map: glowFrameTex(), color: new THREE.Color(1.15, 1.05, .95), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }),
 };
@@ -505,16 +506,18 @@ function truss(kit, mat, A, B, s = .29, mobile = false) {
     rod(kit, mat, P3(t0, sg * h, -h), P3(t1, -sg * h, -h), .009, 5);
   }
 }
-/* Logo Art Exposium (cadre + porte) en relief, hauteur hgt, centré, face vers +z */
-function logo(kit, frameMat, doorMat, x, y, z, hgt) {
-  const k = hgt / 340, sh = pts => new THREE.Shape(pts.map(([px, py]) => new THREE.Vector2((px - 148) * k, (170 - py) * k)));
+/* Logo Neokrome (boîte ouverte : 2 panneaux + couvercle bleu) en relief, hauteur hgt, centré, face vers +z */
+const MK_PANELS = [[[0, 42], [99, 112], [99, 229], [0, 172]], [[140, 122], [219, 72], [219, 172], [140, 229]]];
+const MK_LID = [[78, 45], [204, 1], [205, 69], [139, 100]];
+function logo(kit, panelMat, lidMat, x, y, z, hgt) {
+  const k = hgt / 230, sh = pts => new THREE.Shape(pts.map(([px, py]) => new THREE.Vector2((px - 110) * k, (115 - py) * k)));
   const ex = { depth: .008, bevelEnabled: true, bevelThickness: .002, bevelSize: .0015, bevelSegments: 1 };
-  kit.add(frameMat, new THREE.ExtrudeGeometry(sh([[5, 95], [198, 5], [198, 55], [85, 108], [85, 250], [5, 290]]), ex), { p: [x, y, z], uv: 0 });
-  kit.add(doorMat, new THREE.ExtrudeGeometry(sh([[202, 55], [292, 85], [292, 340], [202, 307]]), ex), { p: [x, y, z + .003], uv: 0 });
+  kit.add(panelMat, new THREE.ExtrudeGeometry(MK_PANELS.map(sh), ex), { p: [x, y, z], uv: 0 });
+  kit.add(lidMat, new THREE.ExtrudeGeometry(sh(MK_LID), ex), { p: [x, y, z + .003], uv: 0 });
 }
 function plane(mat, w, h) { return new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat); }
 
-/* Socle commun : dalle + retrait avec LED bleue (signature Art Exposium) */
+/* Socle commun : dalle + retrait avec LED bleue (signature Neokrome) */
 function platform(C, top) {
   const { kit } = C;
   kit.add(M('matteBlack'), rb(9.04, .05, 4.62, .01, 1), { p: [0, .025, -.2] });
@@ -557,7 +560,8 @@ function counter(C, x, z, w, d, o = {}) {
     kit.add(o.top ?? M('stoneCounter'), rb(w + .1, .04, d + .1, .012), { p: [0, PH + h - .02, .02], cast: true });
     kit.add(o.led ?? M('ledBlue'), new THREE.BoxGeometry(w - .12, .012, .012), { p: [0, PH + .02, d / 2 - .06] });
     if (o.inlay) kit.add(o.inlay, rb(w - .3, .46, .016, .006, 1), { p: [0, PH + .55, d / 2 + .008] });
-    logo(kit, o.logoFrame ?? M('alu'), M('ledBlue'), o.logoX ?? 0, PH + .58, d / 2 + (o.inlay ? .02 : .004), .24);
+    // panneaux bleu nuit sur pierre claire, alu sur incrustation sombre ; couvercle toujours bleu
+    logo(kit, o.logoFrame ?? (o.inlay ? M('alu') : M('navy')), M('ledBlue'), o.logoX ?? 0, PH + .58, d / 2 + (o.inlay ? .02 : .004), .24);
   });
   return PH + h;
 }
@@ -1020,13 +1024,13 @@ function standTech(C) {
   const spin = new THREE.Group(); spin.rotation.z = .41; globe.add(spin);
   const core = new THREE.Mesh(new THREE.SphereGeometry(.585, 48, 32), M('coreBlue'));
   const holoMat = new THREE.ShaderMaterial({
-    uniforms: { uLand: { value: landTex() }, uTime: { value: 0 }, uCol: { value: new THREE.Color(0x56b8ff) }, uRim: { value: new THREE.Color(0x4a5cff) } },
+    uniforms: { uLand: { value: landTex() }, uTime: { value: 0 }, uCol: { value: new THREE.Color(0x56b8ff) }, uRim: { value: new THREE.Color(0x2f6bff) } },
     vertexShader: HOLO_VS, fragmentShader: HOLO_FS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
   });
   const holo = new THREE.Mesh(new THREE.SphereGeometry(.6, 64, 40), holoMat); holo.renderOrder = 3;
   spin.add(core, holo);
   const atmo = new THREE.Mesh(new THREE.SphereGeometry(.74, 48, 32), new THREE.ShaderMaterial({
-    uniforms: { uRim: { value: new THREE.Color(0x3d5bff) } }, vertexShader: HOLO_VS, fragmentShader: ATMO_FS,
+    uniforms: { uRim: { value: new THREE.Color(0x2a66ff) } }, vertexShader: HOLO_VS, fragmentShader: ATMO_FS,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.BackSide,
   }));
   atmo.renderOrder = 2; globe.add(atmo);
@@ -1061,10 +1065,10 @@ function standTech(C) {
   kit.add(M('stoneCounter'), ext(.86, 1), { p: [cx, PH + .09, czz], pick: true, cast: true });
   kit.add(M('darkGlass'), ext(.03, 1.04), { p: [cx, PH + .985, czz], uv: 0, cast: true });
   kit.add(M('ledBlue'), new THREE.BoxGeometry(1.2, .012, .012), { p: [cx, PH + .05, czz + .33] });
-  logo(kit, M('alu'), M('ledBlue'), cx, PH + .55, czz + .368, .26);
+  logo(kit, M('navy'), M('ledBlue'), cx, PH + .55, czz + .368, .26);
 
   keySpot(C, [0, 5.6, 2.15], [0, .4, -.6], { intensity: 75, angle: .75, color: 0xf0f4ff });
-  fillPoint(C, [gx + .3, gy, gz + .9], 0x4a6bff, 4, 4);
+  fillPoint(C, [gx + .3, gy, gz + .9], 0x3d74ff, 4, 4);
 
   return {
     anchor: new THREE.Vector3(0, 4.25, 1.4),

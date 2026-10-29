@@ -1,6 +1,6 @@
-# Art Exposium — site Internet
+# Neokrome — site Internet
 
-Site statique (HTML/CSS/JS, sans build) d'Art Exposium par Vif-Argent : 21 pages, salon virtuel 3D temps réel (three.js) et page Services.
+Site statique (HTML/CSS/JS, sans build) de Neokrome (.tech) — « L’intelligence visuelle. L’expérience numérique. » : 28 pages, salon virtuel 3D temps réel (three.js) et page Services.
 
 ## Voir le site en local
 
