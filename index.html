@@ -362,7 +362,8 @@
     M.cx = sr.left - hr.left + sr.width * .54; M.cy = sr.top - hr.top + sr.height * .40;
     // diamètre qui couvre tout l'écran depuis ce centre
     const W = hr.width, H = hr.height;
-    M.cover = 2.5 * Math.hypot(Math.max(M.cx, W - M.cx), Math.max(M.cy, H - M.cy));
+    // partie opaque des dégradés = 76 % du rayon → rayon 1,5× la distance au coin le plus éloigné
+    M.cover = 3 * Math.hypot(Math.max(M.cx, W - M.cx), Math.max(M.cy, H - M.cy));
     for (const el of [iris, light]) { el.style.width = el.style.height = M.cover + 'px'; el.style.left = M.cx + 'px'; el.style.top = M.cy + 'px'; }
   }
   measure();
@@ -381,7 +382,7 @@
     // scroll : ouverture → nuit + lumière → plongée
     const open = ease(clamp(p / .34));
     const lit = clamp((p - .02) / .28);
-    const night = easeIO(clamp((p - .03) / .32));
+    const night = easeIO(clamp((p - .03) / .27));
     const dive = easeIn(clamp((p - .44) / .4));
     const flood = ease(clamp((p - .46) / .38));
     px += (tx - px) * .07; py += (ty - py) * .07;
@@ -426,7 +427,7 @@
     const s = sy > 40;
     const onDark = M.inv.some(([a,b]) => a <= y && b >= y);
     // sur le hero : barre foncée dès que la nuit tombe, jusqu'à ce que le hero quitte la barre
-    const i = onDark || (heroP > .2 && y < M.heroTop + M.heroH) || mm.classList.contains('open');
+    const i = onDark || (heroP > .15 && y < M.heroTop + M.heroH) || mm.classList.contains('open');
     if (s !== navS) nav.classList.toggle('scrolled', navS = s);
     if (i !== navI) nav.classList.toggle('inv', navI = i);
   }
