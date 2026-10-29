@@ -6,51 +6,58 @@
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const nav = $('#nav');
 
-  /* ----- nav : fond au scroll, inversée sur les sections sombres ----- */
+  /* ----- boucle de scroll : toutes les LECTURES d'abord, puis toutes les ÉCRITURES
+     (aucune mise en page forcée), une seule rAF par frame, valeurs coûteuses en cache ----- */
   const darks = $$('[data-dark],.cta,footer,.marquee');
-  function navFrame(){
-    nav.classList.toggle('scrolled', scrollY > 40);
-    if ($('#mmenu')?.classList.contains('open')) return;
-    const onDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
-    nav.classList.toggle('inv', onDark);
-  }
-
-  /* ----- ruban de projets (index) : défile avec le scroll ----- */
   const ribbon = $('.rz-ribbon-track');
-  function ribbonFrame(){
-    if (!ribbon || reduce) return;
-    const max = Math.max(0, ribbon.scrollWidth - innerWidth);
-    const b = ribbon.parentElement.getBoundingClientRect();
-    const p = clamp(1 - (b.bottom) / (innerHeight + b.height));
-    ribbon.style.transform = `translate3d(${-(0.12 + p * 0.88) * max * .6}px,0,0)`;
-  }
-
-  /* ----- hero étude de cas : parallaxe ----- */
   const csImg = $('.cs-hero .bg img');
-  function heroFrame(){
-    if (!csImg || reduce) return;
-    const y = Math.min(scrollY, innerHeight) * .05;
-    csImg.style.setProperty('--y', y + 'px');
-  }
-
-  /* ----- filtres : barre collée ----- */
   const filters = $('.filters');
-  function filtersFrame(){
-    if (!filters) return;
-    filters.classList.toggle('stuck', filters.getBoundingClientRect().top <= parseFloat(getComputedStyle(filters).top) + 1);
+  let ribbonMax = 0, filtersTop = 0, vh = innerHeight;
+  function measure(){
+    vh = innerHeight;
+    if (ribbon) ribbonMax = Math.max(0, ribbon.scrollWidth - innerWidth);
+    if (filters) filtersTop = parseFloat(getComputedStyle(filters).top) || 0;
   }
-
+  let lastInv = null, lastScrolled = null, lastStuck = null, lastRib = null, lastHero = null;
+  function loop(){
+    ticking = false;
+    const y = scrollY;
+    // lectures
+    const menuOpen = $('#mmenu')?.classList.contains('open');
+    const onDark = menuOpen ? null : darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
+    let rib = null;
+    if (ribbon && !reduce){
+      const b = ribbon.parentElement.getBoundingClientRect();
+      if (b.bottom > -50 && b.top < vh + 50){
+        const p = clamp(1 - b.bottom / (vh + b.height));
+        rib = Math.round(-(0.12 + p * 0.88) * ribbonMax * .6 * 10) / 10;
+      }
+    }
+    const stuck = filters ? filters.getBoundingClientRect().top <= filtersTop + 1 : null;
+    // écritures
+    const scrolled = y > 40;
+    if (scrolled !== lastScrolled){ nav.classList.toggle('scrolled', scrolled); lastScrolled = scrolled; }
+    if (onDark !== null && onDark !== lastInv){ nav.classList.toggle('inv', onDark); lastInv = onDark; }
+    if (rib !== null && rib !== lastRib){ ribbon.style.transform = `translate3d(${rib}px,0,0)`; lastRib = rib; }
+    if (csImg && !reduce && y <= vh + 10){
+      const hy = Math.round(Math.min(y, vh) * .05 * 10) / 10;
+      if (hy !== lastHero){ csImg.style.translate = `0 ${hy}px`; lastHero = hy; }
+    }
+    if (filters && stuck !== lastStuck){ filters.classList.toggle('stuck', stuck); lastStuck = stuck; }
+  }
+  function navFrame(){ lastInv = null; loop(); }
   let ticking = false;
-  function loop(){ ticking = false; navFrame(); ribbonFrame(); heroFrame(); filtersFrame(); }
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(loop); } }, {passive:true});
-  addEventListener('resize', () => { loop(); placePill(); });
-  loop();
-  addEventListener('load', loop);
-  if ('ResizeObserver' in window) new ResizeObserver(() => requestAnimationFrame(loop)).observe(document.body);
+  const kick = () => { if (!ticking) { ticking = true; requestAnimationFrame(loop); } };
+  addEventListener('scroll', kick, {passive:true});
+  addEventListener('resize', () => { measure(); kick(); placePill(); });
+  measure(); loop();
+  addEventListener('load', () => { measure(); kick(); });
+  if ('ResizeObserver' in window) new ResizeObserver(() => { measure(); kick(); }).observe(document.body);
 
   /* ----- apparition ----- */
   const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    // visible, ou déjà dépassé (saut d'ancre / scroll très rapide) : on révèle
+    if (e.isIntersecting || e.boundingClientRect.bottom < 0) { e.target.classList.add('in'); io.unobserve(e.target); }
   }), {threshold:.12});
   $$('.rv').forEach(el => io.observe(el));
 
@@ -196,12 +203,17 @@
       c.addEventListener('mouseenter', () => { on = true; peek.classList.add('on'); imgs.forEach((im, j) => im.classList.toggle('on', i === j)); });
       c.addEventListener('mouseleave', () => { on = false; peek.classList.remove('on'); });
     });
-    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function f(){
+    let raf = 0;
+    function f(){
       x += (mx - x) * .14; y += (my - y) * .14;
       peek.style.transform = `translate(${x + 40}px,${y}px) translate(0,-50%) scale(${on ? 1 : .85}) rotate(${clamp((mx - x) * .04, -6, 6)}deg)`;
-      requestAnimationFrame(f);
-    })();
+      raf = (Math.abs(mx - x) > .3 || Math.abs(my - y) > .3) ? requestAnimationFrame(f) : 0;
+    }
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; if (on && !raf) raf = requestAnimationFrame(f); }, {passive:true});
+    $$('.case').forEach(c => {
+      c.addEventListener('mouseenter', () => { if (!raf) { x = mx; y = my; raf = requestAnimationFrame(f); } });
+      c.addEventListener('mouseleave', () => { if (!raf) raf = requestAnimationFrame(f); });
+    });
   }
 
   /* =====================================================
@@ -242,8 +254,13 @@
   /* ----- curseur ----- */
   if (!reduce && matchMedia('(hover:hover)').matches){
     const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0;
-    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function f(){ cx += (mx - cx) * .2; cy += (my - cy) * .2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    let raf = 0;
+    function f(){
+      cx += (mx - cx) * .2; cy += (my - cy) * .2;
+      cu.style.transform = `translate(${cx}px,${cy}px)`;
+      raf = (Math.abs(mx - cx) > .2 || Math.abs(my - cy) > .2) ? requestAnimationFrame(f) : 0;
+    }
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; if (!raf) raf = requestAnimationFrame(f); }, {passive:true});
     document.addEventListener('mouseover', e => cu.classList.toggle('big', !!e.target.closest('a,button,[data-lb],.chip')));
   }
 

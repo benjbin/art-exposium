@@ -84,8 +84,9 @@
 .frise-foot b{font-family:var(--display);font-weight:800;font-size:clamp(22px,2.4vw,36px);text-transform:uppercase;letter-spacing:-.02em;line-height:1}
 .frise-foot b span{color:var(--blue)}
 .live-chip{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:99px;border:1px solid var(--line);font:600 13px var(--display);letter-spacing:.14em;text-transform:uppercase}
-.live-chip i{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 0 rgba(20,92,255,.5);animation:livep 1.8s infinite}
-@keyframes livep{to{box-shadow:0 0 0 10px rgba(20,92,255,0)}}
+.live-chip i{position:relative;width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.live-chip i::after{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(20,92,255,.5);animation:livep 1.8s infinite}
+@keyframes livep{from{transform:scale(1);opacity:1}to{transform:scale(3.5);opacity:0}}
 
 /* ---------- salles (cartes empilées) ---------- */
 .mu-salles{background:var(--ink);color:var(--paper);padding:16vh 0 10vh}
@@ -168,8 +169,18 @@
 @media (hover:none){.mu-float{display:none}}
 @media (prefers-reduced-motion:reduce){
   .frise .wave path{stroke-dashoffset:0}
-  .live-chip i{animation:none}
+  .live-chip i::after{animation:none;opacity:0}
 }
+/* ---------- perf : portail composé (transform only, aucun repaint au scroll) ---------- */
+.sv-win{position:absolute;inset:0;z-index:1;overflow:hidden;transform-origin:0 0;transform:scale(0);will-change:transform}
+.sv-win .sv-img{z-index:auto;clip-path:none;transform-origin:0 0;will-change:transform}
+.sv-img::after,.sv-door::after{will-change:opacity}
+.sv-door-wrap,.sv-tag,.sv-hint{will-change:opacity}
+.sv-over{will-change:transform,opacity}
+.sv-wedge{position:absolute;left:-100%;width:300%;height:100%;background:var(--paper);will-change:transform;pointer-events:none}
+.sv-wedge.t{bottom:100%;transform-origin:33.3333% 100%}
+.sv-wedge.b{top:100%;transform-origin:66.6667% 0}
+@media (hover:none){.shot figcaption{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(11,33,74,.78)}}
 </style>
 </head>
 <body>
@@ -216,7 +227,7 @@
 <!-- HERO : la porte s'ouvre sur la galerie -->
 <section class="sv-hero" id="hero">
   <div class="sv-stick">
-    <div class="sv-img" id="svImg"><img src="assets/img/musees/musee-5.png" alt="Musée virtuel en 3D : grande galerie de portraits de musiciens, visiteurs devant les œuvres"></div>
+    <div class="sv-win" id="svWin"><div class="sv-img" id="svImg"><img src="assets/img/musees/musee-5.jpg" alt="Musée virtuel en 3D : grande galerie de portraits de musiciens, visiteurs devant les œuvres" fetchpriority="high"></div><i class="sv-wedge t"></i><i class="sv-wedge b"></i></div>
     <div class="sv-door-wrap" id="doorWrap"><div class="sv-door" id="svDoor"></div></div>
 
     <div class="sv-head" id="svHead">
@@ -244,10 +255,10 @@
     <span class="eyebrow rv" style="color:var(--blue)">06 — Culture</span>
     <p class="mu-lead rv d1" style="margin-top:5vh">NEOKROME développe des musées virtuels immersifs permettant de valoriser <em>ce qui vous rend unique.</em></p>
     <ul class="valeurs" id="valeurs">
-      <li class="valeur rv" data-img="assets/img/musees/musee-1.png"><b>L’histoire</b><span>01</span></li>
-      <li class="valeur rv" data-img="assets/img/musees/musee-3.png"><b>Le patrimoine</b><span>02</span></li>
-      <li class="valeur rv" data-img="assets/img/musees/musee-4.png"><b>Les savoir-faire</b><span>03</span></li>
-      <li class="valeur rv" data-img="assets/img/musees/musee-2.png"><b>Les innovations</b><span>04</span></li>
+      <li class="valeur rv" data-img="assets/img/musees/musee-1.jpg"><b>L’histoire</b><span>01</span></li>
+      <li class="valeur rv" data-img="assets/img/musees/musee-3.jpg"><b>Le patrimoine</b><span>02</span></li>
+      <li class="valeur rv" data-img="assets/img/musees/musee-4.jpg"><b>Les savoir-faire</b><span>03</span></li>
+      <li class="valeur rv" data-img="assets/img/musees/musee-2.jpg"><b>Les innovations</b><span>04</span></li>
     </ul>
     <div class="audiences rv"><small>Des marques, des entreprises et des institutions</small><span>Marques</span><span>Entreprises</span><span>Institutions</span></div>
   </div>
@@ -293,23 +304,23 @@
     </div>
     <div class="salles">
       <article class="salle" style="--i:0">
-        <figure class="shot" data-lb><img src="assets/img/musees/musee-1.png" alt="Frise murale lumineuse retraçant l’histoire de la musique, de l’ère du jazz à l’ère numérique" loading="lazy"><figcaption>Frise chronologique</figcaption></figure>
+        <figure class="shot" data-lb><img src="assets/img/musees/musee-1.jpg" alt="Frise murale lumineuse retraçant l’histoire de la musique, de l’ère du jazz à l’ère numérique" loading="lazy" decoding="async"><figcaption>Frise chronologique</figcaption></figure>
         <div class="salle-txt"><div><small>Salle 01 — Narration</small><h3>La frise vivante</h3><p>De l’ère du jazz à la révolution rock’n’roll jusqu’à l’ère numérique : une histoire racontée le long d’un fil de lumière.</p></div><span class="num">01</span></div>
       </article>
       <article class="salle" style="--i:1">
-        <figure class="shot" data-lb><img src="assets/img/musees/musee-2.png" alt="Stand patrimonial d’une marque : engrenages et horloges monumentales, archives photo et prototypes" loading="lazy"><figcaption>Patrimoine de marque</figcaption></figure>
+        <figure class="shot" data-lb><img src="assets/img/musees/musee-2.jpg" alt="Stand patrimonial d’une marque : engrenages et horloges monumentales, archives photo et prototypes" loading="lazy" decoding="async"><figcaption>Patrimoine de marque</figcaption></figure>
         <div class="salle-txt"><div><small>Salle 02 — Savoir-faire</small><h3>Patrimoine de marque</h3><p>Archives photo, prototypes et pièces emblématiques : l’histoire d’une marque, de ses origines à ses innovations.</p></div><span class="num">02</span></div>
       </article>
       <article class="salle" style="--i:2">
-        <figure class="shot" data-lb><img src="assets/img/musees/musee-4.png" alt="Fresque murale du pesage antique à l’industrie 4.0, en passant par la révolution industrielle" loading="lazy"><figcaption>Le mur du temps</figcaption></figure>
+        <figure class="shot" data-lb><img src="assets/img/musees/musee-4.jpg" alt="Fresque murale du pesage antique à l’industrie 4.0, en passant par la révolution industrielle" loading="lazy" decoding="async"><figcaption>Le mur du temps</figcaption></figure>
         <div class="salle-txt"><div><small>Salle 03 — Innovation</small><h3>Le mur du temps</h3><p>Du pesage antique à l’industrie 4.0 : un métier raconté en une seule fresque, entre mémoire et projection.</p></div><span class="num">03</span></div>
       </article>
       <article class="salle" style="--i:3">
-        <figure class="shot" data-lb><img src="assets/img/musees/musee-3.png" alt="Galerie immersive : portraits de musiciens, des cadres dorés aux œuvres néon" loading="lazy"><figcaption>Galerie immersive</figcaption></figure>
+        <figure class="shot" data-lb><img src="assets/img/musees/musee-3.jpg" alt="Galerie immersive : portraits de musiciens, des cadres dorés aux œuvres néon" loading="lazy" decoding="async"><figcaption>Galerie immersive</figcaption></figure>
         <div class="salle-txt"><div><small>Salle 04 — Collection</small><h3>Galerie immersive</h3><p>Du cadre doré au néon, des œuvres mises en scène pour être découvertes de près, à son rythme.</p></div><span class="num">04</span></div>
       </article>
       <article class="salle" style="--i:4">
-        <figure class="shot" data-lb><img src="assets/img/musees/musee-5.png" alt="Grande salle d’exposition aux murs couverts de portraits, visiteurs et banquette centrale" loading="lazy"><figcaption>Salle des portraits</figcaption></figure>
+        <figure class="shot" data-lb><img src="assets/img/musees/musee-5.jpg" alt="Grande salle d’exposition aux murs couverts de portraits, visiteurs et banquette centrale" loading="lazy" decoding="async"><figcaption>Salle des portraits</figcaption></figure>
         <div class="salle-txt"><div><small>Salle 05 — Découverte</small><h3>Salle des portraits</h3><p>Une collection ouverte en continu, à parcourir depuis n’importe quel navigateur.</p></div><span class="num">05</span></div>
       </article>
     </div>
@@ -402,9 +413,27 @@
   /* ----- hero : la porte bleue s'ouvre, le musée envahit l'écran ----- */
   const hero = $('#hero'), img = $('#svImg'), wrap = $('#doorWrap'), door = $('#svDoor'),
         head = $('#svHead'), over = $('#svOver'), tag = $('#svTag'), hint = $('#svHint'), nav = $('#nav');
+
+  /* portail : la fenêtre est un calque composé (translate+scale), l'image est contre-transformée,
+     les biseaux haut/bas sont deux aplats tournés -> aucun clip-path recalculé, aucun repaint au scroll */
+  const stick = hero.firstElementChild, win = $('#svWin'), pimg = img.querySelector('img'),
+        wT = win.querySelector('.sv-wedge.t'), wB = win.querySelector('.sv-wedge.b');
+  let SW = innerWidth, SH = innerHeight, lastG = -1, lastFin = -1, lastOpen = -1, lastP = -1, heroTop = 0, heroLen = 1;
+  function portal(g){
+    if (g === lastG) return; lastG = g;
+    if (img.classList.contains('hall-immersive')) return;
+    const x = lerp(R.x, 0, g), y = lerp(R.y, 0, g), a = lerp(R.w, SW, g) / SW, b = lerp(R.h, SH, g) / SH;
+    win.style.transform = `translate(${x}px,${y}px) scale(${a},${b})`;
+    img.style.transform = `scale(${1 / a},${1 / b}) translate(${-x}px,${-y}px)`;
+    const k = (1 - g) / b;
+    wT.style.transform = `rotate(${Math.atan2(R.h * .105 * k, SW)}rad)`;
+    wB.style.transform = `rotate(${Math.atan2(R.h * .123 * k, SW)}rad)`;
+  }
   let R, intro = 0;
   function layout(){
-    const W = innerWidth, H = innerHeight, mob = W < 1000;
+    SW = stick.clientWidth || innerWidth; SH = stick.clientHeight || innerHeight; lastG = lastP = -1;
+    heroTop = hero.getBoundingClientRect().top + scrollY; heroLen = Math.max(1, hero.offsetHeight - innerHeight);
+    const W = SW, H = SH, mob = W < 1000;
     const w = mob ? W * .42 : Math.min(W * .24, H * .5), h = w * 2.8;
     const hh = Math.min(h, H * (mob ? .5 : .74));
     const ww = hh / 2.8;
@@ -412,24 +441,18 @@
     Object.assign(wrap.style, { left: R.x+'px', top: R.y+'px', width: R.w+'px', height: R.h+'px' });
   }
   function heroFrame(){
-    const W = innerWidth, H = innerHeight;
-    const p = clamp(-hero.getBoundingClientRect().top / (hero.offsetHeight - H));
+    const p = clamp((scrollY - heroTop) / heroLen);
+    if (p === lastP) return p;
+    lastP = p;
     const open = ease(clamp(p / .28));
     const grow = easeIO(clamp((p - .22) / .5));
     const fin = ease(clamp((p - .72) / .2));
     door.style.transform = `rotateY(${lerp(intro, 84, open)}deg)`;
-    door.style.setProperty('--o', open);
+    if (open !== lastOpen) door.style.setProperty('--o', lastOpen = open);
     wrap.style.opacity = 1 - clamp((p - .3) / .1);
-    const s1 = R.h * .105, s2 = R.h * .123;
-    const pts = [
-      [lerp(R.x, 0, grow),          lerp(R.y, 0, grow)],
-      [lerp(R.x + R.w, W, grow),    lerp(R.y + s1, 0, grow)],
-      [lerp(R.x + R.w, W, grow),    lerp(R.y + R.h, H, grow)],
-      [lerp(R.x, 0, grow),          lerp(R.y + R.h - s2, H, grow)],
-    ];
-    img.style.clipPath = `polygon(${pts.map(([x,y]) => `${x}px ${y}px`).join(',')})`;
-    img.style.setProperty('--shade', fin);
-    img.style.setProperty('--z', lerp(1.2, 1, grow));
+    portal(grow);
+    if (fin !== lastFin) img.style.setProperty('--shade', lastFin = fin);
+    pimg.style.transform = `scale(${lerp(1.2, 1, grow)})`;
     head.style.opacity = 1 - clamp((p - .18) / .2);
     head.style.transform = `translateY(${-clamp((p - .1) / .4) * 12}vh)`;
     tag.style.opacity = hint.style.opacity = 1 - clamp(p / .1);
@@ -439,19 +462,26 @@
     return p;
   }
   layout();
-  if (!reduce) { const t0 = performance.now() + 900; (function a(now){ const k = clamp((now - t0) / 1200); intro = ease(k) * 28; heroFrame(); if (k < 1) requestAnimationFrame(a); })(performance.now()); }
+  if (!reduce) { const t0 = performance.now() + 900; (function a(now){ const k = clamp((now - t0) / 1200); intro = ease(k) * 28; lastP = -1; heroFrame(); if (k < 1) requestAnimationFrame(a); })(performance.now()); }
 
   /* ----- nav ----- */
   const darks = [...document.querySelectorAll('.mu-salles,.cta,footer,.marquee')];
   const mm = $('#mmenu');
   function navFrame(heroP){
     nav.classList.toggle('scrolled', scrollY > 40);
-    const onDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
+    const y = scrollY + 40, onDark = darkY.some(([t, b]) => t <= y && b >= y);
     nav.classList.toggle('inv', onDark || (heroP > .55 && heroP < 1) || mm.classList.contains('open'));
   }
+  let darkY = [];
+  function measure(){ const sy = scrollY; heroTop = hero.getBoundingClientRect().top + sy; heroLen = Math.max(1, hero.offsetHeight - innerHeight); darkY = darks.map(s => { const b = s.getBoundingClientRect(); return [b.top + sy, b.bottom + sy]; }); lastP = -1; }
+  measure();
   function loop(){ navFrame(heroFrame()); }
-  addEventListener('scroll', () => requestAnimationFrame(loop), {passive:true});
-  addEventListener('resize', () => { layout(); loop(); });
+  let ticking = false;
+  const tick = () => { ticking = false; loop(); };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }, {passive:true});
+  // la page change de hauteur (polices, images) : on remesure, sans rien lire pendant le scroll
+  new ResizeObserver(() => { measure(); loop(); }).observe(document.body);
+  addEventListener('resize', () => { layout(); measure(); loop(); });
   loop();
 
   /* ----- reveal ----- */
@@ -464,7 +494,7 @@
   const fl = $('#muFloat'), flImg = fl.querySelector('img');
   if (matchMedia('(hover:hover)').matches){
     let fx = 0, fy = 0, tx = 0, ty = 0, raf = 0;
-    const tick = () => { fx += (tx-fx)*.18; fy += (ty-fy)*.18; fl.style.left = fx+'px'; fl.style.top = fy+'px'; raf = fl.classList.contains('on') ? requestAnimationFrame(tick) : 0; };
+    const tick = () => { fx += (tx-fx)*.18; fy += (ty-fy)*.18; fl.style.translate = `${fx}px ${fy}px`; raf = fl.classList.contains('on') ? requestAnimationFrame(tick) : 0; };
     document.querySelectorAll('.valeur').forEach(v => {
       v.addEventListener('mouseenter', e => { flImg.src = v.dataset.img; tx = fx = e.clientX; ty = fy = e.clientY; fl.classList.add('on'); if (!raf) raf = requestAnimationFrame(tick); });
       v.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; if (reduce) { fx = tx; fy = ty; } });
@@ -486,9 +516,10 @@
 
   /* ----- curseur ----- */
   if (!reduce && matchMedia('(hover:hover)').matches){
-    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0;
-    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0, craf = 0;
+    // la boucle s'arrête quand le curseur est au repos (plus de style écrit à chaque frame pendant le scroll)
+    const f = () => { cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; craf = Math.abs(mx-cx) + Math.abs(my-cy) > .2 ? requestAnimationFrame(f) : 0; };
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; if (!craf) craf = requestAnimationFrame(f); }, {passive:true});
     document.querySelectorAll('a,button,[data-lb]').forEach(el => {
       el.addEventListener('mouseenter', () => cu.classList.add('big'));
       el.addEventListener('mouseleave', () => cu.classList.remove('big'));

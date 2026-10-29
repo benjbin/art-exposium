@@ -184,12 +184,57 @@ export function mountHall(el, opts = {}) {
     shadowDirty = true;
     el.dataset.loadedMs = String(Math.round(performance.now()));
     const reveal = () => requestAnimationFrame(() => requestAnimationFrame(() => { el.classList.add('ready'); el.dataset.readyMs = String(Math.round(performance.now())); opts.onReady?.(); }));
-    // pré-compilation des shaders, mais sans jamais bloquer l’affichage plus de 1,2 s
-    const cap = new Promise(r => setTimeout(r, 1200));
-    const comp = renderer.compileAsync ? renderer.compileAsync(scene, camera).catch(() => {}) : Promise.resolve();
-    Promise.race([comp, cap]).then(reveal);
+    // pré-compilation des shaders (en parallèle si KHR_parallel_shader_compile), puis une trame
+    // « à blanc » rendue à un moment calme (aucun défilement récent) : les programmes restants
+    // (ombres, post-traitement, réflexion) se compilent alors hors défilement, jamais pendant.
+    const parallel = !!renderer.extensions.has?.('KHR_parallel_shader_compile');
+    const cap = new Promise(r => setTimeout(r, parallel ? 6000 : 1200));
+    const comp = precompile();
+    // textures envoyées au GPU d’avance, par petits lots : sinon chaque stand qui entre dans le champ
+    // pendant le travelling déclenche un téléversement (+ mipmaps) en pleine trame
+    const preupload = async () => {
+      const set = new Set();
+      scene.traverse(o => { const ms = o.material ? (Array.isArray(o.material) ? o.material : [o.material]) : [];
+        ms.forEach(m => { for (const k in m) { const v = m[k]; if (v && v.isTexture && !v.isRenderTargetTexture) set.add(v); } }); });
+      let n = 0;
+      for (const t of set) {
+        if (n++ % 4 === 0) await nextTask();
+        try { renderer.initTexture(t); } catch (e) { /* ignoré : sera envoyée au premier rendu */ }
+      }
+    };
+    Promise.race([comp, cap]).then(preupload).then(() => whenCalm(() => {
+      const tw = performance.now();
+      try { update(0); render(); } catch (e) { /* le premier rendu visible s’en chargera */ }
+      el.dataset.warmMs = String(Math.round(performance.now() - tw));
+      el.dataset.parallel = parallel ? '1' : '0';
+      warmed = true;
+      reveal();
+    }));
   };
   manager.itemStart('stands');   // le chargement n’est complet qu’une fois les stands construits
+
+  /* ---------- ménagement du fil principal : défilement de la page ---------- */
+  let lastScrollT = -1e9, warmed = false;
+  addEventListener('scroll', () => { lastScrollT = performance.now(); }, { passive: true, capture: true });
+  const scrolling = (now = performance.now()) => now - lastScrollT < 220;
+  // exécute fn quand la page ne défile plus (et que le navigateur est libre), avec un plafond
+  // en mode accueil (salon dans la page) on attend aussi longtemps que nécessaire ; en mode hero, 4 s max
+  const patience = () => (mode === 'attract' && !immersive ? Infinity : 4000);
+  function whenCalm(fn, maxWait = patience()) {
+    const t0 = performance.now();
+    const idle = window.requestIdleCallback || (f => setTimeout(f, 1));
+    (function check() {
+      const now = performance.now();
+      if (!scrolling(now) || now - t0 > maxWait) idle(() => fn(), { timeout: 400 });
+      else setTimeout(check, 120);
+    })();
+  }
+  // rend la main au navigateur entre deux gros morceaux de construction (attend la fin du défilement, 3 s max)
+  const nextTask = () => new Promise(r => {
+    const t0 = performance.now();
+    const go = () => (window.requestIdleCallback ? requestIdleCallback(() => r(), { timeout: 250 }) : setTimeout(r, 16));
+    (function wait() { if (scrolling() && performance.now() - t0 < (mode === 'attract' && !immersive ? Infinity : 3000)) setTimeout(wait, 140); else go(); })();
+  });
 
   const std = o => new THREE.MeshStandardMaterial(o);
   const phys = o => new THREE.MeshPhysicalMaterial(o);
@@ -991,7 +1036,9 @@ export function mountHall(el, opts = {}) {
     try { mod = await import('./hall-stands.js').catch(() => null); } catch (e) { mod = null; }
     const usable = typeof mod?.buildStand === 'function';
     el.dataset.stands = usable ? 'module' : 'builtin';
-    STANDS.forEach((d, i) => {
+    for (let i = 0; i < STANDS.length; i++) {
+      const d = STANDS[i];
+      await nextTask();   // un stand par tâche : textures procédurales réparties, pas de long blocage
       let s = null;
       if (usable) {
         try {
@@ -1001,7 +1048,8 @@ export function mountHall(el, opts = {}) {
       }
       if (!s) s = builtinStand({ data: standData(i), index: i });
       placeStand(s, d, i);
-    });
+    }
+    await nextTask();
     buildVolumes();
     shadowDirty = true;
     standsBuilt = true;
@@ -1351,8 +1399,10 @@ export function mountHall(el, opts = {}) {
 
   /* ---------- taille / visibilité / qualité ---------- */
   let visible = true, tier = mobile ? 1 : 2, pr = 1, shadowEvery = 0;
+  const viewSize = { width: 1, height: 1 };
   function resize() {
     const w = el.clientWidth || innerWidth, h = el.clientHeight || innerHeight;
+    viewSize.width = w; viewSize.height = h;
     const T = TIERS[tier];
     renderer.setPixelRatio(pr);
     renderer.setSize(w, h, false);
@@ -1408,6 +1458,28 @@ export function mountHall(el, opts = {}) {
       else if (avg < 17.6 && !perf.upTried && !mobile && tier < TIERS.length - 1) { perf.upTried = true; perf.upFrom = tier; setTier(tier + 1); }
       else perf.phase = 'watch';
     } else if (avg > 27 && tier > 0) setTier(tier - 1);
+  }
+
+  /* précompilation (parallèle) de TOUS les programmes, dans la bonne variante :
+     la scène est rendue dans les cibles du composer (espace linéaire), pas à l’écran ;
+     les passes de post-traitement aussi, sauf la passe finale (écran). */
+  function precompile() {
+    if (!renderer.compileAsync) return Promise.resolve();
+    const post = new THREE.Scene(), fin = new THREE.Scene(), geo = new THREE.PlaneGeometry(1, 1), seen = new Set();
+    const put = (sc, m) => { if (!m || !m.isMaterial || seen.has(m)) return; seen.add(m); const q = new THREE.Mesh(geo, m); q.frustumCulled = false; sc.add(q); };
+    const grab = (sc, o) => { for (const k in o) { const v = o[k]; if (v && v.isMaterial) put(sc, v); else if (Array.isArray(v)) v.forEach(m => put(sc, m)); } };
+    composer.passes.forEach(p => { if (p !== finalPass) grab(post, p); });
+    if (composer.copyPass) grab(post, composer.copyPass);
+    put(post, blurQ.material);
+    put(fin, finalPass.material);
+    const jobs = [];
+    try {
+      renderer.setRenderTarget(composer.renderTarget1);
+      jobs.push(renderer.compileAsync(scene, camera), renderer.compileAsync(post, camera));
+      renderer.setRenderTarget(null);
+      jobs.push(renderer.compileAsync(fin, camera));
+    } catch (e) { renderer.setRenderTarget(null); }
+    return Promise.all(jobs.map(j => j.catch(() => {})));
   }
 
   /* ---------- boucle ---------- */
@@ -1479,7 +1551,7 @@ export function mountHall(el, opts = {}) {
 
     // hotspots
     if (mode !== 'scroll') {
-      const r = el.getBoundingClientRect();
+      const r = viewSize;   // taille mise en cache au redimensionnement (pas de lecture de layout par trame)
       anchors.forEach((a, i) => {
         if (!a) return;
         tmp.copy(a).project(camera);
@@ -1502,14 +1574,20 @@ export function mountHall(el, opts = {}) {
     finalPass.uniforms.time.value = time;
     composer.render();
   }
+  let skip = 0;
   function frame(now) {
     requestAnimationFrame(frame);
+    // rien tant que la scène n’est pas prête (le chargeur la couvre) ni quand elle est hors écran
+    if (!warmed || !(visible || immersive) || document.hidden) { last = now; return; }
+    // pendant le défilement de la page, le travelling d’accueil passe à ~30 i/s :
+    // le GPU reste disponible pour le compositeur et le défilement ne saccade pas
+    const pageScroll = !immersive && mode === 'attract' && scrolling(now);
+    if (pageScroll && (skip++ & 1)) return;
     const raw = (now - last) / 1000; last = now;
     const dt = Math.min(.05, Math.max(0, raw));
-    if (!(visible || immersive) || document.hidden) return;
     update(dt);
     render();
-    monitor(raw);
+    if (mode === 'scroll' || !scrolling(now)) monitor(raw);
   }
   requestAnimationFrame(frame);
   buildStands();

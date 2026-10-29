@@ -39,7 +39,7 @@
     <li><a href="contact.html">Contact</a></li>
   </ul>
   <a href="demo.html" class="btn">Réserver une démo <span class="arr">→</span></a>
-  <button class="burger" aria-label="Menu" id="burger"><span></span><span></span></button>
+  <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="mmenu" id="burger"><span></span><span></span></button>
 </header>
 
 <div class="mmenu" id="mmenu">
@@ -336,10 +336,32 @@
     const f1 = [A[0] + c * V1[0], A[1] + c * V1[1] - s * l1], f2 = [B[0] + c * V2[0], B[1] + c * V2[1] - s * l2];
     return `polygon(${pt(...f1)},${pt(...f2)},${pt(...B)},${pt(...A)})`;
   }
+  const mm = $('#mmenu'), bg = $('#burger');
   const T0 = performance.now();
+
+  // faisceau de lumière : flou « cuit » une fois dans un canvas. Un filter:blur() CSS sur un calque
+  // agrandi 60× pendant la plongée se recalcule à l'échelle de l'écran à chaque trame (très coûteux).
+  function bakeBeam(){
+    const sw = stage.offsetWidth, sh = stage.offsetHeight;
+    if (!sw || !sh) return;
+    const bw = sw * 1.9, bh = sh * 2.05, pad = 70;
+    const c = document.createElement('canvas');
+    c.width = Math.ceil(bw + pad * 2); c.height = Math.ceil(bh + pad * 2);
+    const g = c.getContext('2d');
+    g.filter = 'blur(22px)';
+    const gr = g.createLinearGradient(0, pad + bh, 0, pad);
+    gr.addColorStop(0, 'rgba(220,232,255,.95)'); gr.addColorStop(.35, 'rgba(77,130,255,.55)'); gr.addColorStop(.85, 'rgba(20,92,255,0)');
+    g.fillStyle = gr; g.beginPath();
+    g.moveTo(pad + .3 * bw, pad + .74 * bh); g.lineTo(pad + .7 * bw, pad + .76 * bh); g.lineTo(pad + bw, pad); g.lineTo(pad, pad);
+    g.closePath(); g.fill();
+    c.style.cssText = `position:absolute;left:${-pad / bw * 100}%;top:${-pad / bh * 100}%;width:${(bw + pad * 2) / bw * 100}%;height:${(bh + pad * 2) / bh * 100}%`;
+    bxBeam.querySelector('canvas')?.remove();
+    bxBeam.appendChild(c); bxBeam.classList.add('baked');
+  }
   let heroP = 0, px = 0, py = 0, tx = 0, ty = 0;
 
   if (!reduce) {
+    try { bakeBeam(); } catch (e) { /* repli : le flou CSS d'origine reste actif */ }
     for (let i = 0; i < 18; i++) {
       const sp = document.createElement('span');
       sp.style.cssText = `--x:${20 + Math.random() * 60}%;--y:${18 + Math.random() * 30}%;--dy:${-140 - Math.random() * 220}px;--s:${3 + Math.random() * 6}px;--d:${2.2 + Math.random() * 2.6}s;--w:${-Math.random() * 4}s;--dx:${(Math.random() - .5) * 140}px;--r:${(Math.random() - .5) * 540}deg`;
@@ -351,12 +373,26 @@
     [bxL, bxR, bxLid].forEach(el => el.style.opacity = 1);
   }
 
+  /* ----- mesures mises en cache (relues au redimensionnement, jamais dans la boucle de défilement) ----- */
+  const manif = $('#manif');
+  const invSections = [...document.querySelectorAll('.concept,.demo,.manifesto,.features,.cta,footer,.marquee:not(.light)')];
+  const M = { heroTop: 0, heroH: 1, heroRun: 1, inv: [], manTop: 0, manH: 1, vh: innerHeight };
+  // position de défilement lue une seule fois par événement scroll (lire scrollY après des écritures de style force un layout)
+  let SY = scrollY;
+  function measure(){
+    const sy = SY = scrollY, top = el => el.getBoundingClientRect().top + sy;
+    M.vh = innerHeight;
+    M.heroTop = top(hero); M.heroH = hero.offsetHeight; M.heroRun = Math.max(1, M.heroH - M.vh);
+    M.inv = invSections.map(s => { const b = s.getBoundingClientRect(); return [b.top + sy, b.bottom + sy]; });
+    const mr = manif.getBoundingClientRect(); M.manTop = mr.top + sy; M.manH = mr.height;
+  }
+  measure();
+
   function heroFrame(now){
     if (reduce) { heroP = 0; return; }
-    const r = hero.getBoundingClientRect();
-    const total = Math.max(1, hero.offsetHeight - innerHeight);
-    const p = heroP = clamp(-r.top / total);
-    if (r.bottom < 0) return;
+    const y = SY;
+    const p = heroP = clamp((y - M.heroTop) / M.heroRun);
+    if (y > M.heroTop + M.heroH) return;
     const t = ((now || performance.now()) - T0) / 1000;
 
     // 1. assemblage (temps)
@@ -399,40 +435,70 @@
     tag.style.opacity = meta.style.opacity = 1 - clamp(p / .1);
     flash.style.opacity = clamp((p - .84) / .14);
   }
-  (function tick(now){ heroFrame(now); requestAnimationFrame(tick); })(performance.now());
+  // la boucle du hero ne tourne que tant que le hero est à l'écran (respiration, parallaxe souris)
+  let heroRunning = false;
+  const heroOn = () => !reduce && SY <= M.heroTop + M.heroH;
+  function tick(now){
+    if (!heroOn()) { heroRunning = false; return; }
+    heroFrame(now); requestAnimationFrame(tick);
+  }
+  function startHero(){ if (!heroRunning && heroOn()) { heroRunning = true; requestAnimationFrame(tick); } }
+  if (reduce) heroFrame(); else startHero();
 
   /* ----- nav ----- */
-  const invSections = [...document.querySelectorAll('.concept,.demo,.manifesto,.features,.cta,footer,.marquee:not(.light)')];
+  let navS = null, navI = null;
   function navFrame(){
-    nav.classList.toggle('scrolled', scrollY > 40);
-    const y = 40;
-    const onDark = invSections.some(s => { const b = s.getBoundingClientRect(); return b.top <= y && b.bottom >= y; });
-    nav.classList.toggle('inv', onDark || (heroP > .2 && heroP < 1));
+    const sy = SY, y = sy + 40;
+    const s = sy > 40;
+    const onDark = M.inv.some(([a,b]) => a <= y && b >= y);
+    // sur le hero : barre foncée dès que la nuit tombe, jusqu'à ce que le hero quitte la barre
+    const i = onDark || (heroP > .2 && y < M.heroTop + M.heroH) || mm.classList.contains('open');
+    if (s !== navS) nav.classList.toggle('scrolled', navS = s);
+    if (i !== navI) nav.classList.toggle('inv', navI = i);
   }
 
   /* ----- manifesto : mots qui s'allument ----- */
-  const manif = $('#manif');
   manif.innerHTML = manif.textContent.trim().split(/\s+/).map(w =>
     w.startsWith('*') ? `<span class="w hl">${w.slice(1)}</span>` : `<span class="w">${w}</span>`).join(' ');
   const words = [...manif.querySelectorAll('.w')];
+  let manN = -1;
   function manifFrame(){
-    const r = manif.getBoundingClientRect();
-    const p = clamp((innerHeight * .85 - r.top) / (r.height + innerHeight * .35));
-    const n = Math.round(p * words.length);
-    words.forEach((w,i) => w.classList.toggle('on', i < n || reduce));
+    const top = M.manTop - SY;
+    const p = clamp((M.vh * .85 - top) / (M.manH + M.vh * .35));
+    const n = reduce ? words.length : Math.round(p * words.length);
+    if (n === manN) return;
+    const a = Math.min(n, manN < 0 ? 0 : manN), b = Math.max(n, manN < 0 ? words.length : manN);
+    for (let i = a; i < b; i++) words[i].classList.toggle('on', i < n);
+    manN = n;
   }
 
-  function loop(){ heroFrame(); navFrame(); manifFrame(); }
-  addEventListener('scroll', () => requestAnimationFrame(loop), {passive:true});
-  addEventListener('resize', loop);
-  loop();
+  // un seul rAF par trame, quel que soit le nombre d'événements scroll
+  let queued = false;
+  function loop(){ queued = false; navFrame(); manifFrame(); startHero(); }
+  const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(loop); } };
+  addEventListener('scroll', () => { SY = scrollY; schedule(); }, {passive:true});
+  let rzT; const remeasure = () => { measure(); manN = -1; schedule(); if (reduce) heroFrame(); };
+  addEventListener('resize', () => { clearTimeout(rzT); rzT = setTimeout(remeasure, 120); });
+  new ResizeObserver(() => { clearTimeout(rzT); rzT = setTimeout(remeasure, 120); }).observe(document.body);
+  addEventListener('load', remeasure);
 
   /* ----- reveal + compteurs ----- */
+  // largeur finale réservée d'avance : le compteur qui grandit ne pousse plus ses voisins (CLS)
+  const counters = [...document.querySelectorAll('[data-count]')];
+  const fixW = () => {
+    counters.forEach(c => { c.style.minWidth = ''; c._t = c.textContent; c.textContent = (+c.dataset.count).toLocaleString('fr-FR'); });
+    const ws = counters.map(c => c.getBoundingClientRect().width);
+    counters.forEach((c,i) => { c.textContent = c._t; c.style.minWidth = Math.ceil(ws[i]) + 'px'; });
+  };
+  // chiffre collé à son suffixe (« % », « 000 ») ou à son préfixe (« + ») pendant le comptage
+  counters.forEach(c => { c.style.display = 'inline-block'; if (c.nextSibling && c.nextSibling.textContent.trim()) c.style.textAlign = 'right'; });
+  fixW(); document.fonts && document.fonts.ready.then(fixW);
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     e.target.classList.add('in');
     e.target.querySelectorAll('[data-count]').forEach(c => {
       const to = +c.dataset.count, t0 = performance.now();
+      if (reduce) { c.textContent = to.toLocaleString("fr-FR"); return; }
       const tick = now => { const k = clamp((now - t0) / 1600); c.textContent = Math.round(ease(k) * to).toLocaleString('fr-FR'); if (k < 1) requestAnimationFrame(tick); };
       requestAnimationFrame(tick);
     });
@@ -473,16 +539,33 @@
     if (user) clearInterval(auto);
   }
   render(0); cur = 0;
-  if (!reduce) auto = setInterval(() => setF((cur + 1) % F.length, false), 4200);
+  // rotation automatique seulement quand la section est visible
+  let autoOn = !reduce;
+  if (!reduce) new IntersectionObserver(([e]) => {
+    clearInterval(auto);
+    if (e.isIntersecting && autoOn) auto = setInterval(() => setF((cur + 1) % F.length, false), 4200);
+  }).observe($('#fonctionnalites'));
+  list.addEventListener('click', () => { autoOn = false; clearInterval(auto); });
 
   /* ----- grille de fond (features) ----- */
   const cv = $('#grid'), ctx = cv.getContext('2d');
-  let W, H, off = 0, vis = false;
-  new IntersectionObserver(([e]) => vis = e.isIntersecting).observe(cv);
-  function size(){ const d = devicePixelRatio || 1; W = cv.offsetWidth; H = cv.offsetHeight; cv.width = W*d; cv.height = H*d; ctx.setTransform(d,0,0,d,0,0); }
-  size(); addEventListener('resize', size);
+  let W = 0, H = 0, off = 0, vis = false, drawing = false;
+  new IntersectionObserver(([e]) => { vis = e.isIntersecting; if (vis && !drawing) { drawing = true; requestAnimationFrame(draw); } }).observe(cv);
+  function size(){
+    const d = Math.min(devicePixelRatio || 1, 1.5), w = cv.offsetWidth, h = cv.offsetHeight;
+    if (w === W && h === H) return;
+    W = w; H = h; cv.width = W*d; cv.height = H*d; ctx.setTransform(d,0,0,d,0,0);
+    paint();   // première image tracée tout de suite (hors défilement), pas à l'arrivée dans la section
+  }
+  new ResizeObserver(size).observe(cv);
   function draw(){
-    if (vis){
+    if (!vis && !reduce) { drawing = false; return; }
+    paint();
+    if (reduce) { drawing = false; return; }
+    requestAnimationFrame(draw);
+  }
+  function paint(){
+    {
       ctx.clearRect(0,0,W,H);
       const hz = H * .35, cx = W/2;
       ctx.lineWidth = 1;
@@ -499,9 +582,7 @@
       ctx.fillStyle = g; ctx.fillRect(0,0,W,hz+80);
       if (!reduce) off = (off + .012) % 1;
     }
-    requestAnimationFrame(draw);
   }
-  draw();
 
   /* ----- cartes : tilt 3D ----- */
   if (!reduce && matchMedia('(hover:hover)').matches){
@@ -513,25 +594,48 @@
       c.addEventListener('mouseleave', () => c.style.transform = '');
     });
     /* curseur */
-    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0;
-    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    // curseur : la boucle s'arrête dès que le curseur a rejoint la souris
+    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0, cuOn = false;
+    function f(){
+      cx += (mx-cx)*.2; cy += (my-cy)*.2;
+      if (Math.abs(mx-cx) + Math.abs(my-cy) < .2) { cx = mx; cy = my; cuOn = false; }
+      cu.style.transform = `translate3d(${cx}px,${cy}px,0)`;
+      if (cuOn) requestAnimationFrame(f);
+    }
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; if (!cuOn) { cuOn = true; requestAnimationFrame(f); } }, {passive:true});
     document.querySelectorAll('a,button').forEach(el => {
       el.addEventListener('mouseenter', () => cu.classList.add('big'));
       el.addEventListener('mouseleave', () => cu.classList.remove('big'));
     });
   }
 
+  /* ----- animations en boucle (CSS) en pause hors écran ----- */
+  const offIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('is-off', !e.isIntersecting)));
+  document.querySelectorAll('.hero-stick,.marquee,.ag-refs,.feat-vis,.demo-live').forEach(el => offIO.observe(el));
+
   /* ----- menu mobile ----- */
-  const mm = $('#mmenu'), bg = $('#burger');
-  bg.addEventListener('click', () => { mm.classList.toggle('open'); nav.classList.toggle('inv', mm.classList.contains('open')); });
-  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
+  bg.addEventListener('click', () => { mm.classList.toggle('open'); bg.setAttribute('aria-expanded', mm.classList.contains('open')); navI = null; navFrame(); });
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); navI = null; navFrame(); }));
 })();
 </script>
 <script type="module">
-  import { mountHall } from './assets/hall3d.js';
-  const hall = mountHall(document.getElementById('demoHall'), { mode: 'attract' });
-  document.getElementById('demoGo').addEventListener('click', () => hall && hall.enterImmersive());
+  /* salon 3D : chargé à la demande (three.js + construction de la scène), jamais en plein défilement */
+  const el = document.getElementById('demoHall');
+  let hall = null, loading = null, lastScroll = -1e9;
+  addEventListener('scroll', () => { lastScroll = performance.now(); }, { passive: true });
+  const mount = () => loading || (loading = import('./assets/hall3d.js').then(({ mountHall }) => (hall = mountHall(el, { mode: 'attract' }))));
+  // attend une pause du défilement puis un moment libre du navigateur
+  function whenCalm(fn, maxWait = Infinity){
+    const t0 = performance.now(), idle = window.requestIdleCallback || (f => setTimeout(f, 1));
+    (function check(){ const now = performance.now();
+      if (now - lastScroll > 300 || now - t0 > maxWait) idle(fn, { timeout: 500 }); else setTimeout(check, 150); })();
+  }
+  // dès que la démo approche (1,5 écran) — ou, sinon, quand la page est au repos après l'intro du hero
+  const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); whenCalm(mount); } }, { rootMargin: '150% 0px' });
+  io.observe(el);
+  const later = () => setTimeout(() => whenCalm(mount), 3500);
+  if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
+  document.getElementById('demoGo').addEventListener('click', async () => { const h = await mount(); h && h.enterImmersive(); });
 </script>
 </body>
 </html>

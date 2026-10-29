@@ -194,18 +194,23 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = s => document.querySelector(s);
   const nav = $('#nav'), mm = $('#mmenu'), burger = $('#burger');
-
-  /* ----- nav : fond au scroll, inversion sur sections sombres ----- */
+  /* ----- scroll : une seule frame rAF par image — toutes les lectures d'abord, puis les écritures (aucune mise en page forcée) ----- */
   const darks = [...document.querySelectorAll('[data-dark],footer')];
-  function navFrame(){
-    nav.classList.toggle('scrolled', scrollY > 40);
-    if (mm.classList.contains('open')) return;
-    const onDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
-    nav.classList.toggle('inv', onDark);
+  let isScrolled = null, isInv = null, ticking = false;
+  function frame(){
+    ticking = false;
+    // lectures
+    const y = scrollY, vh = innerHeight;
+    const open = mm.classList.contains('open');
+    const inv = open || darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
+    // écritures (seulement si l'état change)
+    if ((y > 40) !== isScrolled) nav.classList.toggle('scrolled', isScrolled = y > 40);
+    if (inv !== isInv) nav.classList.toggle('inv', isInv = inv);
   }
-  addEventListener('scroll', () => requestAnimationFrame(navFrame), {passive:true});
-  addEventListener('resize', navFrame);
-  navFrame();
+  const tick = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
+  addEventListener('scroll', tick, {passive:true});
+  addEventListener('resize', tick, {passive:true});
+  frame();
 
   /* ----- reveal ----- */
   const rvs = document.querySelectorAll('.rv');
@@ -213,17 +218,24 @@
   else {
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    }), {threshold:.12});
+    }), {threshold:0, rootMargin:'100000px 0px -10% 0px'}); // zone = tout ce qui est au-dessus de 90 % de l'écran : un scroll très rapide ou un saut d'ancre ne laisse aucun élément invisible
     rvs.forEach(el => io.observe(el));
   }
 
-  /* ----- curseur ----- */
-  if (!reduce && matchMedia('(hover:hover)').matches){
-    const cu = $('.cursor'); let mx = -100, my = -100, cx = -100, cy = -100;
-    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
-    document.addEventListener('mouseover', e => { if (e.target.closest('a,button,label,summary,select,[data-hover]')) cu.classList.add('big'); });
-    document.addEventListener('mouseout', e => { if (e.target.closest('a,button,label,summary,select,[data-hover]')) cu.classList.remove('big'); });
+  /* ----- curseur : la boucle rAF ne tourne que pendant le mouvement ----- */
+  const cu = $('.cursor');
+  if (cu && !reduce && matchMedia('(hover:hover) and (pointer:fine)').matches){
+    let mx = -100, my = -100, cx = -100, cy = -100, raf = 0;
+    cu.style.transform = "translate3d(-100px,-100px,0)"; // hors écran tant que la souris n'a pas bougé
+    const f = () => {
+      cx += (mx-cx)*.2; cy += (my-cy)*.2;
+      if (Math.abs(mx-cx) + Math.abs(my-cy) < .2) { cx = mx; cy = my; raf = 0; } else raf = requestAnimationFrame(f);
+      cu.style.transform = `translate3d(${cx}px,${cy}px,0)`;
+    };
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; if (!raf) raf = requestAnimationFrame(f); }, {passive:true});
+    const HOV = 'a,button,label,summary,select,[data-hover]';
+    document.addEventListener('mouseover', e => { if (e.target.closest(HOV)) cu.classList.add('big'); });
+    document.addEventListener('mouseout', e => { if (e.target.closest(HOV)) cu.classList.remove('big'); });
     document.addEventListener('focusin', e => { if (e.target.matches('input,textarea,select')) cu.classList.remove('big'); });
   }
 
@@ -233,7 +245,7 @@
     burger.setAttribute('aria-expanded', open);
     burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
     document.documentElement.style.overflow = open ? 'hidden' : '';
-    if (open) nav.classList.add('inv'); else navFrame();
+    frame();
   }
   burger.addEventListener('click', () => setMenu(!mm.classList.contains('open')));
   mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
@@ -250,7 +262,7 @@
     const btn = li.querySelector('.fq-q'), t = btn.querySelector('.t');
     return { li, btn, t, q: t.textContent, nq: norm(t.textContent), na: norm(li.querySelector('.fq-a').textContent) };
   });
-  const setOpen = (it, open) => { it.li.classList.toggle('open', open); it.btn.setAttribute('aria-expanded', open); };
+  const setOpen = (it, open) => { if (it.li.classList.contains('open') === open) return; it.li.classList.toggle('open', open); it.btn.setAttribute('aria-expanded', open); };
   items.forEach(it => it.btn.addEventListener('click', () => { setOpen(it, !it.li.classList.contains('open')); syncAll(); }));
   function syncAll(){
     const vis = items.filter(i => !i.li.hidden);
@@ -264,6 +276,9 @@
   });
   // surlignage sûr (texte uniquement, pas d'innerHTML utilisateur)
   function mark(it, terms){
+    const key = terms.join(' ');
+    if (it.mk === key) return; // rien à changer : on ne touche pas au DOM
+    it.mk = key;
     it.t.replaceChildren(it.q);
     if (!terms.length) return;
     const src = it.q, n = norm(src); const ranges = [];
@@ -285,7 +300,8 @@
     items.forEach(it => {
       const hay = it.nq + ' ' + it.na;
       const ok = !terms.length || terms.every(w => hay.includes(w));
-      it.li.hidden = !ok; if (ok) n++;
+      if (it.li.hidden !== !ok) it.li.hidden = !ok;
+      if (ok) n++;
       mark(it, ok ? terms : []);
       if (terms.length) setOpen(it, ok && terms.some(w => !it.nq.includes(w) && it.na.includes(w)));
     });
@@ -296,7 +312,9 @@
       terms.length ? (n > 1 ? ' résultats' : ' résultat') + ' pour « ' + raw + ' »' : ' questions');
     syncAll();
   }
-  input.addEventListener('input', filter);
+  // une seule passe de filtrage par image, même si l'on tape vite
+  let fRaf = 0;
+  input.addEventListener('input', () => { if (!fRaf) fRaf = requestAnimationFrame(() => { fRaf = 0; filter(); }); });
   input.addEventListener('keydown', e => { if (e.key === 'Escape' && input.value) { e.stopPropagation(); input.value = ''; filter(); } });
   clear.addEventListener('click', () => { input.value = ''; filter(); input.focus(); });
   // ouverture directe via #q05

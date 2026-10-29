@@ -197,6 +197,8 @@
   .ap-title .ln > span{transform:none}
   .ap-lead,.ap-meta,.ap-door .tag{opacity:1}
 }
+/* boîte-logo : animations infinies en pause hors écran */
+.nk-box.nk-off,.nk-box.nk-off *,.nk-box.nk-off *::after{animation-play-state:paused!important}
 </style>
 </head>
 <body>
@@ -485,22 +487,29 @@
   const manif = $('#manif');
   manif.innerHTML = manif.textContent.split(' ').map(w => w.startsWith('*') ? `<span class="w hl">${w.slice(1)}</span>` : `<span class="w">${w}</span>`).join(' ');
   const words = [...manif.querySelectorAll('.w')];
-  function manifFrame(){
-    const r = manif.getBoundingClientRect();
-    const k = reduce ? 1 : clamp((innerHeight * .85 - r.top) / (r.height + innerHeight * .4));
-    const n = Math.round(k * words.length);
-    words.forEach((w,i) => w.classList.toggle('on', i < n));
+  let litN = 0;
+  function setWords(n){
+    // ne touche qu'aux mots qui changent d'état
+    if (n === litN) return;
+    const [a, b, on] = n > litN ? [litN, n, true] : [n, litN, false];
+    for (let i = a; i < b; i++) words[i].classList.toggle('on', on);
+    litN = n;
   }
 
-  /* nav */
+  /* nav + manifeste : lectures groupées puis écritures, une seule rAF par frame */
   const darks = [...document.querySelectorAll('.ap-manif,.ap-conv,.ap-stats,.cta,footer')];
+  let ticking = false;
   function navFrame(){
+    ticking = false;
+    const r = manif.getBoundingClientRect();
+    const onDark = mm.classList.contains('open') ? null : darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
     nav.classList.toggle('scrolled', scrollY > 40);
-    if (!mm.classList.contains('open')) nav.classList.toggle('inv', darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; }));
-    manifFrame();
+    if (onDark !== null) nav.classList.toggle('inv', onDark);
+    setWords(Math.round((reduce ? 1 : clamp((innerHeight * .85 - r.top) / (r.height + innerHeight * .4))) * words.length));
   }
-  addEventListener('scroll', () => requestAnimationFrame(navFrame), {passive:true});
-  addEventListener('resize', navFrame);
+  const kick = () => { if (!ticking) { ticking = true; requestAnimationFrame(navFrame); } };
+  addEventListener('scroll', kick, {passive:true});
+  addEventListener('resize', kick);
   navFrame();
 
   /* reveal + compteurs */
@@ -521,13 +530,17 @@
   /* curseur */
   if (!reduce && matchMedia('(hover:hover)').matches){
     const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0;
-    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    let craf = 0;
+    const f = () => { cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; craf = (Math.abs(mx-cx) > .2 || Math.abs(my-cy) > .2) ? requestAnimationFrame(f) : 0; };
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; if (!craf) craf = requestAnimationFrame(f); }, {passive:true});
     document.querySelectorAll('a,button').forEach(el => {
       el.addEventListener('mouseenter', () => cu.classList.add('big'));
       el.addEventListener('mouseleave', () => cu.classList.remove('big'));
     });
   }
+
+  /* boîte-logo : animations en pause hors écran */
+  document.querySelectorAll('.nk-box').forEach(b => new IntersectionObserver(([e]) => b.classList.toggle('nk-off', !e.isIntersecting)).observe(b));
 
   /* menu mobile */
   $('#burger').addEventListener('click', () => { mm.classList.toggle('open'); nav.classList.toggle('inv', mm.classList.contains('open')); });

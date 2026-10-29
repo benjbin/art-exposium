@@ -72,6 +72,7 @@
 .ch-media{position:sticky;top:16vh;height:68vh;border-radius:22px;overflow:hidden;background:#000}
 .ch-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity .9s var(--ease),transform 1.4s var(--ease)}
 .ch-media img.on{opacity:1;transform:none}
+.ch-media img{will-change:opacity,transform}
 .ch-media .num{position:absolute;left:24px;bottom:18px;font-family:var(--display);font-weight:900;font-size:clamp(70px,8vw,140px);line-height:.8;letter-spacing:-.06em;color:#fff;mix-blend-mode:difference}
 .ch{min-height:68vh;display:flex;flex-direction:column;justify-content:center;padding:4vh 0;border-top:1px solid var(--line-inv);opacity:.35;transition:opacity .6s}
 .ch.on{opacity:1}
@@ -172,6 +173,17 @@
   .for li:nth-child(2),.for li:nth-child(3){justify-content:flex-start}
   .sv-next .wrap{flex-direction:column;align-items:flex-start}
 }
+@media (max-width:640px){.cta-big{font-size:clamp(48px,16vw,80px)}}
+/* ---------- perf : portail composé (transform only, aucun repaint au scroll) ---------- */
+.sv-win{position:absolute;inset:0;z-index:1;overflow:hidden;transform-origin:0 0;transform:scale(0);will-change:transform}
+.sv-win .sv-img{z-index:auto;clip-path:none;transform-origin:0 0;will-change:transform}
+.sv-img::after,.sv-door::after{will-change:opacity}
+.sv-door-wrap,.sv-tag,.sv-hint{will-change:opacity}
+.sv-over{will-change:transform,opacity}
+.sv-wedge{position:absolute;left:-100%;width:300%;height:100%;background:var(--paper);will-change:transform;pointer-events:none}
+.sv-wedge.t{bottom:100%;transform-origin:33.3333% 100%}
+.sv-wedge.b{top:100%;transform-origin:66.6667% 0}
+@media (hover:none){.shot figcaption{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(11,33,74,.78)}}
 </style>
 </head>
 <body>
@@ -218,7 +230,7 @@
 <!-- HERO : la porte s'ouvre sur le magasin -->
 <section class="sv-hero" id="hero">
   <div class="sv-stick">
-    <div class="sv-img" id="svImg"><img src="assets/img/retail/img-slider-scaled.jpg" alt="Magasin virtuel en 3D : supérette avec rayons, vitrines réfrigérées et îlot central" fetchpriority="high"></div>
+    <div class="sv-win" id="svWin"><div class="sv-img" id="svImg"><img src="assets/img/retail/img-slider-scaled.jpg" alt="Magasin virtuel en 3D : supérette avec rayons, vitrines réfrigérées et îlot central" fetchpriority="high"></div><i class="sv-wedge t"></i><i class="sv-wedge b"></i></div>
     <div class="sv-door-wrap" id="doorWrap"><div class="sv-door" id="svDoor"></div></div>
 
     <div class="sv-head" id="svHead">
@@ -248,7 +260,7 @@
     <p class="rt-lead rv d1">Les clients évoluent dans un espace 3D interactif et découvrent les produits <em>comme s’ils y étaient.</em></p>
     <div class="rt-intro-grid">
       <figure class="shot rv" data-lb>
-        <img src="assets/img/retail/retail-1.jpg" alt="Magasin virtuel d’art de la table : étagères de vaisselle et tables de présentation" loading="lazy">
+        <img src="assets/img/retail/retail-1.jpg" alt="Magasin virtuel d’art de la table : étagères de vaisselle et tables de présentation" loading="lazy" decoding="async">
         <figcaption>Magasin de vaisselle</figcaption>
       </figure>
       <div>
@@ -287,21 +299,21 @@
           <h3>Simuler</h3>
           <p>Les enseignes et marques simulent des implantations de rayons, de PLV ou de packaging dans un environnement virtuel.</p>
           <div class="tags"><span>Rayons</span><span>PLV</span><span>Packaging</span></div>
-          <figure class="shot ch-img" data-lb><img src="assets/img/retail/retail-2.jpg" alt="Showroom virtuel épuré avec écrans muraux" loading="lazy"><figcaption>Showroom écrans</figcaption></figure>
+          <figure class="shot ch-img" data-lb><img src="assets/img/retail/retail-2.jpg" alt="Showroom virtuel épuré avec écrans muraux" loading="lazy" decoding="async"><figcaption>Showroom écrans</figcaption></figure>
         </article>
         <article class="ch" data-i="1">
           <small>02 — Analyser</small>
           <h3>Mesurer</h3>
           <p>Des outils intégrés mesurent le parcours client, le temps passé devant un produit et les zones les plus attractives.</p>
           <div class="tags"><span>Parcours client</span><span>Temps par produit</span><span>Zones attractives</span></div>
-          <figure class="shot ch-img" data-lb><img src="assets/img/retail/retail-5.jpg" alt="Magasin virtuel de vaisselle aux murs bleus lumineux" loading="lazy"><figcaption>Magasin de vaisselle</figcaption></figure>
+          <figure class="shot ch-img" data-lb><img src="assets/img/retail/retail-5.jpg" alt="Magasin virtuel de vaisselle aux murs bleus lumineux" loading="lazy" decoding="async"><figcaption>Magasin de vaisselle</figcaption></figure>
         </article>
         <article class="ch" data-i="2">
           <small>03 — Optimiser</small>
           <h3>Décider</h3>
           <p>Les données récoltées sont précieuses : elles servent directement à optimiser la stratégie commerciale.</p>
           <div class="tags"><span>Données</span><span>Stratégie commerciale</span></div>
-          <figure class="shot ch-img" data-lb><img src="assets/img/retail/retail-3.jpg" alt="Galerie boutique virtuelle avec vitrines, parquet et lustres" loading="lazy"><figcaption>Galerie boutique</figcaption></figure>
+          <figure class="shot ch-img" data-lb><img src="assets/img/retail/retail-3.jpg" alt="Galerie boutique virtuelle avec vitrines, parquet et lustres" loading="lazy" decoding="async"><figcaption>Galerie boutique</figcaption></figure>
         </article>
       </div>
     </div>
@@ -315,7 +327,7 @@
     <h2 class="h2 rv d1" style="margin-top:28px">De la visite<br>à la commande.</h2>
     <div class="connect">
       <figure class="shot rv" data-lb>
-        <img src="assets/img/retail/retail-8.jpg" alt="Showroom virtuel de menuiseries avec configurateur et panneaux produits" loading="lazy">
+        <img src="assets/img/retail/retail-8.jpg" alt="Showroom virtuel de menuiseries avec configurateur et panneaux produits" loading="lazy" decoding="async">
         <figcaption>Showroom virtuel</figcaption>
       </figure>
       <div class="c-stack">
@@ -452,33 +464,45 @@
   /* ----- hero : la porte bleue s'ouvre, l'image envahit l'écran ----- */
   const hero = $('#hero'), img = $('#svImg'), wrap = $('#doorWrap'), door = $('#svDoor'),
         head = $('#svHead'), over = $('#svOver'), tag = $('#svTag'), hint = $('#svHint'), nav = $('#nav');
+
+  /* portail : la fenêtre est un calque composé (translate+scale), l'image est contre-transformée,
+     les biseaux haut/bas sont deux aplats tournés -> aucun clip-path recalculé, aucun repaint au scroll */
+  const stick = hero.firstElementChild, win = $('#svWin'), pimg = img.querySelector('img'),
+        wT = win.querySelector('.sv-wedge.t'), wB = win.querySelector('.sv-wedge.b');
+  let SW = innerWidth, SH = innerHeight, lastG = -1, lastFin = -1, lastOpen = -1, lastP = -1, heroTop = 0, heroLen = 1;
+  function portal(g){
+    if (g === lastG) return; lastG = g;
+    if (img.classList.contains('hall-immersive')) return;
+    const x = lerp(R.x, 0, g), y = lerp(R.y, 0, g), a = lerp(R.w, SW, g) / SW, b = lerp(R.h, SH, g) / SH;
+    win.style.transform = `translate(${x}px,${y}px) scale(${a},${b})`;
+    img.style.transform = `scale(${1 / a},${1 / b}) translate(${-x}px,${-y}px)`;
+    const k = (1 - g) / b;
+    wT.style.transform = `rotate(${Math.atan2(R.h * .105 * k, SW)}rad)`;
+    wB.style.transform = `rotate(${Math.atan2(R.h * .123 * k, SW)}rad)`;
+  }
   let R, intro = 0;
   function layout(){
-    const W = innerWidth, H = innerHeight, mob = W < 1000;
+    SW = stick.clientWidth || innerWidth; SH = stick.clientHeight || innerHeight; lastG = lastP = -1;
+    heroTop = hero.getBoundingClientRect().top + scrollY; heroLen = Math.max(1, hero.offsetHeight - innerHeight);
+    const W = SW, H = SH, mob = W < 1000;
     const w = mob ? W * .42 : Math.min(W * .24, H * .5), h = w * 2.8;
     const hh = Math.min(h, H * (mob ? .44 : .74)), ww = hh / 2.8;
     R = { x: mob ? W - ww - W*.08 : W * .74 - ww / 2, y: mob ? H * .5 : (H - hh) / 2 + H * .02, w: ww, h: hh };
     Object.assign(wrap.style, { left: R.x+'px', top: R.y+'px', width: R.w+'px', height: R.h+'px' });
   }
   function heroFrame(){
-    const W = innerWidth, H = innerHeight;
-    const p = clamp(-hero.getBoundingClientRect().top / (hero.offsetHeight - H));
+    const p = clamp((scrollY - heroTop) / heroLen);
+    if (p === lastP) return p;
+    lastP = p;
     const open = ease(clamp(p / .28));
     const grow = easeIO(clamp((p - .22) / .5));
     const fin = ease(clamp((p - .72) / .2));
     door.style.transform = `rotateY(${lerp(intro, 84, open)}deg)`;
-    door.style.setProperty('--o', open);
+    if (open !== lastOpen) door.style.setProperty('--o', lastOpen = open);
     wrap.style.opacity = 1 - clamp((p - .3) / .1);
-    const s1 = R.h * .105, s2 = R.h * .123;
-    const pts = [
-      [lerp(R.x, 0, grow),       lerp(R.y, 0, grow)],
-      [lerp(R.x + R.w, W, grow), lerp(R.y + s1, 0, grow)],
-      [lerp(R.x + R.w, W, grow), lerp(R.y + R.h, H, grow)],
-      [lerp(R.x, 0, grow),       lerp(R.y + R.h - s2, H, grow)],
-    ];
-    img.style.clipPath = `polygon(${pts.map(([x,y]) => `${x}px ${y}px`).join(',')})`;
-    img.style.setProperty('--z', lerp(1.25, 1, grow));
-    img.style.setProperty('--shade', fin);
+    portal(grow);
+    pimg.style.transform = `scale(${lerp(1.25, 1, grow)})`;
+    if (fin !== lastFin) img.style.setProperty('--shade', lastFin = fin);
     head.style.opacity = 1 - clamp((p - .18) / .2);
     head.style.transform = `translateY(${-clamp((p - .1) / .4) * 12}vh)`;
     tag.style.opacity = hint.style.opacity = 1 - clamp(p / .1);
@@ -488,16 +512,18 @@
     return p;
   }
   layout();
-  if (!reduce) { const t0 = performance.now() + 900; (function a(now){ const k = clamp((now - t0) / 1200); intro = ease(k) * 28; heroFrame(); if (k < 1) requestAnimationFrame(a); })(performance.now()); }
+  if (!reduce) { const t0 = performance.now() + 900; (function a(now){ const k = clamp((now - t0) / 1200); intro = ease(k) * 28; lastP = -1; heroFrame(); if (k < 1) requestAnimationFrame(a); })(performance.now()); }
   $('#svEnter').addEventListener('click', () => $('#magasin').scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}));
 
   /* ----- chapitres : image collante qui change ----- */
   const chs = [...document.querySelectorAll('.ch')], chImgs = [...document.querySelectorAll('.ch-media img')], chNum = $('#chNum');
+  let chTop = [], lastCh = -1;
   function chFrame(){
     if (innerWidth <= 1000) return;
-    const mid = innerHeight * .5;
+    const mid = scrollY + innerHeight * .5;
     let cur = 0;
-    chs.forEach((c,i) => { if (c.getBoundingClientRect().top < mid) cur = i; });
+    chTop.forEach((t, i) => { if (t < mid) cur = i; });
+    if (cur === lastCh) return; lastCh = cur;
     chs.forEach((c,i) => c.classList.toggle('on', i === cur));
     chImgs.forEach((im,i) => im.classList.toggle('on', i === cur));
     chNum.textContent = String(cur + 1).padStart(2,'0');
@@ -507,13 +533,23 @@
   const darks = [...document.querySelectorAll('.rt-lab,.cta,footer')];
   function navFrame(heroP){
     nav.classList.toggle('scrolled', scrollY > 40);
-    const onDark = darks.some(s => { const b = s.getBoundingClientRect(); return b.top <= 40 && b.bottom >= 40; });
+    const y = scrollY + 40, onDark = darkY.some(([t, b]) => t <= y && b >= y);
     nav.classList.toggle('inv', onDark || (heroP > .55 && heroP < 1) || $('#mmenu').classList.contains('open'));
   }
 
+  let darkY = [];
+
+  function measure(){ const sy = scrollY; heroTop = hero.getBoundingClientRect().top + sy; heroLen = Math.max(1, hero.offsetHeight - innerHeight); darkY = darks.map(s => { const b = s.getBoundingClientRect(); return [b.top + sy, b.bottom + sy]; }); chTop = chs.map(c => c.getBoundingClientRect().top + sy); lastP = -1; }
+
+  measure();
+
   function loop(){ const p = heroFrame(); chFrame(); navFrame(p); }
-  addEventListener('scroll', () => requestAnimationFrame(loop), {passive:true});
-  addEventListener('resize', () => { layout(); loop(); });
+  let ticking = false;
+  const tick = () => { ticking = false; loop(); };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }, {passive:true});
+  // la page change de hauteur (polices, images) : on remesure, sans rien lire pendant le scroll
+  new ResizeObserver(() => { measure(); loop(); }).observe(document.body);
+  addEventListener('resize', () => { layout(); measure(); loop(); });
   loop();
 
   /* ----- reveal ----- */
@@ -541,9 +577,10 @@
 
   /* ----- curseur ----- */
   if (!reduce && matchMedia('(hover:hover)').matches){
-    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0;
-    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function f(){ cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(f); })();
+    const cu = $('.cursor'); let mx = 0, my = 0, cx = 0, cy = 0, craf = 0;
+    // la boucle s'arrête quand le curseur est au repos (plus de style écrit à chaque frame pendant le scroll)
+    const f = () => { cx += (mx-cx)*.2; cy += (my-cy)*.2; cu.style.transform = `translate(${cx}px,${cy}px)`; craf = Math.abs(mx-cx) + Math.abs(my-cy) > .2 ? requestAnimationFrame(f) : 0; };
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; if (!craf) craf = requestAnimationFrame(f); }, {passive:true});
     document.querySelectorAll('a,button,[data-lb]').forEach(el => {
       el.addEventListener('mouseenter', () => cu.classList.add('big'));
       el.addEventListener('mouseleave', () => cu.classList.remove('big'));

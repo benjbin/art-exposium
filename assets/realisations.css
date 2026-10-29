@@ -144,8 +144,8 @@
 .cs-hero{position:relative;background:var(--ink);color:#fff;padding:clamp(120px,19vh,190px) 0 0;overflow:hidden}
 .cs-hero .in{position:relative;z-index:2}
 .cs-hero .bg{position:relative;margin-top:clamp(40px,8vh,90px);aspect-ratio:2200/687;max-height:62vh;width:100%;overflow:hidden;background:var(--ink-2);clip-path:polygon(0 22%,100% 0,100% 100%,0 100%)}
-.cs-hero .bg img{position:absolute;left:0;top:-8%;width:100%;height:116%;object-fit:cover;transform:translateY(var(--y,0)) scale(1.14);animation:csIn 1.8s .1s var(--ease) forwards}
-@keyframes csIn{to{transform:translateY(var(--y,0)) scale(1)}}
+.cs-hero .bg img{position:absolute;left:0;top:-8%;width:100%;height:116%;object-fit:cover;transform:scale(1.14);will-change:transform;animation:csIn 1.8s .1s var(--ease) forwards}
+@keyframes csIn{to{transform:scale(1)}}
 .cs-hero .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,33,74,.35),transparent 40%)}
 .cs-hero .cs-door{position:absolute;right:var(--gutter);top:clamp(120px,19vh,190px);width:clamp(54px,6vw,96px);aspect-ratio:1/2.8;background:var(--blue);clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);transform-origin:100% 50%;animation:csDoor 1.6s .4s var(--ease) both;z-index:1}
 @keyframes csDoor{from{transform:perspective(600px) rotateY(80deg);opacity:0}to{transform:perspective(600px) rotateY(0);opacity:1}}
