@@ -74,43 +74,43 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;op
 .hero-grid{position:absolute;inset:0;opacity:.5;
   background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
   background-size:80px 80px;mask-image:radial-gradient(circle at 50% 55%,#000 0,transparent 70%);-webkit-mask-image:radial-gradient(circle at 50% 55%,#000 0,transparent 70%)}
-.hero-title{position:absolute;left:0;right:0;font-family:var(--display);font-weight:800;text-transform:uppercase;line-height:.86;
+.hero-title{position:absolute;z-index:1;left:0;right:0;font-family:var(--display);font-weight:800;text-transform:uppercase;line-height:.86;
   letter-spacing:-.035em;font-size:clamp(44px,min(11vw,15vh),200px);padding:0 var(--gutter);pointer-events:none;will-change:transform,opacity}
 .hero-title.t1{top:11vh}
 .hero-title.t2{bottom:7vh;text-align:right}
-.hero-title .o{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.hero-title .o{color:var(--blue)}
 .hero-title .b{color:var(--blue)}
 .hero-title .ln{display:block;overflow:hidden;padding-top:.12em;margin-top:-.12em}
 .hero-title .ln > span{display:inline-block;transform:translateY(110%);animation:rise 1.2s var(--ease) forwards}
 .hero-title.t2 .ln > span{animation-delay:.25s}
 @keyframes rise{to{transform:none}}
 
-/* boîte NEOKROME : panneaux + couvercle (viewBox 220×230 → %) */
-.hero-night{position:absolute;inset:0;opacity:0;pointer-events:none;will-change:opacity;
-  background:radial-gradient(70vmax 60vmax at 50% 52%,#123069 0%,#0B214A 38%,#050F24 100%)}
-.stage{position:relative;z-index:2;width:min(28vw,36vh,330px);aspect-ratio:220/230;will-change:transform;transform-origin:54.3% 42%}
-.stage > *{position:absolute}
-.bx-floor{left:-10%;right:-10%;top:92%;height:18%;border-radius:50%;background:radial-gradient(closest-side,rgba(11,33,74,.28),transparent);filter:blur(6px);opacity:0}
-.bx-beam{left:-40%;width:190%;top:-150%;height:205%;filter:blur(22px);opacity:0;pointer-events:none;will-change:opacity}
-.bx-beam.baked{filter:none}.bx-beam.baked i{display:none}
-.bx-beam i{position:absolute;inset:0;background:linear-gradient(to top,rgba(220,232,255,.95) 0%,rgba(77,130,255,.55) 35%,rgba(20,92,255,0) 85%);
-  clip-path:polygon(30% 74%,70% 76%,100% 0,0 0)}
-.bx-glow{left:-70%;top:-60%;width:250%;height:220%;opacity:0;pointer-events:none;will-change:opacity,transform;
-  background:radial-gradient(closest-side at 50% 52%,rgba(214,227,255,.95),rgba(77,130,255,.55) 35%,rgba(20,92,255,.18) 60%,rgba(20,92,255,0) 75%)}
-.bx-core{inset:0;opacity:0;will-change:opacity;
-  clip-path:polygon(0% 18.26%,35.45% 19.57%,92.73% .43%,99.55% 31.3%,63.64% 53.04%,63.64% 99.57%,45% 99.57%,45% 48.7%);
-  background:radial-gradient(42% 30% at 54% 34%,#fff 0%,#EAF1FF 30%,rgba(143,178,255,.9) 62%,rgba(143,178,255,0) 100%),
-    linear-gradient(to bottom,#BFD3FF 0%,#7FA6FF 30%,var(--blue) 70%,var(--blue-deep) 100%)}
-.bx-p{inset:0;background:var(--ink);will-change:transform,opacity;opacity:0}
-.bx-l{clip-path:polygon(0% 18.26%,45% 48.7%,45% 99.57%,0% 74.78%)}
-.bx-r{clip-path:polygon(63.64% 53.04%,99.55% 31.3%,99.55% 74.78%,63.64% 99.57%)}
-.bx-p i,.bx-lid i{position:absolute;inset:0;opacity:0}
-.bx-l i{background:linear-gradient(90deg,rgba(20,92,255,0) 30%,rgba(77,130,255,.45) 41.5%,rgba(225,235,255,.95) 45%)}
-.bx-r i{background:linear-gradient(270deg,rgba(20,92,255,0) 23%,rgba(77,130,255,.45) 33%,rgba(225,235,255,.95) 36.4%)}
-.bx-lid{inset:0;background:var(--blue);will-change:transform,opacity,clip-path;opacity:0;
-  clip-path:polygon(35.45% 19.57%,92.73% .43%,93.18% 30%,63.18% 43.48%)}
-.bx-lid i{background:linear-gradient(to bottom,#7FA6FF 0%,#4D82FF 40%,#A9C3FF 80%,#E6EEFF 100%)}
-.bx-sparks{inset:0;pointer-events:none;opacity:0}
+/* boîte NEOKROME — uniquement transform/opacity pendant le défilement (aucun clip-path ni flou recalculé) */
+.hero-iris,.hero-light{position:absolute;left:0;top:0;border-radius:50%;pointer-events:none;transform:translate3d(-50%,-50%,0) scale(0);will-change:transform;backface-visibility:hidden}
+.hero-iris{z-index:2;background:radial-gradient(closest-side,#16397F 0%,#0B214A 45%,#081A3C 76%,rgba(8,26,60,0) 100%)}
+.hero-light{z-index:6;background:radial-gradient(closest-side,#fff 0%,#DCE7FF 16%,#7FA6FF 36%,var(--blue) 58%,var(--blue) 76%,rgba(20,92,255,0) 100%)}
+.stage{position:relative;z-index:3;width:min(28vw,36vh,330px);aspect-ratio:220/230;will-change:transform;transform-origin:54% 40%}
+.stage > *{position:absolute;inset:0}
+.bx-shadow{inset:auto -12% -14% -12%;height:22%;border-radius:50%;background:radial-gradient(closest-side,rgba(11,33,74,.28),transparent);opacity:0;animation:fade .9s .6s var(--ease) forwards}
+.bx-glow{inset:-55% -60%;opacity:0;will-change:opacity,transform;
+  background:radial-gradient(closest-side at 50% 46%,rgba(225,235,255,.95),rgba(77,130,255,.5) 38%,rgba(20,92,255,.16) 62%,rgba(20,92,255,0) 76%)}
+.bx-beam{left:8%;right:-6%;top:-150%;bottom:55%;opacity:0;will-change:opacity;
+  background:linear-gradient(to top,rgba(220,232,255,.9),rgba(77,130,255,.35) 45%,rgba(20,92,255,0) 90%);
+  -webkit-mask-image:radial-gradient(60% 100% at 50% 100%,#000 30%,transparent 75%);mask-image:radial-gradient(60% 100% at 50% 100%,#000 30%,transparent 75%)}
+.bx-svg{width:100%;height:100%;overflow:visible}
+.bx-svg .core{opacity:0;fill:url(#bxCoreGrad)}
+.bx-svg .pl,.bx-svg .pr{fill:var(--ink)}
+.bx-svg .rim{opacity:0;transition:opacity .2s}
+.bx-l,.bx-r{opacity:0;animation:bxIn 1s var(--ease) forwards}
+.bx-l{--fx:-36%;animation-delay:.15s}
+.bx-r{--fx:36%;animation-delay:.32s}
+@keyframes bxIn{from{opacity:0;transform:translate3d(var(--fx),14%,0)}to{opacity:1;transform:none}}
+.bx-lidw{opacity:0;animation:bxDrop 1.1s .85s cubic-bezier(.3,1.45,.5,1) forwards}
+@keyframes bxDrop{from{opacity:0;transform:translate3d(0,-55%,0)}25%{opacity:1}to{opacity:1;transform:none}}
+.bx-lid{display:block;width:100%;height:100%;overflow:visible;transform-origin:78.2% 36.7%;will-change:transform}
+.bx-lid polygon{fill:var(--blue)}
+.bx-sparks{opacity:0;pointer-events:none}
+.bx-sparks.off span{animation:none;opacity:0}
 .bx-sparks span{position:absolute;left:var(--x);top:var(--y);width:var(--s);height:calc(var(--s) * 1.35);background:#fff;opacity:0;
   clip-path:polygon(0 0,100% 18%,100% 100%,0 82%);animation:spark var(--d) var(--w) linear infinite}
 @keyframes spark{0%{transform:translate(0,0) rotate(0);opacity:0}12%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
@@ -118,14 +118,14 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;op
 @keyframes drop{to{transform:none}}
 @keyframes fade{to{opacity:1}}
 
-.hero-meta{position:absolute;bottom:4vh;left:var(--gutter);display:flex;gap:28px;align-items:center;font-family:var(--display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);z-index:3}
+.hero-meta{position:absolute;bottom:4vh;left:var(--gutter);display:flex;gap:28px;align-items:center;font-family:var(--display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);z-index:4}
 .scroll-ind{display:flex;align-items:center;gap:12px}
 .scroll-ind i{width:1px;height:46px;background:var(--line);position:relative;overflow:hidden}
 .scroll-ind i::after{content:"";position:absolute;left:0;top:0;width:100%;height:50%;background:var(--blue);transform:translateY(-100%);animation:sc 1.8s var(--ease) infinite}
 @keyframes sc{to{transform:translateY(220%)}}
-.hero-tag{position:absolute;right:var(--gutter);top:50%;transform:translateY(-50%);max-width:260px;font-size:15px;color:var(--ink-soft);z-index:3}
+.hero-tag{position:absolute;right:var(--gutter);top:50%;transform:translateY(-50%);max-width:260px;font-size:15px;color:var(--ink-soft);z-index:4}
 .hero-tag strong{color:var(--ink);font-weight:700}
-.hero-flash{position:absolute;inset:0;background:var(--blue);opacity:0;will-change:opacity;z-index:5;pointer-events:none}
+.hero-flash{position:absolute;inset:0;background:var(--blue);opacity:0;will-change:opacity;z-index:7;pointer-events:none}
 
 /* ---------- SECTIONS ---------- */
 section{position:relative}

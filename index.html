@@ -59,7 +59,7 @@
   <div class="hero-stick">
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
-    <div class="hero-night" id="night"></div>
+    <div class="hero-iris" id="iris"></div>
 
     <h1 class="hero-title t1" id="t1">
       <span class="ln"><span>Recréez</span></span>
@@ -67,15 +67,19 @@
     </h1>
 
     <div class="stage" id="stage" aria-hidden="true">
-      <div class="bx-floor" id="bxFloor"></div>
-      <div class="bx-beam" id="bxBeam"><i></i></div>
+      <div class="bx-shadow"></div>
+      <div class="bx-beam" id="bxBeam"></div>
       <div class="bx-glow" id="bxGlow"></div>
-      <div class="bx-core" id="bxCore"></div>
-      <div class="bx-p bx-l" id="bxL"><i></i></div>
-      <div class="bx-p bx-r" id="bxR"><i></i></div>
-      <div class="bx-lid" id="bxLid"><i></i></div>
-      <div class="bx-sparks" id="bxSparks"></div>
+      <svg class="bx-svg" viewBox="0 0 220 230">
+        <defs><linearGradient id="bxCoreGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4F8FF"/><stop offset=".35" stop-color="#A9C3FF"/><stop offset=".75" stop-color="#145CFF"/><stop offset="1" stop-color="#0A3FCC"/></linearGradient></defs>
+        <polygon class="core" id="bxCore" points="0,42 78,45 204,1 219,72 140,122 140,229 99,229 99,112"/>
+        <g class="bx-l"><polygon class="pl" points="0,42 99,112 99,229 0,172"/><polygon class="rim" points="93,108 99,112 99,229 93,225" fill="#DCE7FF"/></g>
+        <g class="bx-r"><polygon class="pr" points="140,122 219,72 219,172 140,229"/><polygon class="rim" points="140,122 146,118 146,225 140,229" fill="#DCE7FF"/></g>
+      </svg>
+      <div class="bx-lidw"><svg class="bx-lid" id="bxLid" viewBox="0 0 220 230"><polygon points="78,45 204,1 205,69 139,100"/></svg></div>
+      <div class="bx-sparks off" id="bxSparks"></div>
     </div>
+    <div class="hero-light" id="light"></div>
 
     <div class="hero-title t2" id="t2">
       <span class="ln"><span>Dépassez</span></span>
@@ -321,56 +325,22 @@
   const easeIn = t => t * t * t;
 
   /* ----- hero : la boîte s'assemble, le couvercle s'ouvre, on plonge dans la lumière ----- */
-  const hero = $('#hero'), stage = $('#stage'), flash = $('#flash'), night = $('#night'),
-        bxL = $('#bxL'), bxR = $('#bxR'), bxLid = $('#bxLid'), bxCore = $('#bxCore'), bxGlow = $('#bxGlow'),
-        bxBeam = $('#bxBeam'), bxFloor = $('#bxFloor'), bxSparks = $('#bxSparks'),
-        rimL = bxL.firstElementChild, rimR = bxR.firstElementChild, lidIn = bxLid.firstElementChild,
+  const hero = $('#hero'), stage = $('#stage'), flash = $('#flash'), iris = $('#iris'), light = $('#light'),
+        bxLid = $('#bxLid'), bxCore = $('#bxCore'), bxGlow = $('#bxGlow'), bxBeam = $('#bxBeam'), bxSparks = $('#bxSparks'),
+        rims = [...document.querySelectorAll('#stage .rim')],
         t1 = $('#t1'), t2 = $('#t2'), tag = $('#tag'), meta = $('#meta'), nav = $('#nav');
-  const easeBack = t => { const c = 1.9; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
-  // couvercle : charnière A→B (arête avant), coins arrière F1/F2 qui pivotent vers le haut
-  const A = [139,100], B = [205,69], V1 = [-61,-55], V2 = [-1,-68];
-  const pt = (x,y) => `${(x / 2.2).toFixed(2)}% ${(y / 2.3).toFixed(2)}%`;
-  function lidShape(deg){
-    const a = deg * Math.PI / 180, c = Math.cos(a), s = Math.sin(a);
-    const l1 = Math.hypot(...V1), l2 = Math.hypot(...V2);
-    const f1 = [A[0] + c * V1[0], A[1] + c * V1[1] - s * l1], f2 = [B[0] + c * V2[0], B[1] + c * V2[1] - s * l2];
-    return `polygon(${pt(...f1)},${pt(...f2)},${pt(...B)},${pt(...A)})`;
-  }
   const mm = $('#mmenu'), bg = $('#burger');
   const T0 = performance.now();
-
-  // faisceau de lumière : flou « cuit » une fois dans un canvas. Un filter:blur() CSS sur un calque
-  // agrandi 60× pendant la plongée se recalcule à l'échelle de l'écran à chaque trame (très coûteux).
-  function bakeBeam(){
-    const sw = stage.offsetWidth, sh = stage.offsetHeight;
-    if (!sw || !sh) return;
-    const bw = sw * 1.9, bh = sh * 2.05, pad = 70;
-    const c = document.createElement('canvas');
-    c.width = Math.ceil(bw + pad * 2); c.height = Math.ceil(bh + pad * 2);
-    const g = c.getContext('2d');
-    g.filter = 'blur(22px)';
-    const gr = g.createLinearGradient(0, pad + bh, 0, pad);
-    gr.addColorStop(0, 'rgba(220,232,255,.95)'); gr.addColorStop(.35, 'rgba(77,130,255,.55)'); gr.addColorStop(.85, 'rgba(20,92,255,0)');
-    g.fillStyle = gr; g.beginPath();
-    g.moveTo(pad + .3 * bw, pad + .74 * bh); g.lineTo(pad + .7 * bw, pad + .76 * bh); g.lineTo(pad + bw, pad); g.lineTo(pad, pad);
-    g.closePath(); g.fill();
-    c.style.cssText = `position:absolute;left:${-pad / bw * 100}%;top:${-pad / bh * 100}%;width:${(bw + pad * 2) / bw * 100}%;height:${(bh + pad * 2) / bh * 100}%`;
-    bxBeam.querySelector('canvas')?.remove();
-    bxBeam.appendChild(c); bxBeam.classList.add('baked');
-  }
   let heroP = 0, px = 0, py = 0, tx = 0, ty = 0;
 
   if (!reduce) {
-    try { bakeBeam(); } catch (e) { /* repli : le flou CSS d'origine reste actif */ }
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < 16; i++) {
       const sp = document.createElement('span');
-      sp.style.cssText = `--x:${20 + Math.random() * 60}%;--y:${18 + Math.random() * 30}%;--dy:${-140 - Math.random() * 220}px;--s:${3 + Math.random() * 6}px;--d:${2.2 + Math.random() * 2.6}s;--w:${-Math.random() * 4}s;--dx:${(Math.random() - .5) * 140}px;--r:${(Math.random() - .5) * 540}deg`;
+      sp.style.cssText = `--x:${25 + Math.random() * 55}%;--y:${10 + Math.random() * 30}%;--dy:${-120 - Math.random() * 200}px;--s:${3 + Math.random() * 5}px;--d:${2.2 + Math.random() * 2.4}s;--w:${-Math.random() * 4}s;--dx:${(Math.random() - .5) * 120}px;--r:${(Math.random() - .5) * 540}deg`;
       bxSparks.appendChild(sp);
     }
     if (matchMedia('(pointer:fine)').matches)
       addEventListener('pointermove', e => { tx = e.clientX / innerWidth * 2 - 1; ty = e.clientY / innerHeight * 2 - 1; }, {passive:true});
-  } else {
-    [bxL, bxR, bxLid].forEach(el => el.style.opacity = 1);
   }
 
   /* ----- mesures mises en cache (relues au redimensionnement, jamais dans la boucle de défilement) ----- */
@@ -385,9 +355,20 @@
     M.heroTop = top(hero); M.heroH = hero.offsetHeight; M.heroRun = Math.max(1, M.heroH - M.vh);
     M.inv = invSections.map(s => { const b = s.getBoundingClientRect(); return [b.top + sy, b.bottom + sy]; });
     const mr = manif.getBoundingClientRect(); M.manTop = mr.top + sy; M.manH = mr.height;
+    // centre de l'ouverture (54 % / 40 % de la boîte), mesuré sans transformation
+    const st = stage.style.transform; stage.style.transform = 'none';
+    const sr = stage.getBoundingClientRect(), hr = stage.offsetParent.getBoundingClientRect();
+    stage.style.transform = st;
+    M.cx = sr.left - hr.left + sr.width * .54; M.cy = sr.top - hr.top + sr.height * .40;
+    // diamètre qui couvre tout l'écran depuis ce centre
+    const W = hr.width, H = hr.height;
+    M.cover = 2.5 * Math.hypot(Math.max(M.cx, W - M.cx), Math.max(M.cy, H - M.cy));
+    for (const el of [iris, light]) { el.style.width = el.style.height = M.cover + 'px'; el.style.left = M.cx + 'px'; el.style.top = M.cy + 'px'; }
   }
   measure();
 
+  const easeIO = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  let sparksOn = false;
   function heroFrame(now){
     if (reduce) { heroP = 0; return; }
     const y = SY;
@@ -395,45 +376,38 @@
     if (y > M.heroTop + M.heroH) return;
     const t = ((now || performance.now()) - T0) / 1000;
 
-    // 1. assemblage (temps)
-    const kL = ease(clamp((t - .15) / .95)), kR = ease(clamp((t - .32) / .95));
-    const kLid = clamp((t - .9) / 1.05), bLid = easeBack(kLid);
-    const pop = t > 1.75 ? Math.exp(-(t - 1.75) * 3.2) : 0;
-    const breath = t > 2.2 ? (.5 - .5 * Math.cos((t - 2.2) * 1.9)) * clamp((t - 2.2) / 1.5) : 0;
+    // respiration du couvercle une fois la boîte assemblée (intro en CSS)
+    const breath = t > 2.1 ? (.5 - .5 * Math.cos((t - 2.1) * 1.8)) * clamp((t - 2.1) / 1.2) : 0;
+    // scroll : ouverture → nuit + lumière → plongée
+    const open = ease(clamp(p / .34));
+    const lit = clamp((p - .02) / .28);
+    const night = easeIO(clamp((p - .03) / .32));
+    const dive = easeIn(clamp((p - .44) / .4));
+    const flood = ease(clamp((p - .46) / .38));
+    px += (tx - px) * .07; py += (ty - py) * .07;
+    const par = 1 - clamp(p / .3);
 
-    // 2. scroll : ouverture → lumière → plongée
-    const open = ease(clamp(p / .42));
-    const light = clamp(p / .32);
-    const dive = easeIn(clamp((p - .38) / .62));
-    px += (tx - px) * .06; py += (ty - py) * .06;
-    const par = 1 - dive;
+    // le couvercle pivote sur sa charnière (arête basse) et se relève
+    bxLid.style.transform = `rotate(${(breath * 5 * (1 - open) + open * 30).toFixed(2)}deg) scale(${(1 + open * .05).toFixed(3)})`;
+    bxCore.style.opacity = lit;
+    bxGlow.style.opacity = Math.max(lit * (1 - flood), breath * .18 * (1 - open));
+    bxGlow.style.transform = `scale(${(.8 + lit * .4).toFixed(3)})`;
+    bxBeam.style.opacity = clamp(open * 1.4) * (1 - dive);
+    const rimO = String(lit);
+    rims[0].style.opacity = rims[1].style.opacity = rimO;
+    const sp = p > .08 && p < .7;
+    if (sp !== sparksOn) bxSparks.classList.toggle('off', !(sparksOn = sp));
+    bxSparks.style.opacity = clamp((p - .08) / .14) * (1 - dive);
 
-    bxL.style.opacity = kL;
-    bxL.style.transform = `translate(${(1 - kL) * -42 + px * -4 * par}%,${(1 - kL) * 16 + py * -2 * par}%)`;
-    bxR.style.opacity = kR;
-    bxR.style.transform = `translate(${(1 - kR) * 42 + px * 4 * par}%,${(1 - kR) * 16 + py * -2 * par}%)`;
-    const ang = 58 * (1 - bLid) + breath * 7 * (1 - open) + open * 108;
-    bxLid.style.opacity = clamp(kLid * 3);
-    bxLid.style.clipPath = bxLid.style.webkitClipPath = lidShape(ang);
-    bxLid.style.transform = `translate(${px * 5 * par}%,${(1 - ease(kLid)) * -60 + py * -3 * par}%)`;
-    const coreO = Math.max(light, pop * .55);
-    bxCore.style.opacity = coreO;
-    bxGlow.style.opacity = Math.max(light * (1 - dive * .4), pop * .7, breath * .25);
-    bxGlow.style.transform = `translate(${px * 10}%,${py * 6}%) scale(${.85 + light * .35 + breath * .05})`;
-    bxBeam.style.opacity = clamp(open * 1.3) * (1 - dive);
-    rimL.style.opacity = rimR.style.opacity = Math.max(light, pop * .6);
-    lidIn.style.opacity = clamp((ang - 62) / 40) * .95 + clamp(open * 3) * .05;
-    bxSparks.style.opacity = clamp((p - .06) / .2) * (1 - dive);
-    bxFloor.style.opacity = Math.min(kL, kR) * (1 - clamp(p / .25));
-    night.style.opacity = ease(clamp((p - .04) / .34)) * .97;
-
-    stage.style.transform = `scale(${1 + dive * 60})`;
-    const spread = open * 18;
-    t1.style.transform = `translateY(${-spread}vh)`;
-    t2.style.transform = `translateY(${spread}vh)`;
-    t1.style.opacity = t2.style.opacity = 1 - clamp((p - .02) / .16);
+    stage.style.transform = `translate3d(${(px * 10 * par).toFixed(2)}px,${(py * 6 * par).toFixed(2)}px,0) scale(${(1 + dive * 2.6).toFixed(4)})`;
+    iris.style.transform = `translate3d(-50%,-50%,0) scale(${night.toFixed(4)})`;
+    light.style.transform = `translate3d(-50%,-50%,0) scale(${flood.toFixed(4)})`;
+    const spread = open * 16;
+    t1.style.transform = `translate3d(0,${-spread}vh,0)`;
+    t2.style.transform = `translate3d(0,${spread}vh,0)`;
+    t1.style.opacity = t2.style.opacity = 1 - clamp((p - .02) / .2);
     tag.style.opacity = meta.style.opacity = 1 - clamp(p / .1);
-    flash.style.opacity = clamp((p - .84) / .14);
+    flash.style.opacity = clamp((p - .82) / .14);
   }
   // la boucle du hero ne tourne que tant que le hero est à l'écran (respiration, parallaxe souris)
   let heroRunning = false;
