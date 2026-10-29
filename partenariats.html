@@ -28,7 +28,7 @@
 .pa-title .b{color:var(--blue)}
 .pa-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:6vw;align-items:center;margin-top:7vh}
 
-/* logo-porte : le battant s'ouvre sur l'image */
+/* boîte-logo : le couvercle s'ouvre sur l'image */
 .pa-stage{position:relative;width:min(100%,40vh,420px);aspect-ratio:300/340;justify-self:center}
 .pa-stage > *{position:absolute}
 .pa-stage .nk-box{left:3%;right:3%;top:2%;--nb-delay:.3s}
@@ -63,10 +63,10 @@
   display:flex;flex-direction:column;justify-content:space-between;transition:color .5s var(--ease)}
 .pcard::before{content:"";position:absolute;inset:0;background:var(--blue);z-index:-1;clip-path:polygon(100% 0,100% 0,100% 100%,100% 100%);transition:clip-path .7s var(--ease)}
 .pcard:hover{color:#fff}
-.pcard:hover::before{clip-path:polygon(0 0,100% 12%,100% 100%,0 88%)}
+.pcard:hover::before{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
 .pcard.dark{background:var(--ink);color:var(--paper)}
 .pcard .num{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.14em;display:flex;justify-content:space-between;align-items:center}
-.pcard .num i{width:12px;height:12px;background:var(--blue);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%);transition:background .4s}
+.pcard .num i{width:13px;height:13.6px;background:var(--blue);-webkit-mask:var(--nk-mark) center/contain no-repeat;mask:var(--nk-mark) center/contain no-repeat;transition:background .4s}
 .pcard:hover .num i,.pcard.dark .num i{background:var(--blue-2)}
 .pcard:hover .num i{background:#fff}
 .pcard h3{font-family:var(--display);font-weight:800;font-size:clamp(26px,2.3vw,38px);line-height:1;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:14px;hyphens:manual}
@@ -86,7 +86,7 @@
 .co-row p{font-size:clamp(18px,1.5vw,22px);max-width:620px}
 .co-row ul{list-style:none;display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}
 .co-row li{font-family:var(--display);font-weight:700;font-size:15px;padding:12px 22px;border-radius:99px;background:#fff;color:var(--ink);display:flex;align-items:center;gap:10px}
-.co-row li::before{content:"";width:12px;height:12px;background:var(--blue);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
+.co-row li::before{content:"";width:13px;height:13.6px;background:var(--blue);-webkit-mask:var(--nk-mark) center/contain no-repeat;mask:var(--nk-mark) center/contain no-repeat}
 
 /* ---------- bénéfices ---------- */
 .pa-benef{padding:16vh 0 14vh}
@@ -96,7 +96,7 @@
 .benef{position:relative;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start;padding:clamp(26px,3vw,44px);border:1px solid var(--line);border-radius:24px;overflow:hidden;isolation:isolate;transition:color .5s var(--ease),border-color .5s}
 .benef::before{content:"";position:absolute;inset:0;background:var(--ink);z-index:-1;clip-path:polygon(0 0,0 0,0 100%,0 100%);transition:clip-path .7s var(--ease)}
 .benef:hover{color:var(--paper);border-color:var(--ink)}
-.benef:hover::before{clip-path:polygon(0 0,100% 0,100% 88%,0 100%)}
+.benef:hover::before{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
 .benef .n{font-family:var(--display);font-weight:900;font-size:clamp(56px,6vw,100px);line-height:.8;letter-spacing:-.05em;color:var(--blue);transition:color .4s}
 .benef:hover .n{color:var(--blue-2)}
 .benef h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.025em;line-height:1;font-size:clamp(24px,2.4vw,40px);margin-bottom:12px}
@@ -123,8 +123,8 @@
 .g3{grid-column:1/4;grid-row:3;justify-self:center}
 .gcenter{grid-column:2;grid-row:2;z-index:1;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
 .gcenter svg{width:clamp(90px,10vw,150px);height:auto;filter:drop-shadow(0 0 40px rgba(77,130,255,.6))}
-.gcenter svg .mk-frame{fill:var(--paper)}
-.gcenter svg .mk-door{fill:var(--blue-2)}
+.gcenter svg .mk-panel{fill:var(--paper)}
+.gcenter svg .mk-lid{fill:var(--blue-2)}
 .gcenter b{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.03em;font-size:clamp(26px,3vw,48px);line-height:.95}
 .gcenter b span{color:var(--blue-2)}
 
@@ -182,9 +182,9 @@
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark" viewBox="0 0 220 230">
-    <polygon class="mk-frame" points="0,42 99,112 99,229 0,172"/>
-    <polygon class="mk-frame" points="140,122 219,72 219,172 140,229"/>
-    <polygon class="mk-door" points="78,45 204,1 205,69 139,100"/>
+    <polygon class="mk-panel" points="0,42 99,112 99,229 0,172"/>
+    <polygon class="mk-panel" points="140,122 219,72 219,172 140,229"/>
+    <polygon class="mk-lid" points="78,45 204,1 205,69 139,100"/>
   </symbol>
 </svg>
 
@@ -235,7 +235,7 @@
           <a class="btn" href="mailto:contact@artexposium.fr?subject=Partenariat">Devenir partenaire <span class="arr">→</span></a>
           <a class="btn ghost" href="prochains-salons.html">Nos prochains salons <span class="arr">→</span></a>
         </div>
-        <div class="pa-hint rv d3"><i></i> Poussez la porte</div>
+        <div class="pa-hint rv d3"><i></i> Ouvrez la boîte</div>
       </div>
     </div>
   </div>

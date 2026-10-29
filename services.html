@@ -89,7 +89,7 @@
 /* ---------- du studio à l'immersion ---------- */
 .sx-bridge{background:var(--blue);color:#fff;padding:16vh 0 14vh;overflow:hidden}
 .sx-bridge .mark-bg{position:absolute;left:-6vw;top:8vh;height:110%;width:auto;opacity:.1;pointer-events:none}
-.sx-bridge .mark-bg .mk-frame{fill:#fff}.sx-bridge .mark-bg .mk-door{fill:var(--ink)}
+.sx-bridge .mark-bg .mk-panel{fill:#fff}.sx-bridge .mark-bg .mk-lid{fill:var(--ink)}
 .sx-bridge .wrap{position:relative}
 .br-head{display:grid;grid-template-columns:1.2fr 1fr;gap:6vw;align-items:end}
 .br-head .h2 em{font-style:normal;color:var(--ink)}
@@ -102,8 +102,8 @@
 .formula .op{align-self:center;font-family:var(--display);font-weight:300;font-size:clamp(28px,3vw,48px);opacity:.75}
 .formula .res{background:var(--ink);border-color:var(--ink);position:relative;overflow:hidden}
 .formula .res svg{position:absolute;right:16px;top:18px;height:56px;width:auto}
-.formula .res .mk-frame{fill:#fff}
-.formula .res .mk-door{fill:var(--blue-2)}
+.formula .res .mk-panel{fill:#fff}
+.formula .res .mk-lid{fill:var(--blue-2)}
 .formula .res b{font-size:clamp(24px,2.3vw,36px)}
 .sect-t{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:3vh}
 .sect-t h3{font-family:var(--display);font-weight:800;font-size:clamp(26px,2.6vw,40px);text-transform:uppercase;letter-spacing:-.02em;line-height:1}
@@ -148,7 +148,7 @@
 .refs{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-inv);border-left:1px solid var(--line-inv)}
 .ref{position:relative;min-height:160px;padding:22px;border-right:1px solid var(--line-inv);border-bottom:1px solid var(--line-inv);display:flex;flex-direction:column;justify-content:space-between;gap:16px;isolation:isolate;overflow:hidden;transition:color .4s}
 .ref::before{content:"";position:absolute;inset:0;background:var(--blue);z-index:-1;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);transition:clip-path .6s var(--ease)}
-.ref:hover::before,.ref:focus-visible::before{clip-path:polygon(0 12%,100% 0,100% 100%,0 100%)}
+.ref:hover::before,.ref:focus-visible::before{clip-path:polygon(0 0,100% -24%,100% 100%,0 100%)}
 .ref:focus-visible{outline:2px solid var(--blue-2);outline-offset:-2px}
 .ref .top{display:flex;justify-content:space-between;gap:10px;font-family:var(--display);font-size:12px;letter-spacing:.14em;opacity:.45}
 .ref .top i{font-style:normal;transition:transform .5s var(--ease)}
@@ -228,9 +228,9 @@
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark" viewBox="0 0 220 230">
-    <polygon class="mk-frame" points="0,42 99,112 99,229 0,172"/>
-    <polygon class="mk-frame" points="140,122 219,72 219,172 140,229"/>
-    <polygon class="mk-door" points="78,45 204,1 205,69 139,100"/>
+    <polygon class="mk-panel" points="0,42 99,112 99,229 0,172"/>
+    <polygon class="mk-panel" points="140,122 219,72 219,172 140,229"/>
+    <polygon class="mk-lid" points="78,45 204,1 205,69 139,100"/>
   </symbol>
 </svg>
 

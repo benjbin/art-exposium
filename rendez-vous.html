@@ -18,7 +18,7 @@
 .cv-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(30px,5vw,90px);align-items:start;margin-top:6vh}
 .cv-points{list-style:none;display:grid;gap:14px;margin-top:5vh}
 .cv-points li{display:grid;grid-template-columns:26px 1fr;gap:12px;font-size:17px}
-.cv-points li::before{content:"";width:12px;height:16px;margin-top:5px;background:var(--blue);clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%)}
+.cv-points li::before{content:"";width:15px;height:15.7px;margin-top:5px;background:var(--blue);-webkit-mask:var(--nk-mark) center/contain no-repeat;mask:var(--nk-mark) center/contain no-repeat}
 .cv-points b{font-family:var(--display);font-weight:700}
 .cv-card{background:var(--ink);color:var(--paper);border-radius:28px;padding:clamp(26px,3.2vw,46px);position:relative;overflow:hidden;isolation:isolate}
 .cv-card::before{content:"";position:absolute;right:-15%;top:-20%;width:65%;aspect-ratio:1;background:radial-gradient(closest-side,rgba(77,130,255,.5),transparent 70%);z-index:-1;pointer-events:none}
@@ -60,9 +60,9 @@
 <a class="skip" href="#main">Aller au contenu</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark" viewBox="0 0 220 230">
-    <polygon class="mk-frame" points="0,42 99,112 99,229 0,172"/>
-    <polygon class="mk-frame" points="140,122 219,72 219,172 140,229"/>
-    <polygon class="mk-door" points="78,45 204,1 205,69 139,100"/>
+    <polygon class="mk-panel" points="0,42 99,112 99,229 0,172"/>
+    <polygon class="mk-panel" points="140,122 219,72 219,172 140,229"/>
+    <polygon class="mk-lid" points="78,45 204,1 205,69 139,100"/>
   </symbol>
 </svg>
 

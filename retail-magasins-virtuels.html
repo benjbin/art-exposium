@@ -11,15 +11,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <style>
-/* ---------- HERO portail (famille secteurs) ---------- */
+/* ---------- HERO (famille secteurs) ---------- */
 .sv-hero{height:300vh;position:relative}
 .sv-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--paper)}
-.sv-img{position:absolute;inset:0;z-index:1;background:#05050a;clip-path:polygon(0 0,0 0,0 0,0 0)}
-.sv-img img{width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1.25));will-change:transform}
-.sv-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,33,74,.1) 30%,rgba(11,33,74,.85));opacity:var(--shade,0)}
-.sv-door-wrap{position:absolute;z-index:2;perspective:1100px;pointer-events:none}
-.sv-door{position:absolute;inset:0;background:var(--blue);transform-origin:100% 50%;clip-path:polygon(0 0,100% 10.5%,100% 100%,0 87.7%);box-shadow:inset -30px 0 60px rgba(0,0,0,.2);will-change:transform}
-.sv-door::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.4),transparent);opacity:var(--o,0)}
 .sv-head{position:absolute;z-index:3;left:var(--gutter);top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;max-width:62vw;will-change:transform,opacity}
 .crumb{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-family:var(--display);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5vh}
 .crumb a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:600}
@@ -49,7 +43,7 @@
 .shot:hover img{transform:scale(1.05)}
 .shot figcaption{position:absolute;left:18px;bottom:18px;font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;
   background:rgba(11,33,74,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:9px 16px;border-radius:99px;display:flex;gap:10px;align-items:center}
-.shot figcaption::before{content:"";width:12px;height:12px;background:var(--blue-2);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
+.shot figcaption::before{content:"";width:12px;height:12px;background:var(--blue-2);-webkit-mask:var(--nk-mark) center/contain no-repeat;mask:var(--nk-mark) center/contain no-repeat}
 .mq-track span i{color:var(--blue);-webkit-text-stroke:0}
 
 /* ---------- intro : immersion totale ---------- */
@@ -115,7 +109,7 @@
 .vs-col li em{display:block;font-family:var(--body);font-style:normal;font-weight:500;text-transform:none;letter-spacing:0;font-size:16px;opacity:.8;margin-top:8px}
 .vs-col.old li{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:rgba(11,33,74,.35)}
 .vs-mid{display:grid;place-items:center}
-.vs-mid span{width:clamp(56px,6vw,90px);height:clamp(64px,7vw,104px);background:var(--ink);color:#fff;clip-path:polygon(0 0,100% 18%,100% 100%,0 82%);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:clamp(16px,1.6vw,22px);letter-spacing:.04em}
+.vs-mid span{width:clamp(56px,6vw,90px);height:clamp(64px,7vw,104px);background:var(--ink);color:#fff;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:clamp(16px,1.6vw,22px);letter-spacing:.04em}
 
 /* ---------- en résumé ---------- */
 .rt-sum{background:var(--paper-2);padding:16vh 0;overflow-x:clip}
@@ -129,7 +123,7 @@
 .for li{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.95;font-size:clamp(44px,8.4vw,150px);display:flex;align-items:center;gap:.25em}
 .for li:nth-child(2){justify-content:center;color:var(--blue)}
 .for li:nth-child(3){justify-content:flex-end}
-.for li::before{content:"";width:.42em;height:.5em;background:currentColor;clip-path:polygon(0 0,100% 18%,100% 100%,0 82%);flex:none;transform:scaleX(0);transform-origin:0 50%;transition:transform .9s .2s var(--ease)}
+.for li::before{content:"";width:.42em;height:.5em;background:currentColor;-webkit-mask:var(--nk-mark) center/contain no-repeat;mask:var(--nk-mark) center/contain no-repeat;flex:none;transform:scaleX(0);transform-origin:0 50%;transition:transform .9s .2s var(--ease)}
 .for li.in::before{transform:none}
 
 /* ---------- suivant ---------- */
@@ -174,25 +168,57 @@
   .sv-next .wrap{flex-direction:column;align-items:flex-start}
 }
 @media (max-width:640px){.cta-big{font-size:clamp(48px,16vw,80px)}}
-/* ---------- perf : portail composé (transform only, aucun repaint au scroll) ---------- */
-.sv-win{position:absolute;inset:0;z-index:1;overflow:hidden;transform-origin:0 0;transform:scale(0);will-change:transform}
-.sv-win .sv-img{z-index:auto;clip-path:none;transform-origin:0 0;will-change:transform}
-.sv-img::after,.sv-door::after{will-change:opacity}
-.sv-door-wrap,.sv-tag,.sv-hint{will-change:opacity}
-.sv-over{will-change:transform,opacity}
-.sv-wedge{position:absolute;left:-100%;width:300%;height:100%;background:var(--paper);will-change:transform;pointer-events:none}
-.sv-wedge.t{bottom:100%;transform-origin:33.3333% 100%}
-.sv-wedge.b{top:100%;transform-origin:66.6667% 0}
 @media (hover:none){.shot figcaption{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(11,33,74,.78)}}
+/* ---------- HERO boîte NEOKROME : la scène vit dans la boîte, le couvercle s'ouvre, la lumière l'ouvre en grand.
+   Pendant le défilement : transform/opacity uniquement (la découpe de la fenêtre est posée une fois, jamais animée) ---------- */
+.sv-win{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;animation:fade 1s .55s var(--ease) forwards}
+.sv-iris{position:absolute;left:0;top:0;border-radius:50%;overflow:hidden;transform-origin:50% 50%;will-change:transform;backface-visibility:hidden}
+.sv-iris .sv-img{position:absolute;left:0;top:0;width:100vw;height:100vh;background:#05050a;will-change:transform;backface-visibility:hidden}
+.sv-iris .sv-img img{display:block;width:100%;height:100%;object-fit:cover}
+.sv-shade{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;will-change:opacity;background:linear-gradient(180deg,rgba(11,33,74,.12) 25%,rgba(11,33,74,.86))}
+.nh-box{position:absolute;z-index:2;left:0;top:0;width:0;height:0;pointer-events:none}
+.nh-box > *,.nh-mv,.nh-mv > svg{position:absolute;inset:0}
+.nh-box svg{width:100%;height:100%;overflow:visible;display:block}
+.nh-mv{will-change:transform,opacity}
+.nh-pan polygon{fill:var(--ink)}
+.nh-lid{transform-origin:78.2% 36.7%}
+.nh-lid polygon{fill:var(--blue)}
+.nh-rim{opacity:0;will-change:opacity}
+.nh-rim polygon{fill:#DCE7FF}
+.nh-shadow{position:absolute;inset:auto -10% -12% -10%;height:20%;border-radius:50%;background:radial-gradient(closest-side,rgba(11,33,74,.26),rgba(11,33,74,0));will-change:opacity}
+.nh-beam{left:6%;right:-4%;top:-140%;bottom:56%;opacity:0;will-change:opacity;
+  background:linear-gradient(to top,rgba(220,232,255,.95),rgba(77,130,255,.4) 45%,rgba(20,92,255,0) 92%);
+  -webkit-mask-image:radial-gradient(58% 100% at 52% 100%,#000 30%,transparent 76%);mask-image:radial-gradient(58% 100% at 52% 100%,#000 30%,transparent 76%)}
+.nh-bloom{position:absolute;z-index:0;left:0;top:0;border-radius:50%;pointer-events:none;opacity:0;will-change:transform,opacity;backface-visibility:hidden;
+  background:radial-gradient(closest-side,rgba(77,130,255,.6) 0%,rgba(77,130,255,.5) 38%,rgba(20,92,255,.2) 62%,rgba(20,92,255,.06) 82%,rgba(20,92,255,0) 100%)}
+.nh-sparks span{position:absolute;left:var(--x);top:var(--y);width:var(--s);height:calc(var(--s) * 1.35);background:#fff;opacity:0;
+  -webkit-mask:var(--nk-mark) center/contain no-repeat;mask:var(--nk-mark) center/contain no-repeat;animation:nhSpark var(--d) var(--w) linear infinite;will-change:transform,opacity}
+.nh-sparks span:nth-child(3n){background:var(--blue-2)}
+.nh-sparks:not(.on) span{animation:none;opacity:0}
+@keyframes nhSpark{0%{transform:translate3d(0,0,0) rotate(0);opacity:0}12%{opacity:1}100%{transform:translate3d(var(--dx),var(--dy),0) rotate(var(--r));opacity:0}}
+/* intro : les panneaux s'assemblent, le couvercle se pose (sur des enveloppes, le défilement anime l'intérieur) */
+.nh-in-l,.nh-in-r{animation:nhIn 1s var(--ease) both}
+.nh-in-l{--fx:-34%;animation-delay:.1s}
+.nh-in-r{--fx:34%;animation-delay:.24s}
+@keyframes nhIn{from{opacity:0;transform:translate3d(var(--fx),14%,0)}to{opacity:1;transform:none}}
+.nh-in-lid{animation:nhDrop 1.1s .7s cubic-bezier(.3,1.45,.5,1) both}
+@keyframes nhDrop{from{opacity:0;transform:translate3d(0,-55%,0)}25%{opacity:1}to{opacity:1;transform:none}}
+.nh-shw{animation:fade .9s .5s var(--ease) both;opacity:0}
+.sv-tag,.sv-hint{will-change:opacity}
+.sv-over{will-change:transform,opacity}
+@media (prefers-reduced-motion:reduce){
+  .sv-win,.nh-in-l,.nh-in-r,.nh-in-lid,.nh-shw{animation:none!important;opacity:1}
+  .nh-sparks{display:none}
+}
 </style>
 </head>
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark" viewBox="0 0 220 230">
-    <polygon class="mk-frame" points="0,42 99,112 99,229 0,172"/>
-    <polygon class="mk-frame" points="140,122 219,72 219,172 140,229"/>
-    <polygon class="mk-door" points="78,45 204,1 205,69 139,100"/>
+    <polygon class="mk-panel" points="0,42 99,112 99,229 0,172"/>
+    <polygon class="mk-panel" points="140,122 219,72 219,172 140,229"/>
+    <polygon class="mk-lid" points="78,45 204,1 205,69 139,100"/>
   </symbol>
 </svg>
 
@@ -227,11 +253,20 @@
 
 <main>
 
-<!-- HERO : la porte s'ouvre sur le magasin -->
+<!-- HERO : la boîte NEOKROME s’ouvre sur le magasin -->
 <section class="sv-hero" id="hero">
   <div class="sv-stick">
-    <div class="sv-win" id="svWin"><div class="sv-img" id="svImg"><img src="assets/img/retail/img-slider-scaled.jpg" alt="Magasin virtuel en 3D : supérette avec rayons, vitrines réfrigérées et îlot central" fetchpriority="high"></div><i class="sv-wedge t"></i><i class="sv-wedge b"></i></div>
-    <div class="sv-door-wrap" id="doorWrap"><div class="sv-door" id="svDoor"></div></div>
+    <div class="sv-win" id="svWin"><div class="sv-iris" id="svIris"><div class="sv-img" id="svImg"><img src="assets/img/retail/img-slider-scaled.jpg" alt="Magasin virtuel en 3D : supérette avec rayons, vitrines réfrigérées et îlot central" fetchpriority="high"></div></div></div>
+    <div class="nh-box" id="nhBox" aria-hidden="true">
+      <div class="nh-shw"><div class="nh-shadow" id="nhShadow"></div></div>
+      <div class="nh-beam" id="nhBeam"></div>
+      <div class="nh-in-l"><div class="nh-mv" id="nhL"><svg class="nh-pan" viewBox="0 0 220 230"><polygon points="0,42 99,112 99,229 0,172"/></svg><svg class="nh-rim" viewBox="0 0 220 230"><polygon points="93,108 99,112 99,229 93,225"/></svg></div></div>
+      <div class="nh-in-r"><div class="nh-mv" id="nhR"><svg class="nh-pan" viewBox="0 0 220 230"><polygon points="140,122 219,72 219,172 140,229"/></svg><svg class="nh-rim" viewBox="0 0 220 230"><polygon points="140,122 146,118 146,225 140,229"/></svg></div></div>
+      <div class="nh-in-lid"><div class="nh-mv nh-lid" id="nhLid"><svg viewBox="0 0 220 230"><polygon points="78,45 204,1 205,69 139,100"/></svg></div></div>
+      <div class="nh-sparks" id="nhSparks"></div>
+    </div>
+    <div class="nh-bloom" id="nhBloom" aria-hidden="true"></div>
+    <div class="sv-shade" id="svShade" aria-hidden="true"></div>
 
     <div class="sv-head" id="svHead">
       <div class="crumb"><a href="index.html#univers">← Retour</a><i></i><span>Applications / Secteurs</span><i></i><span>04</span></div>
@@ -461,58 +496,107 @@
   const ease = t => 1 - Math.pow(1 - t, 3);
   const easeIO = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
 
-  /* ----- hero : la porte bleue s'ouvre, l'image envahit l'écran ----- */
-  const hero = $('#hero'), img = $('#svImg'), wrap = $('#doorWrap'), door = $('#svDoor'),
-        head = $('#svHead'), over = $('#svOver'), tag = $('#svTag'), hint = $('#svHint'), nav = $('#nav');
-
-  /* portail : la fenêtre est un calque composé (translate+scale), l'image est contre-transformée,
-     les biseaux haut/bas sont deux aplats tournés -> aucun clip-path recalculé, aucun repaint au scroll */
-  const stick = hero.firstElementChild, win = $('#svWin'), pimg = img.querySelector('img'),
-        wT = win.querySelector('.sv-wedge.t'), wB = win.querySelector('.sv-wedge.b');
-  let SW = innerWidth, SH = innerHeight, lastG = -1, lastFin = -1, lastOpen = -1, lastP = -1, heroTop = 0, heroLen = 1;
-  function portal(g){
-    if (g === lastG) return; lastG = g;
-    if (img.classList.contains('hall-immersive')) return;
-    const x = lerp(R.x, 0, g), y = lerp(R.y, 0, g), a = lerp(R.w, SW, g) / SW, b = lerp(R.h, SH, g) / SH;
-    win.style.transform = `translate(${x}px,${y}px) scale(${a},${b})`;
-    img.style.transform = `scale(${1 / a},${1 / b}) translate(${-x}px,${-y}px)`;
-    const k = (1 - g) / b;
-    wT.style.transform = `rotate(${Math.atan2(R.h * .105 * k, SW)}rad)`;
-    wB.style.transform = `rotate(${Math.atan2(R.h * .123 * k, SW)}rad)`;
+  /* ----- hero : la boîte NEOKROME. La scène vit dans la boîte (fenêtre découpée une seule fois à sa silhouette).
+     Au défilement : le couvercle s'ouvre et s'envole, les panneaux s'écartent dans la lumière, la silhouette
+     s'arrondit en lentille (cercle qui se resserre à l'intérieur de la découpe), puis la lentille s'ouvre en grand.
+     Pendant le défilement : transform/opacity uniquement ; la découpe n'est jamais animée. ----- */
+  const hero = $('#hero'), stick = hero.firstElementChild, win = $('#svWin'), iris = $('#svIris'), img = $('#svImg'),
+        box = $('#nhBox'), bL = $('#nhL'), bR = $('#nhR'), lid = $('#nhLid'), beam = $('#nhBeam'), bloom = $('#nhBloom'),
+        sparks = $('#nhSparks'), shadow = $('#nhShadow'), rims = [...box.querySelectorAll('.nh-rim')], shade = $('#svShade'),
+        head = $('#svHead'), sub = head.querySelector('.sv-sub'), over = $('#svOver'), tag = $('#svTag'), hint = $('#svHint'), nav = $('#nav');
+  // silhouette extérieure de la boîte (repère 220 × 230), légèrement rentrée sous les arêtes des panneaux
+  const HULL = [[0,42],[78,45],[204,1],[219,72],[219,172],[140,229],[99,229],[0,172]];
+  let SW = innerWidth, SH = innerHeight, U = 1, S0 = .2, S1 = .3, SI = .1, hullClip = 'none', clipOn = null, sparksOn = false,
+      lastP = -1, heroTop = 0, heroLen = 1;
+  if (!reduce) for (let i = 0; i < 14; i++) {
+    const sp = document.createElement('span');
+    sp.style.cssText = `--x:${22 + Math.random() * 60}%;--y:${8 + Math.random() * 32}%;--dy:${-90 - Math.random() * 170}px;--s:${3 + Math.random() * 5}px;--d:${2 + Math.random() * 2.2}s;--w:${-Math.random() * 4}s;--dx:${(Math.random() - .5) * 120}px;--r:${(Math.random() - .5) * 540}deg`;
+    sparks.appendChild(sp);
   }
-  let R, intro = 0;
   function layout(){
-    SW = stick.clientWidth || innerWidth; SH = stick.clientHeight || innerHeight; lastG = lastP = -1;
+    SW = stick.clientWidth || innerWidth; SH = stick.clientHeight || innerHeight; lastP = -1; clipOn = null;
     heroTop = hero.getBoundingClientRect().top + scrollY; heroLen = Math.max(1, hero.offsetHeight - innerHeight);
-    const W = SW, H = SH, mob = W < 1000;
-    const w = mob ? W * .42 : Math.min(W * .24, H * .5), h = w * 2.8;
-    const hh = Math.min(h, H * (mob ? .44 : .74)), ww = hh / 2.8;
-    R = { x: mob ? W - ww - W*.08 : W * .74 - ww / 2, y: mob ? H * .5 : (H - hh) / 2 + H * .02, w: ww, h: hh };
-    Object.assign(wrap.style, { left: R.x+'px', top: R.y+'px', width: R.w+'px', height: R.h+'px' });
+    let w, x, y;
+    if (SW < 1000) { // mobile / tablette : la boîte sous le titre, centrée
+      const top = head.offsetTop + sub.offsetTop + sub.offsetHeight + SH * .05, room = SH * .9 - top;
+      w = Math.max(130, Math.min(SW * .62, room * 220 / 230, 340));
+      x = (SW - w) / 2; y = top + Math.max(0, (room - w * 230 / 220) / 2);
+    } else {
+      // à droite du titre, sans jamais le chevaucher (mesure sans transformation : offsetLeft/offsetWidth)
+      const tr = head.offsetLeft + Math.max(...[...head.querySelectorAll('.sv-title .ln > span')].map(e => e.offsetLeft + e.offsetWidth));
+      w = Math.min(SW * .27, SH * .56, 470);
+      x = Math.max(SW * .745 - w / 2, tr + SW * .035);
+      if (x + w > SW * .93) { w = Math.max(SW * .16, SW * .93 - x); x = Math.min(x, SW * .93 - w); }
+      y = (SH - w * 230 / 220) / 2 + SH * .03;
+    }
+    U = w / 220;
+    Object.assign(box.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: 230 * U + 'px' });
+    // cœur de la boîte : centre du plus grand cercle inscrit dans sa silhouette (r = 92 u)
+    const cx = x + 117 * U, cy = y + 130 * U;
+    // cercle final : couvre tout l'écran depuis le cœur de la boîte
+    const D = 2 * Math.hypot(Math.max(cx, SW - cx), Math.max(cy, SH - cy)) + 6;
+    S0 = 2 * 158 * U / D;   // au repos : englobe toute la silhouette (la découpe fait la forme)
+    SI = 2 * 89 * U / D;    // lentille : entièrement dans la silhouette -> la découpe peut être retirée sans saut
+    Object.assign(iris.style, { left: cx - D / 2 + 'px', top: cy - D / 2 + 'px', width: D + 'px', height: D + 'px' });
+    // l'image garde ses coordonnées écran, contre-mise à l'échelle autour du cœur de la boîte
+    Object.assign(img.style, { left: D / 2 - cx + 'px', top: D / 2 - cy + 'px', width: SW + 'px', height: SH + 'px', transformOrigin: `${cx}px ${cy}px` });
+    const k = 1 - 1.6 / 110;
+    hullClip = `polygon(${HULL.map(([a, b]) => `${(x + (110 + (a - 110) * k) * U).toFixed(1)}px ${(y + (115 + (b - 115) * k) * U).toFixed(1)}px`).join(',')})`;
+    // halo bleu derrière la scène, à l'échelle de la lentille
+    const B = 2 * 89 * U * 2.4;
+    Object.assign(bloom.style, { left: cx - B / 2 + 'px', top: cy - B / 2 + 'px', width: B + 'px', height: B + 'px' });
+    S1 = D / 2 / (89 * U);
+  }
+  const easeQ = t => t < .5 ? 2 * t * t : 1 - (2 - 2 * t) * (2 - 2 * t) / 2;
+  function render(p){
+    const open = ease(clamp(p / .2));
+    lid.style.transform = `translate3d(${(open * open * 34 * U).toFixed(2)}px,${(-open * open * 70 * U).toFixed(2)}px,0) rotate(${(open * 56).toFixed(2)}deg)`;
+    lid.style.opacity = 1 - clamp((p - .1) / .1);
+    beam.style.opacity = clamp(open * 1.5) * (1 - clamp((p - .2) / .1));
+    const spread = easeIO(clamp((p - .03) / .21)), dx = (spread * 36 * U).toFixed(2), dy = (spread * 10 * U).toFixed(2), rot = (spread * 6).toFixed(2);
+    bL.style.transform = `translate3d(-${dx}px,${dy}px,0) rotate(-${rot}deg)`;
+    bR.style.transform = `translate3d(${dx}px,${dy}px,0) rotate(${rot}deg)`;
+    bL.style.opacity = bR.style.opacity = 1 - clamp((p - .16) / .05);
+    rims[0].style.opacity = rims[1].style.opacity = clamp(open * 1.4);
+    shadow.style.opacity = 1 - clamp(p / .2);
+    const sp = p > .03 && p < .36;
+    if (sp !== sparksOn) sparks.classList.toggle('on', sparksOn = sp);
+    // la silhouette s'arrondit (cercle qui se resserre dans la découpe), puis la lentille s'ouvre en grand
+    const lens = easeIO(clamp((p - .14) / .13)), g = easeQ(clamp((p - .27) / .43));
+    const s = g > 0 ? SI + (1 - SI) * g : S0 + (SI - S0) * lens, z = 1.16 - .16 * easeQ(clamp((p - .14) / .56));
+    const cut = p < .27;
+    if (cut !== clipOn) win.style.clipPath = (clipOn = cut) ? hullClip : 'none';
+    iris.style.transform = `scale(${s.toFixed(5)})`;
+    if (!img.classList.contains('hall-immersive')) img.style.transform = `scale(${(z / s).toFixed(5)})`;
+    // halo de lumière autour de la lentille
+    const glow = ease(clamp((p - .05) / .15)) * (1 - clamp((p - .3) / .16));
+    bloom.style.opacity = glow;
+    bloom.style.transform = `scale(${(Math.min(s / SI, S1 * 1.2) * (.85 + .15 * glow)).toFixed(4)})`;
+    const sh = ease(clamp((p - .68) / .14)), fin = ease(clamp((p - .72) / .16));
+    shade.style.opacity = sh;
+    head.style.opacity = 1 - clamp((p - .05) / .17);
+    head.style.transform = `translate3d(0,${(-clamp(p / .3) * 8).toFixed(3)}vh,0)`;
+    tag.style.opacity = hint.style.opacity = 1 - clamp(p / .08);
+    over.style.opacity = fin;
+    over.style.transform = `translate3d(0,${((1 - fin) * 40).toFixed(2)}px,0)`;
+    over.classList.toggle('live', fin > .6);
   }
   function heroFrame(){
     const p = clamp((scrollY - heroTop) / heroLen);
     if (p === lastP) return p;
     lastP = p;
-    const open = ease(clamp(p / .28));
-    const grow = easeIO(clamp((p - .22) / .5));
-    const fin = ease(clamp((p - .72) / .2));
-    door.style.transform = `rotateY(${lerp(intro, 84, open)}deg)`;
-    if (open !== lastOpen) door.style.setProperty('--o', lastOpen = open);
-    wrap.style.opacity = 1 - clamp((p - .3) / .1);
-    portal(grow);
-    pimg.style.transform = `scale(${lerp(1.25, 1, grow)})`;
-    if (fin !== lastFin) img.style.setProperty('--shade', lastFin = fin);
-    head.style.opacity = 1 - clamp((p - .18) / .2);
-    head.style.transform = `translateY(${-clamp((p - .1) / .4) * 12}vh)`;
-    tag.style.opacity = hint.style.opacity = 1 - clamp(p / .1);
-    over.style.opacity = fin;
-    over.style.transform = `translateY(${(1 - fin) * 40}px)`;
-    over.classList.toggle('live', fin > .6);
+    // mouvement réduit : composition fixe (boîte + scène), puis la scène en grand — sans animation
+    render(reduce ? (p < .5 ? 0 : 1) : p);
+    window.svProgress = p;
     return p;
   }
   layout();
-  if (!reduce) { const t0 = performance.now() + 900; (function a(now){ const k = clamp((now - t0) / 1200); intro = ease(k) * 28; lastP = -1; heroFrame(); if (k < 1) requestAnimationFrame(a); })(performance.now()); }
+  // salon 3D en plein écran : la scène sort du hero, on neutralise sa contre-échelle
+  new MutationObserver(() => {
+    if (img.classList.contains('hall-immersive')) img.style.transform = 'none';
+    else { lastP = -1; heroFrame(); }
+  }).observe(img, { attributes: true, attributeFilter: ['class'] });
+  if (document.fonts) document.fonts.ready.then(() => { layout(); heroFrame(); });
   $('#svEnter').addEventListener('click', () => $('#magasin').scrollIntoView({behavior: reduce ? 'auto' : 'smooth'}));
 
   /* ----- chapitres : image collante qui change ----- */
@@ -534,7 +618,7 @@
   function navFrame(heroP){
     nav.classList.toggle('scrolled', scrollY > 40);
     const y = scrollY + 40, onDark = darkY.some(([t, b]) => t <= y && b >= y);
-    nav.classList.toggle('inv', onDark || (heroP > .55 && heroP < 1) || $('#mmenu').classList.contains('open'));
+    nav.classList.toggle('inv', onDark || (heroP > .66 && heroP < 1) || $('#mmenu').classList.contains('open'));
   }
 
   let darkY = [];

@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <style>
-/* ---------- hero : la porte de l'agence ---------- */
+/* ---------- hero : la boîte de l'agence ---------- */
 .ap-hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;overflow:hidden;padding:130px 0 90px}
 .ap-hero::before{content:"";position:absolute;inset:0;opacity:.5;
   background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:80px 80px;
@@ -30,12 +30,12 @@
 .ap-lead strong{color:var(--ink)}
 .ap-meta{display:flex;gap:12px 28px;flex-wrap:wrap;margin-top:5vh;font-family:var(--display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);opacity:0;animation:fade 1s 1s var(--ease) forwards}
 .ap-meta span{display:inline-flex;align-items:center;gap:10px}
-.ap-meta span::before{content:"";width:12px;height:12px;background:var(--blue);clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
+.ap-meta span::before{content:"";width:13px;height:13.6px;background:var(--blue);-webkit-mask:var(--nk-mark) center/contain no-repeat;mask:var(--nk-mark) center/contain no-repeat}
 
-.ap-door{position:relative;justify-self:center;width:min(30vw,52vh,420px);aspect-ratio:300/340}
-.ap-door > .tag{position:absolute}
-.ap-door .nk-box{position:absolute;inset:0;margin:auto;width:84%;height:auto;top:4%;bottom:auto}
-.ap-door .tag{left:-8%;bottom:-2%;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:9px 14px;border-radius:99px;background:var(--paper);border:1px solid var(--line);white-space:nowrap;opacity:0;animation:fade 1s 2.2s var(--ease) forwards}
+.ap-box{position:relative;justify-self:center;width:min(30vw,52vh,420px);aspect-ratio:300/340}
+.ap-box > .tag{position:absolute}
+.ap-box .nk-box{position:absolute;inset:0;margin:auto;width:84%;height:auto;top:4%;bottom:auto}
+.ap-box .tag{left:-8%;bottom:-2%;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:9px 14px;border-radius:99px;background:var(--paper);border:1px solid var(--line);white-space:nowrap;opacity:0;animation:fade 1s 2.2s var(--ease) forwards}
 
 /* ---------- manifeste ---------- */
 .ap-manif{background:var(--ink);color:var(--paper);padding:20vh 0}
@@ -53,20 +53,20 @@
 .step{position:relative;border-radius:22px;padding:34px 30px 30px;background:var(--paper-2);min-height:400px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate;transition:color .5s var(--ease)}
 .step::before{content:"";position:absolute;inset:0;background:var(--ink);z-index:-1;clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);transition:clip-path .7s var(--ease)}
 .step:hover{color:var(--paper)}
-.step:hover::before{clip-path:polygon(0 12%,100% 0,100% 100%,0 100%)}
+.step:hover::before{clip-path:polygon(0 0,100% -24%,100% 100%,0 100%)}
 .step.on{background:var(--blue);color:#fff}
 .step.on::before{background:var(--ink)}
 .step small{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.14em;display:flex;justify-content:space-between;align-items:center}
 .step small svg{height:34px;width:auto}
-.step small .mk-frame{fill:currentColor}
-.step.on small .mk-door{fill:var(--ink)}
+.step small .mk-panel{fill:currentColor}
+.step.on small .mk-lid{fill:var(--ink)}
 .step h3{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;line-height:.9;font-size:clamp(38px,4vw,68px);margin-bottom:18px}
 .step p{font-size:16px;opacity:.82;max-width:340px}
 
 /* ---------- convergence ---------- */
 .ap-conv{background:var(--blue);color:#fff;padding:16vh 0 14vh;overflow:hidden}
 .ap-conv .mark-bg{position:absolute;right:-8vw;top:-6vh;width:46vw;opacity:.1;pointer-events:none}
-.ap-conv .mark-bg .mk-frame{fill:#fff}.ap-conv .mark-bg .mk-door{fill:var(--ink)}
+.ap-conv .mark-bg .mk-panel{fill:#fff}.ap-conv .mark-bg .mk-lid{fill:var(--ink)}
 .ap-conv .wrap{position:relative}
 .ap-conv .h2 em{font-style:normal;color:var(--ink)}
 .ap-conv .intro{display:grid;grid-template-columns:1.25fr 1fr;gap:6vw;align-items:end;margin-bottom:9vh}
@@ -79,7 +79,7 @@
 .duo-c p{opacity:.85;max-width:460px}
 .duo-c ul{list-style:none;display:grid;gap:10px;margin-top:auto;padding-top:10px}
 .duo-c li{display:grid;grid-template-columns:22px 1fr;gap:10px;font-family:var(--display);font-weight:600;font-size:17px}
-.duo-c li::before{content:"";width:12px;height:12px;margin-top:6px;background:currentColor;clip-path:polygon(0 0,100% 18%,100% 100%,0 82%)}
+.duo-c li::before{content:"";width:13px;height:13.6px;margin-top:6px;background:currentColor;-webkit-mask:var(--nk-mark) center/contain no-repeat;mask:var(--nk-mark) center/contain no-repeat}
 .duo-c.dark li::before{background:var(--blue-2)}
 .duo-c .lk{align-self:flex-start;font-family:var(--display);font-weight:600;font-size:15px;border-bottom:1.5px solid rgba(255,255,255,.5);padding-bottom:3px;transition:border-color .3s}
 .duo-c .lk:hover{border-color:#fff}
@@ -138,7 +138,7 @@
 .place-btns .btn.alt:hover{color:#fff;border-color:var(--blue)}
 .place-r{background:var(--ink);color:var(--paper);padding:clamp(28px,4.5vw,64px);display:flex;flex-direction:column;justify-content:flex-end;gap:16px;position:relative;overflow:hidden}
 .place-r svg.bg{position:absolute;right:-12%;top:-8%;height:120%;width:auto;opacity:.12}
-.place-r svg.bg .mk-frame{fill:#fff}
+.place-r svg.bg .mk-panel{fill:#fff}
 .place-r h4{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;opacity:.55;position:relative}
 .place-r a{position:relative;font-family:var(--display);font-weight:700;font-size:clamp(22px,2.2vw,34px);letter-spacing:-.02em;line-height:1.15;transition:color .3s;overflow-wrap:anywhere}
 .place-r a:hover{color:var(--blue-2)}
@@ -156,7 +156,7 @@
 
 @media (max-width:1000px){
   .ap-hero .wrap{grid-template-columns:1fr}
-  .ap-door{width:min(58vw,300px);margin-top:4vh}
+  .ap-box{width:min(58vw,300px);margin-top:4vh}
   .ap-method .head,.ap-conv .intro,.ap-team .head,.place{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
   .step{min-height:0;gap:60px}
@@ -178,7 +178,7 @@
 @media (max-width:640px){
   .ap-title{font-size:clamp(40px,13vw,64px);hyphens:auto;-webkit-hyphens:auto}
   .h2,.step h3,.skill h3,.duo-c h3{hyphens:auto;-webkit-hyphens:auto}
-  .ap-door .tag{left:auto;right:0;bottom:-8%}
+  .ap-box .tag{left:auto;right:0;bottom:-8%}
   .nums{grid-template-columns:1fr 1fr}
   .nums > div{padding:24px 14px 0 0!important;border-right:0!important;border-top:1px solid var(--line-inv);margin-top:0!important}
   .nums > div:nth-child(odd){border-right:1px solid var(--line-inv)!important}
@@ -195,7 +195,7 @@
 }
 @media (prefers-reduced-motion:reduce){
   .ap-title .ln > span{transform:none}
-  .ap-lead,.ap-meta,.ap-door .tag{opacity:1}
+  .ap-lead,.ap-meta,.ap-box .tag{opacity:1}
 }
 /* boîte-logo : animations infinies en pause hors écran */
 .nk-box.nk-off,.nk-box.nk-off *,.nk-box.nk-off *::after{animation-play-state:paused!important}
@@ -205,9 +205,9 @@
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark" viewBox="0 0 220 230">
-    <polygon class="mk-frame" points="0,42 99,112 99,229 0,172"/>
-    <polygon class="mk-frame" points="140,122 219,72 219,172 140,229"/>
-    <polygon class="mk-door" points="78,45 204,1 205,69 139,100"/>
+    <polygon class="mk-panel" points="0,42 99,112 99,229 0,172"/>
+    <polygon class="mk-panel" points="140,122 219,72 219,172 140,229"/>
+    <polygon class="mk-lid" points="78,45 204,1 205,69 139,100"/>
   </symbol>
 </svg>
 
@@ -255,9 +255,9 @@
       <p class="ap-lead"><strong>Depuis plus de 30 ans, nous façonnons des univers qui marquent</strong> : de l’identité visuelle au site web, de la réalité augmentée aux salons 3D. Un studio de création et une technologie immersive, réunis sous un même toit.</p>
       <div class="ap-meta"><span>179, rue Grande — Fontainebleau</span><span>Design · Web · RA / RV · 3D</span></div>
     </div>
-    <div class="ap-door" role="img" aria-label="Le logo Neokrome : une boîte sombre dont le couvercle bleu s’ouvre sur une lumière">
+    <div class="ap-box" role="img" aria-label="Le logo Neokrome : une boîte sombre dont le couvercle bleu s’ouvre sur une lumière">
       <div class="nk-box" style="--nb-delay:.2s"><i class="nb-glow"></i><i class="nb-core"></i><i class="nb-l"></i><i class="nb-r"></i><i class="nb-lid"></i></div>
-      <span class="tag">Entrez, c’est ouvert</span>
+      <span class="tag">La boîte est ouverte</span>
     </div>
   </div>
 </section>

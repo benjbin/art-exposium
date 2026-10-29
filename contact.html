@@ -21,8 +21,8 @@
 .ct-title .l2{display:flex;justify-content:flex-end;align-items:flex-end;gap:.14em}
 .ct-title .l2 > span{animation-delay:.14s}
 .ct-title .b{color:var(--blue)}
-.ct-door{height:.74em;width:auto;flex:none;margin-bottom:.04em;opacity:0;animation:fade 1s .7s var(--ease) forwards}
-.ct-door .mk-frame{fill:var(--ink)}
+.ct-mark{height:.74em;width:auto;flex:none;margin-bottom:.04em;opacity:0;animation:fade 1s .7s var(--ease) forwards}
+.ct-mark .mk-panel{fill:var(--ink)}
 .ct-intro{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:end;margin-top:7vh;padding-top:30px;border-top:1.5px solid var(--ink)}
 .ct-intro .pg-lead{margin-top:18px}
 .ct-intro p.side{color:var(--ink-soft);max-width:520px}
@@ -33,7 +33,7 @@
 .ct-line{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px 20px;padding:26px 0;border-bottom:1px solid var(--line);isolation:isolate;transition:color .5s var(--ease),padding .5s var(--ease)}
 .ct-line::before{content:"";position:absolute;inset:0 calc(var(--gutter) * -1) 0 calc(var(--gutter) * -1);background:var(--blue);z-index:-1;clip-path:polygon(0 0,0 0,0 100%,0 100%);transition:clip-path .7s var(--ease)}
 .ct-line:hover,.ct-line:focus-visible{color:#fff;padding-left:14px}
-.ct-line:hover::before,.ct-line:focus-visible::before{clip-path:polygon(0 0,100% 10%,100% 100%,0 90%)}
+.ct-line:hover::before,.ct-line:focus-visible::before{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
 .ct-line small{grid-column:1;font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;opacity:.6;display:flex;align-items:center;gap:10px}
 .ct-line small svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8}
 .ct-line .v{grid-column:1;font-family:var(--display);font-weight:800;font-size:clamp(30px,3.6vw,58px);letter-spacing:-.03em;line-height:1.02;overflow-wrap:anywhere}
@@ -84,7 +84,7 @@
 .tile{position:relative;min-height:300px;border-radius:24px;padding:30px;background:var(--paper-2);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate;transition:color .5s var(--ease)}
 .tile::before{content:"";position:absolute;inset:0;background:var(--blue);z-index:-1;clip-path:polygon(100% 0,100% 0,100% 100%,100% 100%);transition:clip-path .7s var(--ease)}
 .tile:hover{color:#fff}
-.tile:hover::before{clip-path:polygon(0 0,100% 12%,100% 100%,0 88%)}
+.tile:hover::before{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
 .tile.dark{background:var(--ink);color:var(--paper)}
 .tile .num{display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.16em}
 .tile .num span{width:46px;height:46px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-size:18px;transition:transform .5s var(--ease),background .4s}
@@ -111,7 +111,7 @@
 }
 @media (prefers-reduced-motion:reduce){
   .ct-title .ln > span{transform:none;animation:none}
-  .ct-door{opacity:1;animation:none}
+  .ct-mark{opacity:1;animation:none}
 }
 </style>
 </head>
@@ -119,9 +119,9 @@
 <a class="skip" href="#main">Aller au contenu</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark" viewBox="0 0 220 230">
-    <polygon class="mk-frame" points="0,42 99,112 99,229 0,172"/>
-    <polygon class="mk-frame" points="140,122 219,72 219,172 140,229"/>
-    <polygon class="mk-door" points="78,45 204,1 205,69 139,100"/>
+    <polygon class="mk-panel" points="0,42 99,112 99,229 0,172"/>
+    <polygon class="mk-panel" points="140,122 219,72 219,172 140,229"/>
+    <polygon class="mk-lid" points="78,45 204,1 205,69 139,100"/>
   </symbol>
 </svg>
 
@@ -160,7 +160,7 @@
     <div class="crumb"><a href="index.html">← Accueil</a><i></i><span>Contact</span></div>
     <h1 class="ct-title" aria-label="Parlons-en.">
       <span class="ln" aria-hidden="true"><span>Parlons</span></span>
-      <span class="ln l2" aria-hidden="true"><svg class="ct-door" viewBox="0 0 220 230"><use href="#mark"/></svg><span>-en<span class="b">.</span></span></span>
+      <span class="ln l2" aria-hidden="true"><svg class="ct-mark" viewBox="0 0 220 230"><use href="#mark"/></svg><span>-en<span class="b">.</span></span></span>
     </h1>
     <div class="ct-intro">
       <div>
@@ -244,7 +244,7 @@
       </div>
       <div class="place-info">
         <span class="eyebrow rv">Seine-et-Marne · France</span>
-        <h3 class="rv d1">Une porte ouverte à Fontainebleau, des univers accessibles partout dans le monde.</h3>
+        <h3 class="rv d1">Un studio à Fontainebleau, des univers accessibles partout dans le monde.</h3>
         <p class="rv d2">Notre studio est basé à Fontainebleau, en Seine-et-Marne, mais nous accompagnons des clients partout en France et à l’international. Lorsque le projet le nécessite, nous intervenons aussi sur site pour des phases de captation, de modélisation ou de préparation de contenus.</p>
         <dl class="place-dl rv d2">
           <div><dt>Adresse</dt><dd>Neokrome<br>179, rue Grande<br>77300 Fontainebleau</dd></div>
@@ -260,7 +260,7 @@
 <section class="ct-more" aria-labelledby="moreTitle">
   <div class="wrap">
     <div class="ct-more-head">
-      <h2 class="h2 rv" id="moreTitle">Autres<br>portes d’entrée.</h2>
+      <h2 class="h2 rv" id="moreTitle">Autres<br>points de contact.</h2>
       <span class="eyebrow rv d1" style="color:var(--blue)">Raccourcis</span>
     </div>
     <div class="tiles">
