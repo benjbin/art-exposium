@@ -574,8 +574,19 @@ footer .logo{color:var(--paper)}
 footer .logo svg{height:46px}
 footer .logo .wm b{font-size:26px}
 .foot-top .about{opacity:.7;max-width:340px;margin-top:22px;font-size:15px}
-.foot-giant{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.05em;line-height:.8;font-size:clamp(40px,12.6vw,230px);
-  white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.25);user-select:none;overflow:hidden}
+.foot-giant{container-type:inline-size;margin-top:clamp(40px,6vw,90px);user-select:none;overflow:hidden}
+/* mot plein, ton sur ton ; un halo bleu suit la souris dans les lettres */
+.foot-giant span{display:block;font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.74;
+  font-size:17.15cqw;white-space:nowrap;padding:.04em 0 .1em;
+  background:radial-gradient(30cqw circle at var(--mx) 60%,rgba(77,130,255,var(--spot,0)),transparent 70%),rgba(255,255,255,.07);
+  -webkit-background-clip:text;background-clip:text;color:transparent;transition:--spot .4s}
+.foot-giant span i{font-style:normal;color:var(--blue-2);-webkit-text-fill-color:var(--blue-2)}
+footer .foot-giant{--spot:.55;animation:fgSweep 9s ease-in-out infinite alternate}
+footer:hover .foot-giant{--spot:.9}
+@property --spot{syntax:'<number>';inherits:true;initial-value:0}
+@property --mx{syntax:'<percentage>';inherits:true;initial-value:50%}
+@keyframes fgSweep{from{--mx:0%}to{--mx:100%}}
+@media (prefers-reduced-motion:reduce){footer .foot-giant{animation:none}}
 .foot-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;border-top:1px solid var(--line-inv);padding-top:26px;margin-top:30px;font-size:14px;opacity:.6}
 .foot-bot nav{display:flex;gap:22px;flex-wrap:wrap}
 

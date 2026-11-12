@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <title>Contact — Neokrome</title>
-<meta name="description" content="Parlez-nous de votre projet : téléphone, e-mail, formulaire ou rendez-vous. Neokrome, 179 rue Grande, 77300 Fontainebleau.">
+<meta name="description" content="Parlez-nous de votre projet : téléphone, e-mail, formulaire ou rendez-vous. Neokrome conçoit des univers immersifs 100% web pour des clients partout dans le monde.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -52,20 +52,21 @@
 .ct-card > p{opacity:.7;margin-bottom:30px;max-width:460px}
 .ct-card .eyebrow{color:var(--blue-2)}
 
-/* bloc Fontainebleau */
+/* bloc portée mondiale */
 .place{background:var(--ink);color:var(--paper);padding:16vh 0 14vh;overflow:hidden;position:relative}
 .place::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;background-image:linear-gradient(var(--line-inv) 1px,transparent 1px),linear-gradient(90deg,var(--line-inv) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(50% 60% at 25% 65%,#000,transparent 75%);-webkit-mask-image:radial-gradient(50% 60% at 25% 65%,#000,transparent 75%)}
 .place .wrap{position:relative;z-index:1}
 .place-word{font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:-.05em;line-height:.85;font-size:clamp(40px,11.4vw,210px);white-space:nowrap;margin-top:3vh}
 .place-word .b{color:var(--blue-2)}
 .place-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:6vw;align-items:center;margin-top:10vh}
-.pl-stage{position:relative;width:min(400px,72vw);aspect-ratio:300/340;margin:0 auto}
+.pl-stage{position:relative;width:min(520px,80vw);aspect-ratio:1;margin:0 auto}
 .pl-stage > *{position:absolute}
-.pl-stage .nk-box{left:4%;right:4%;top:2%;--nb-delay:.15s}
-.pl-stage:not(.in) .nk-box *,.pl-stage:not(.in) .nk-box *::after{animation-play-state:paused}
-.pl-pin{left:33.7%;top:31%;width:40%;transform:translateY(-50%);font-family:var(--display);font-weight:800;font-size:clamp(11px,1.1vw,14px);letter-spacing:.14em;color:var(--blue-deep);text-align:center;opacity:0;transition:opacity 1s 2.6s}
-.pl-stage.in .pl-pin{opacity:1}
-.pl-coord{left:0;bottom:-34px;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.5;white-space:nowrap}
+.pl-globe{inset:-4%;opacity:0;transform:scale(.92);transition:opacity 1.2s var(--ease),transform 1.6s var(--ease)}
+.pl-stage.in .pl-globe{opacity:1;transform:none}
+.pl-globe canvas{display:block;width:100%;height:100%}
+/* repli sans WebGL : sphère en trame de points */
+.pl-globe:not(.gl)::before{content:"";position:absolute;inset:14%;border-radius:50%;background:radial-gradient(circle at 38% 34%,rgba(159,188,255,.55) 0 1.2px,transparent 1.6px) 0 0/9px 9px,radial-gradient(circle at 40% 35%,#1A3478,#0E2152 70%);box-shadow:0 0 80px rgba(77,130,255,.35),inset -30px -40px 80px rgba(5,12,35,.8)}
+.pl-coord{left:50%;transform:translateX(-50%);bottom:-34px;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.5;white-space:nowrap}
 .place-info .eyebrow{color:var(--blue-2)}
 .place-info h3{font-family:var(--display);font-weight:700;font-size:clamp(24px,2.3vw,36px);line-height:1.2;letter-spacing:-.015em;margin:24px 0 20px;max-width:560px}
 .place-info > p{opacity:.72;max-width:520px}
@@ -114,6 +115,7 @@
   .ct-mark{opacity:1;animation:none}
 }
 </style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
@@ -167,7 +169,7 @@
         <span class="eyebrow rv" style="color:var(--blue)">Contact</span>
         <p class="pg-lead rv d1"><strong>Parlez-nous de votre projet !</strong> Salon, showroom, office de tourisme, formation, musée… on en discute.</p>
       </div>
-      <p class="side rv d2">Un coup de fil, un e-mail ou le formulaire ci-dessous : choisissez ce qui vous convient. Notre studio est basé à Fontainebleau, et nous accompagnons des clients partout en France et à l’international.</p>
+      <p class="side rv d2">Un coup de fil, un e-mail ou le formulaire ci-dessous : choisissez ce qui vous convient. Nous accompagnons des clients partout en France et dans le monde.</p>
     </div>
   </div>
 </section>
@@ -235,23 +237,22 @@
 <section class="place" data-dark aria-labelledby="placeTitle">
   <div class="wrap">
     <span class="eyebrow rv" style="color:var(--blue-2)">Le studio</span>
-    <h2 class="place-word rv d1" id="placeTitle">Fontainebleau<span class="b">.</span></h2>
+    <h2 class="place-word rv d1" id="placeTitle">Partout<span class="b">.</span></h2>
     <div class="place-grid">
       <div class="pl-stage rv" aria-hidden="true">
-        <div class="nk-box inv"><i class="nb-glow"></i><i class="nb-core"></i><i class="nb-l"></i><i class="nb-r"></i><i class="nb-lid"></i></div>
-        <div class="pl-pin">77300</div>
-        <div class="pl-coord">48°24′ N — 2°42′ E</div>
+        <div class="pl-globe" id="plGlobe"></div>
+        <div class="pl-coord">Accessible partout · 24/7</div>
       </div>
       <div class="place-info">
-        <span class="eyebrow rv">Seine-et-Marne · France</span>
-        <h3 class="rv d1">Un studio à Fontainebleau, des univers accessibles partout dans le monde.</h3>
-        <p class="rv d2">Notre studio est basé à Fontainebleau, en Seine-et-Marne, mais nous accompagnons des clients partout en France et à l’international. Lorsque le projet le nécessite, nous intervenons aussi sur site pour des phases de captation, de modélisation ou de préparation de contenus.</p>
+        <span class="eyebrow rv">France · International</span>
+        <h3 class="rv d1">Un studio, des univers accessibles partout dans le monde.</h3>
+        <p class="rv d2">Nos univers sont 100% web : vos visiteurs y entrent depuis n’importe quel pays, sur ordinateur, tablette ou mobile, sans rien installer. Nous travaillons avec des clients en France et à l’international, à distance comme sur site lorsque le projet demande une captation, une modélisation ou une préparation de contenus.</p>
         <dl class="place-dl rv d2">
-          <div><dt>Adresse</dt><dd>Neokrome<br>179, rue Grande<br>77300 Fontainebleau</dd></div>
+          <div><dt>E-mail</dt><dd><a href="mailto:contact@neokrome.tech">contact@neokrome.tech</a></dd></div>
           <div><dt>Téléphone</dt><dd><a href="tel:+33164700802">01 64 70 08 02</a><br><a href="tel:+33609770241">06 09 77 02 41</a></dd></div>
-          <div><dt>Rayon d’action</dt><dd>France<br>&amp; international</dd></div>
+          <div><dt>Rayon d’action</dt><dd>Le monde<br>entier</dd></div>
         </dl>
-        <a class="btn rv d3" href="https://www.google.com/maps/search/?api=1&amp;query=179%20rue%20Grande%2077300%20Fontainebleau" target="_blank" rel="noopener">Ouvrir l’itinéraire <span class="arr">→</span><span class="sr-only">(nouvel onglet)</span></a>
+        <a class="btn rv d3" href="rendez-vous.html">Prendre rendez-vous en visio <span class="arr">→</span></a>
       </div>
     </div>
   </div>
@@ -292,7 +293,7 @@
         <ul><li><a href="realisations.html">Nos réalisations</a></li><li><a href="a-propos.html">L’agence</a></li><li><a href="prochains-salons.html">Nos prochains salons</a></li><li><a href="partenariats.html">Partenariats</a></li><li><a href="demo.html">Démo</a></li><li><a href="rendez-vous.html">Prendre rendez-vous</a></li><li><a href="faq.html">FAQ</a></li><li><a href="blog.html">Blog</a></li></ul>
       </div>
     </div>
-    <div class="foot-giant" aria-hidden="true">Neokrome</div>
+    <div class="foot-giant" aria-hidden="true"><span>Neokrome<i>.</i></span></div>
     <div class="foot-bot">
       <span>© Neokrome — Tous droits réservés</span>
       <nav aria-label="Informations légales"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="https://fr.linkedin.com/in/jean-philippe-moutti-608b7414a" target="_blank" rel="noopener">LinkedIn</a></nav>
@@ -451,6 +452,14 @@ axForm(document.getElementById('ctForm'), v => {
   ].join('\r\n');
   return {subject, body};
 });
+</script>
+<script type="module">
+  /* globe 3D « Partout » : chargé quand la section approche */
+  const g = document.getElementById('plGlobe');
+  const ok = g && !matchMedia('(prefers-reduced-motion: reduce)').matches && (() => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; } })();
+  if (ok) { const io = new IntersectionObserver(es => { if (!es.some(e => e.isIntersecting)) return; io.disconnect();
+    import('./assets/globe3d.js').then(({ mountGlobe }) => { g.classList.add('gl'); mountGlobe(g); }).catch(() => g.classList.remove('gl')); }, { rootMargin: '60% 0px' });
+    io.observe(g); }
 </script>
 </body>
 </html>
