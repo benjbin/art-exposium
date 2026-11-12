@@ -6,6 +6,8 @@
   --ink-soft:#4A5878;
   --blue:#145CFF;
   --blue-2:#4D82FF;
+  /* matière chrome (NEO-KROME) : toujours en matière, jamais en couleur de texte courant */
+  --chrome:linear-gradient(135deg,#F4F6FA 0%,#B9C3D6 32%,#6E7C99 52%,#E6EBF3 72%,#9AA6BD 100%);
   --blue-deep:#0A3FCC;
   --line:rgba(11,33,74,.12);
   --line-inv:rgba(255,255,255,.14);
@@ -69,9 +71,9 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;op
 .nav ul a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--blue);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
 .nav ul a:hover::after{transform:scaleX(1);transform-origin:left}
 .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;padding:12px 22px;border-radius:999px;
-  background:var(--ink);color:var(--paper);position:relative;overflow:hidden;isolation:isolate;transition:color .4s,transform .3s var(--ease)}
-.btn::before{content:"";position:absolute;inset:0;background:var(--blue);transform:translateY(101%) skewY(-8deg);transform-origin:left;transition:transform .5s var(--ease);z-index:-1}
-.btn:hover::before{transform:translateY(0) skewY(0)}
+  background:var(--ink);color:var(--paper);border:0;cursor:pointer;position:relative;overflow:hidden;isolation:isolate;transition:color .4s,transform .3s var(--ease)}
+.btn::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease);z-index:-1}
+.btn:hover::before,.btn:focus-visible::before{transform:scaleX(1)}
 .btn .arr{transition:transform .4s var(--ease)}
 .btn:hover .arr{transform:translateX(4px) rotate(-45deg)}
 .nav.inv .btn{background:var(--paper);color:var(--ink)}
@@ -80,12 +82,9 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;op
 .burger span{display:block;height:2px;background:currentColor;margin:6px 8px;transition:transform .3s}
 
 /* ---------- HERO (boîte) ---------- */
-.hero{height:340vh;position:relative}
+.hero{height:260vh;position:relative}
 .hero-stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center}
-.hero-bg{position:absolute;inset:0;
-  background:
-   radial-gradient(60vmax 60vmax at 70% 55%,rgba(20,92,255,.10),transparent 60%),
-   linear-gradient(var(--paper),var(--paper))}
+.hero-bg{position:absolute;inset:0;background:var(--paper)}
 .hero-grid{position:absolute;inset:0;opacity:.5;
   background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
   background-size:80px 80px;mask-image:radial-gradient(circle at 50% 55%,#000 0,transparent 70%);-webkit-mask-image:radial-gradient(circle at 50% 55%,#000 0,transparent 70%)}
@@ -101,20 +100,17 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;op
 @keyframes rise{to{transform:none}}
 
 /* boîte NEOKROME — uniquement transform/opacity pendant le défilement (aucun clip-path ni flou recalculé) */
-.hero-iris,.hero-light{position:absolute;left:0;top:0;border-radius:50%;pointer-events:none;transform:translate3d(-50%,-50%,0) scale(0);will-change:transform;backface-visibility:hidden}
-.hero-iris{z-index:2;background:radial-gradient(closest-side,#16397F 0%,#0B214A 45%,#081A3C 76%,rgba(8,26,60,0) 100%)}
-.hero-light{z-index:6;background:radial-gradient(closest-side,#fff 0%,#DCE7FF 16%,#7FA6FF 36%,var(--blue) 58%,var(--blue) 76%,rgba(20,92,255,0) 100%)}
+.hero-iris{position:absolute;left:0;top:0;border-radius:50%;pointer-events:none;transform:translate3d(-50%,-50%,0) scale(0);will-change:transform;backface-visibility:hidden}
+.hero-iris{z-index:2;background:var(--ink)}
 .stage{position:relative;z-index:3;width:min(28vw,36vh,330px);aspect-ratio:220/230;will-change:transform;transform-origin:54% 40%}
 .stage > *{position:absolute;inset:0}
 .bx-shadow{inset:auto -12% -14% -12%;height:22%;border-radius:50%;background:radial-gradient(closest-side,rgba(11,33,74,.28),transparent);opacity:0;animation:fade .9s .6s var(--ease) forwards}
-.bx-glow{inset:-55% -60%;opacity:0;will-change:opacity,transform;
-  background:radial-gradient(closest-side at 50% 46%,rgba(225,235,255,.95),rgba(77,130,255,.5) 38%,rgba(20,92,255,.16) 62%,rgba(20,92,255,0) 76%)}
-.bx-beam{left:8%;right:-6%;top:-150%;bottom:55%;opacity:0;will-change:opacity;
-  background:linear-gradient(to top,rgba(220,232,255,.9),rgba(77,130,255,.35) 45%,rgba(20,92,255,0) 90%);
-  -webkit-mask-image:radial-gradient(60% 100% at 50% 100%,#000 30%,transparent 75%);mask-image:radial-gradient(60% 100% at 50% 100%,#000 30%,transparent 75%)}
 .bx-svg{width:100%;height:100%;overflow:visible}
-.bx-svg .core{opacity:0;fill:url(#bxCoreGrad)}
+.bx-svg .core{opacity:0;fill:#0B3FC4}
 .bx-svg .pl,.bx-svg .pr{fill:var(--ink)}
+.bx-fl,.bx-fr{transform-box:fill-box;will-change:transform}
+.bx-fl{transform-origin:100% 100%}
+.bx-fr{transform-origin:0% 100%}
 .bx-svg .rim{opacity:0;transition:opacity .2s}
 .bx-l,.bx-r{opacity:0;animation:bxIn 1s var(--ease) forwards}
 .bx-l{--fx:-36%;animation-delay:.15s}
@@ -140,7 +136,6 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;op
 @keyframes sc{to{transform:translateY(220%)}}
 .hero-tag{position:absolute;right:var(--gutter);top:50%;transform:translateY(-50%);max-width:260px;font-size:15px;color:var(--ink-soft);z-index:4}
 .hero-tag strong{color:var(--ink);font-weight:700}
-.hero-flash{position:absolute;inset:0;background:var(--blue);opacity:0;will-change:opacity;z-index:7;pointer-events:none}
 
 /* ---------- SECTIONS ---------- */
 section{position:relative}
@@ -150,9 +145,13 @@ section{position:relative}
 .h2{font-family:var(--display);font-weight:800;letter-spacing:-.03em;line-height:.95;font-size:clamp(40px,6.6vw,110px);text-transform:uppercase}
 
 /* concept (blue) */
-.concept{background:var(--blue);color:#fff;padding:18vh 0 14vh;margin-top:-1px;overflow:hidden}
+.concept{background:var(--ink);color:#fff;padding:18vh 0 14vh;margin-top:-1px;overflow:hidden}
+/* la section remonte par-dessus la fin du hero : le texte arrive pendant que la boîte éclate.
+   Ses 100 premiers vh sont transparents, le hero (fond nuit) reste visible dessous. */
+.hero + .concept{position:relative;z-index:2;margin-top:-100vh;background:linear-gradient(transparent 100vh,var(--ink) 100vh)}
+@media (prefers-reduced-motion:reduce){.hero + .concept{margin-top:-1px;padding-top:18vh;background:var(--ink)}}
 .concept .wrap{display:grid;grid-template-columns:1.25fr 1fr;gap:6vw;align-items:end}
-.concept .h2 em{font-style:normal;color:var(--ink)}
+.concept .h2 em{font-style:normal;color:var(--blue-2)}
 .concept p{font-size:clamp(17px,1.35vw,21px);max-width:560px;opacity:.92}
 .concept p + p{margin-top:1.2em}
 .concept .lead{font-family:var(--display);font-size:clamp(22px,2vw,30px);font-weight:500;line-height:1.3;opacity:1}
@@ -191,9 +190,26 @@ section{position:relative}
 .card:hover .num .go{transform:rotate(-45deg);background:#fff;color:var(--blue);border-color:#fff}
 .card h3{font-family:var(--display);font-weight:800;font-size:clamp(28px,2.6vw,40px);line-height:1;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:14px}
 .card p{font-size:16px;opacity:.75;max-width:320px}
-.card .ill{position:absolute;right:-30px;top:70px;width:220px;height:220px;opacity:.9;transition:transform .8s var(--ease);z-index:-1}
-.card:hover .ill{transform:translate(-20px,-10px) rotate(-6deg) scale(1.05)}
+.card .ill{position:absolute;right:14px;top:72px;width:200px;height:200px;transition:transform .8s var(--ease);z-index:-1}
+.card:hover .ill{transform:translateY(-6px)}
+.card.wide .ill{width:260px;height:260px;top:56px}
 .card .ill *{vector-effect:non-scaling-stroke}
+/* ---------- icônes isométriques NEOKROME ----------
+   Même grammaire que le logo : plans pleins séparés par un joint, un seul accent bleu par icône.
+   Survol : seul l'accent se soulève (comme le couvercle du logo), les axes isométriques restent intacts. */
+.ico{--l:#0B214A;--r:#24407F;--t:#B3C7F0;--al:#0A3AB0;--ar:#0E4AD6;--at:#145CFF;--in:#06132E;--k:#0B214A;--sh:rgba(11,33,74,.16);--seam:#EEF2F8;--hd:#0A3AB0}
+.ico path,.ico circle,.ico ellipse{stroke:var(--seam);stroke-width:1.4;stroke-linejoin:round;transition:fill .4s,stroke .4s}
+.ico .l{fill:var(--l)}.ico .r{fill:var(--r)}.ico .t{fill:var(--t)}
+.ico .al{fill:var(--al)}.ico .ar{fill:var(--ar)}.ico .at{fill:var(--at)}
+.ico .in{fill:var(--in)}
+.ico .sh{fill:var(--sh);stroke:none}
+.ico .k{fill:none;stroke:var(--k);stroke-width:2;stroke-dasharray:2 5;stroke-linecap:round}
+.ico .hd{fill:none;stroke:var(--hd);stroke-width:3.5;stroke-linecap:round}
+.dark .ico,.card.dark .ico{--l:#24428A;--r:#3358A8;--t:#9DB0D6;--al:#145CFF;--ar:#4D82FF;--at:#9FBCFF;--in:#040C1F;--k:#9DB0D6;--sh:rgba(0,0,0,.3);--seam:#0B214A;--hd:#4D82FF}
+.card:hover .ico,.pcard:hover .ico{--l:#AFC6FF;--r:#D3E0FF;--t:#FFFFFF;--al:#06132E;--ar:#0B214A;--at:#2A4A8F;--in:#06132E;--k:#fff;--sh:rgba(6,19,46,.25);--seam:#145CFF;--hd:#06132E}
+.ico .acc{transition:transform .6s cubic-bezier(.3,1.35,.5,1)}
+.card:hover .ico .acc,.pcard:hover .ico .acc{transform:translateY(-12px);transition-delay:.12s}
+@media (prefers-reduced-motion:reduce){.ico .acc{transition:none}}
 .card.wide{grid-column:span 2}
 
 /* manifesto */
@@ -228,17 +244,292 @@ section{position:relative}
 .feat-list button[aria-selected="true"] small{color:var(--blue-2);opacity:1}
 .feat-list button[aria-selected="true"] .pl::after{transform:rotate(0)}
 .feat-list button:focus-visible{outline:2px solid var(--blue-2);outline-offset:4px}
-.feat-panel{position:sticky;top:110px;border-radius:26px;overflow:hidden;background:linear-gradient(160deg,#22222c,#16161b);border:1px solid var(--line-inv);min-height:520px;padding:38px;display:flex;flex-direction:column}
-.feat-vis{height:230px;margin:-38px -38px 30px;position:relative;overflow:hidden;background:radial-gradient(80% 120% at 50% 100%,rgba(20,92,255,.55),transparent 70%)}
-.feat-vis .cube-scene{position:absolute;left:50%;top:50%;width:110px;height:110px;margin:-55px 0 0 -55px;perspective:600px}
-.cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:spin 14s linear infinite}
-.cube div{position:absolute;inset:0;border:1.5px solid rgba(255,255,255,.85);background:rgba(20,92,255,.28)}
-.cube .f1{transform:translateZ(55px)}.cube .f2{transform:rotateY(180deg) translateZ(55px)}
-.cube .f3{transform:rotateY(90deg) translateZ(55px)}.cube .f4{transform:rotateY(-90deg) translateZ(55px)}
-.cube .f5{transform:rotateX(90deg) translateZ(55px)}.cube .f6{transform:rotateX(-90deg) translateZ(55px)}
-@keyframes spin{from{transform:rotateX(-22deg) rotateY(0)}to{transform:rotateX(-22deg) rotateY(360deg)}}
+.feat-panel{position:sticky;top:110px;border-radius:26px;overflow:hidden;background:#0A1838;border:1px solid var(--line-inv);min-height:520px;padding:38px;display:flex;flex-direction:column}
+.feat-vis{height:290px;margin:-38px -38px 30px;position:relative;overflow:hidden;background:#0D1E45}
+/* un visuel isométrique par fonctionnalité, même grammaire que les icônes du site */
+.feat-vis .fv{position:absolute;left:50%;top:14px;width:224px;height:224px;margin-left:-112px;opacity:0;transform:translateY(16px) scale(.96);
+  transition:opacity .5s var(--ease),transform .7s var(--ease);
+  --l:#24428A;--r:#3358A8;--t:#9DB0D6;--al:#145CFF;--ar:#4D82FF;--at:#9FBCFF;--in:#06132E;--k:#9DB0D6;--seam:#0D1E45}
+.feat-vis .fv.on{opacity:1;transform:none}
+.feat-vis .fv3d{position:absolute;inset:0;opacity:0;transition:opacity .6s var(--ease)}
+.feat-vis .fv3d canvas{display:block;width:100%;height:100%}
+.feat-vis.has3d .fv3d{opacity:1}
+.feat-vis.has3d .fv,.feat-vis.has3d .floor{opacity:0!important;animation:none!important;visibility:hidden}
+/* ---- animations narratives des 9 fonctionnalités (transform / opacity / stroke-dashoffset, jouées seulement sur .fv.on) ---- */
+/* fonctionnalité 01 */
+/* f1 — Immersion 3D : les murs sortent du sol, les écrans s'allument, le mobilier se pose, l'objet bleu se matérialise puis lévite */
+.feat-vis .fv .f1-fl{opacity:0}
+.feat-vis .fv .f1-sh,.feat-vis .fv .f1-ob{transform-box:fill-box;transform-origin:50% 50%}
+.feat-vis .fv.on .f1-wb{animation:f1-rise .8s cubic-bezier(.2,.8,.25,1) both}
+.feat-vis .fv.on .f1-wl{animation:f1-rise .8s .15s cubic-bezier(.2,.8,.25,1) both}
+.feat-vis .fv.on .f1-fl1{animation:f1-flash .6s .8s ease-out both}
+.feat-vis .fv.on .f1-fl2{animation:f1-flash .6s .95s ease-out both}
+.feat-vis .fv.on .f1-on1{animation:f1-show .5s 1s ease-out both}
+.feat-vis .fv.on .f1-on2{animation:f1-show .5s 1.15s ease-out both}
+.feat-vis .fv.on .f1-fu1{animation:f1-drop .55s 1.35s cubic-bezier(.3,1.4,.5,1) both}
+.feat-vis .fv.on .f1-fu2{animation:f1-drop .55s 1.55s cubic-bezier(.3,1.4,.5,1) both}
+.feat-vis .fv.on .f1-ob{animation:f1-mat .7s 2s cubic-bezier(.3,1.35,.5,1) both}
+.feat-vis .fv.on .f1-obf{animation:f1-float 2.6s 2.7s ease-in-out infinite}
+.feat-vis .fv.on .f1-sh{animation:f1-shin .7s 2s ease-out both,f1-shf 2.6s 2.7s ease-in-out infinite}
+@keyframes f1-rise{from{transform:translateY(49.4px)}to{transform:none}}
+@keyframes f1-flash{0%{opacity:0}35%{opacity:.85}100%{opacity:0}}
+@keyframes f1-show{from{opacity:0;transform:translate(-4px,-2.3px)}to{opacity:1;transform:none}}
+@keyframes f1-drop{from{opacity:0;transform:translateY(-34px)}40%{opacity:1}to{opacity:1;transform:none}}
+@keyframes f1-mat{0%{opacity:0;transform:translateY(-30px) scale(.4)}45%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes f1-float{0%,100%{transform:none}50%{transform:translateY(-6px)}}
+@keyframes f1-shin{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
+@keyframes f1-shf{0%,100%{transform:none}50%{transform:scale(.82)}}
+@media (prefers-reduced-motion:reduce){.feat-vis .fv.on [class*="f1-"]{animation:none}}
+/* fonctionnalité 02 */
+/* f2 — Interaction : le curseur arrive, clique, soulève le couvercle (vue éclatée + fiche info), puis l'objet se remonte. Boucle de 4,2 s. */
+.feat-vis .fv .f2-ar,.feat-vis .fv .f2-wt{fill:#fff}
+.feat-vis .fv .f2-rg{fill:none;stroke:#fff;stroke-width:2.2;opacity:0;transform-box:fill-box;transform-origin:50% 50%}
+.feat-vis .fv .f2-cu{opacity:0;transform-box:fill-box;transform-origin:0 0}
+.feat-vis .fv .f2-gd,.feat-vis .fv .f2-cd{opacity:0}
+.feat-vis .fv.on .f2-cu{animation:f2-cur 4.2s cubic-bezier(.45,0,.3,1) infinite both}
+.feat-vis .fv.on .f2-rg{animation:f2-ring 4.2s ease-out infinite both}
+.feat-vis .fv.on .f2-ld{animation:f2-lid 4.2s cubic-bezier(.45,0,.3,1) infinite both}
+.feat-vis .fv.on .f2-co{animation:f2-core 4.2s cubic-bezier(.45,0,.3,1) infinite both}
+.feat-vis .fv.on .f2-gd{animation:f2-gd 4.2s ease infinite both}
+.feat-vis .fv.on .f2-cd{animation:f2-card 4.2s cubic-bezier(.2,.8,.3,1) infinite both}
+/* curseur : entre (0–22 %), clic (24–28 %), tire le couvercle vers le haut (30–48 %), lâche et s'écarte (50–64 %) */
+@keyframes f2-cur{
+  0%{opacity:0;transform:translate(46px,58px)}
+  8%{opacity:1}
+  22%{transform:none}
+  25%,30%{transform:translateY(0) scale(.82)}
+  48%{transform:translateY(-26.6px) scale(.82)}
+  52%{opacity:1;transform:translateY(-26.6px) scale(1)}
+  64%,100%{opacity:0;transform:translate(30px,-34px) scale(1)}}
+@keyframes f2-ring{0%,25%{opacity:0;transform:scale(.3)}27%{opacity:1}42%,100%{opacity:0;transform:scale(1.7)}}
+@keyframes f2-lid{0%,30%{transform:none}48%,80%{transform:translateY(-26.6px)}92%{transform:translateY(1.5px)}96%,100%{transform:none}}
+@keyframes f2-core{0%,33%{transform:none}50%,80%{transform:translateY(-9.5px)}90%,100%{transform:none}}
+@keyframes f2-gd{0%,40%{opacity:0}50%,78%{opacity:1}86%,100%{opacity:0}}
+@keyframes f2-card{0%,50%{opacity:0;transform:translate(-8.2px,-4.75px)}60%,78%{opacity:1;transform:none}86%,100%{opacity:0;transform:translate(-8.2px,-4.75px)}}
+@media (prefers-reduced-motion:reduce){.feat-vis .fv.on [class*="f2-"]{animation:none}}
+/* fonctionnalité 03 */
+/* f3 — Réalité augmentée : l'écran s'allume, le sol est détecté, le faisceau part, le cube se dessine en fil de fer puis se construit face par face et lévite */
+.feat-vis .fv .f3-gl{opacity:.35}
+.feat-vis .fv .f3-mkl{fill:none;stroke:var(--at);stroke-width:1.6;stroke-dasharray:3 4;stroke-linecap:round}
+.feat-vis .fv .f3-bmf{fill:var(--al);opacity:.2;stroke:none}
+.feat-vis .fv .f3-bm .k{stroke:var(--al)}
+.feat-vis .fv .f3-vl{fill:none;stroke:var(--at);stroke-width:1.4;stroke-linecap:round}
+.feat-vis .fv .f3-wr{fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 100}
+.feat-vis .fv .f3-ww{opacity:0}
+.feat-vis .fv .f3-mk,.feat-vis .fv .f3-sh{transform-box:fill-box;transform-origin:50% 50%}
+.feat-vis .fv.on .f3-gl{animation:f3-glow .6s ease-out both}
+.feat-vis .fv.on .f3-vi{animation:f3-in .3s .25s ease-out both}
+.feat-vis .fv.on .f3-mk{animation:f3-mark .6s .35s cubic-bezier(.2,.8,.3,1) both}
+.feat-vis .fv.on .f3-bm{animation:f3-in .4s .9s ease-out both,f3-pulse 1.4s 2.9s ease-in-out infinite}
+.feat-vis .fv.on .f3-bm .k{animation:f3-flow .7s linear infinite}
+.feat-vis .fv.on .f3-ww{animation:f3-wire 1.8s 1.05s ease both}
+.feat-vis .fv.on .f3-wr{animation:f3-draw .8s 1.1s cubic-bezier(.45,0,.3,1) both}
+.feat-vis .fv.on .f3-fl{animation:f3-fl .38s 1.8s cubic-bezier(.2,.8,.3,1) both}
+.feat-vis .fv.on .f3-fr{animation:f3-fr .38s 2s cubic-bezier(.2,.8,.3,1) both}
+.feat-vis .fv.on .f3-ft{animation:f3-ft .38s 2.2s cubic-bezier(.2,.8,.3,1) both}
+.feat-vis .fv.on .f3-sh{animation:f3-shin .5s 2.3s ease-out both,f3-shf 2.6s 2.9s ease-in-out infinite}
+.feat-vis .fv.on .f3-cb{animation:f3-float 2.6s 2.9s ease-in-out infinite}
+@keyframes f3-glow{0%{opacity:0}40%{opacity:.9}100%{opacity:.35}}
+@keyframes f3-in{from{opacity:0}to{opacity:1}}
+@keyframes f3-mark{from{opacity:0;transform:scale(1.5)}to{opacity:1;transform:none}}
+@keyframes f3-pulse{0%,100%{opacity:1}50%{opacity:.55}}
+@keyframes f3-flow{to{stroke-dashoffset:-14}}
+@keyframes f3-wire{0%{opacity:0}5%,80%{opacity:1}100%{opacity:0}}
+@keyframes f3-draw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@keyframes f3-fl{from{opacity:0;transform:translate(-8.2px,4.75px)}to{opacity:1;transform:none}}
+@keyframes f3-fr{from{opacity:0;transform:translate(8.2px,4.75px)}to{opacity:1;transform:none}}
+@keyframes f3-ft{from{opacity:0;transform:translateY(-9.5px)}to{opacity:1;transform:none}}
+@keyframes f3-shin{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:none}}
+@keyframes f3-shf{0%,100%{transform:none}50%{transform:scale(.85)}}
+@keyframes f3-float{0%,100%{transform:none}50%{transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){.feat-vis .fv.on [class*="f3-"],.feat-vis .fv.on .f3-bm .k{animation:none}}
+/* fonctionnalité 04 */
+/* visuel 4 : communication en temps réel */
+.feat-vis .fv .f4-bs,.feat-vis .fv .f4-rip{transform-box:fill-box;transform-origin:center}
+.feat-vis .fv .f4-rp{fill:none;stroke:var(--ar);stroke-width:1.6}
+.feat-vis .fv .f4-rip,.feat-vis .fv .f4-fl,.feat-vis .fv .f4-ty{opacity:0}
+.feat-vis .fv.on .f4-bx{animation:f4-bx 3.3s linear both}
+.feat-vis .fv.on .f4-by{animation:f4-by 3.3s linear both}
+.feat-vis .fv.on .f4-bs{animation:f4-bs 3.3s linear both}
+@keyframes f4-bx{0.00%{transform:translateX(-24.68px)}36.36%{transform:translateX(-24.68px);animation-timing-function:cubic-bezier(.45,0,.4,1)}56.06%{transform:translateX(24.68px)}81.21%{transform:translateX(24.68px);animation-timing-function:cubic-bezier(.3,0,.2,1)}98.48%{transform:none}100.00%{transform:none}}
+@keyframes f4-by{0.00%{transform:translateY(10.45px)}36.36%{transform:translateY(10.45px);animation-timing-function:cubic-bezier(.2,.7,.4,1)}46.06%{transform:translateY(-6px);animation-timing-function:cubic-bezier(.6,0,.8,.4)}56.06%{transform:translateY(10.45px)}81.21%{transform:translateY(10.45px);animation-timing-function:cubic-bezier(.3,0,.2,1)}98.48%{transform:none}100.00%{transform:none}}
+@keyframes f4-bs{0.00%{transform:scale(0)}30.30%{transform:scale(0);animation-timing-function:cubic-bezier(.3,1.6,.5,1)}36.97%{transform:none}55.76%{transform:none;animation-timing-function:ease-in}61.82%{transform:scale(0)}75.15%{transform:scale(0);animation-timing-function:cubic-bezier(.3,1.6,.5,1)}81.82%{transform:none}100.00%{transform:none}}
+.feat-vis .fv.on .f4-tya{animation:f4-ty .7s .3s both}
+.feat-vis .fv.on .f4-tyb{animation:f4-ty .5s 2.05s both}
+@keyframes f4-ty{0%{opacity:0}15%,85%{opacity:1}100%{opacity:0}}
+.feat-vis .fv.on .f4-ty .f4-td{animation:f4-td .42s ease-in-out infinite both}
+.feat-vis .fv.on .f4-ty .f4-td:nth-child(2){animation-delay:.14s}
+.feat-vis .fv.on .f4-ty .f4-td:nth-child(3){animation-delay:.28s}
+@keyframes f4-td{0%,100%{opacity:.3}50%{opacity:1}}
+.feat-vis .fv.on .f4-a1{animation:f4-msg .35s ease-out .95s both}
+.feat-vis .fv.on .f4-b1{animation:f4-msg .35s ease-out 2.0s both}
+.feat-vis .fv.on .f4-b2{animation:f4-msg .35s ease-out 2.45s both}
+@keyframes f4-msg{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.feat-vis .fv.on .f4-fl{animation:f4-fl .6s ease-out 1.92s both}
+@keyframes f4-fl{0%{opacity:0}25%{opacity:.55}100%{opacity:0}}
+.feat-vis .fv.on .f4-r1{animation:f4-rip .8s ease-out 1.95s both}
+.feat-vis .fv.on .f4-r2{animation:f4-rip .8s ease-out 2.15s both}
+@keyframes f4-rip{0%{opacity:0;transform:scale(.4)}20%{opacity:1}100%{opacity:0;transform:scale(1.45)}}
+.feat-vis .fv.on .f4-lk{animation:f4-flow .9s linear infinite}
+@keyframes f4-flow{to{stroke-dashoffset:-7}}
+.feat-vis .fv.on .f4-bob{animation:f4-bob 2.6s ease-in-out 3.3s infinite}
+@keyframes f4-bob{0%,100%{transform:none}50%{transform:translateY(-5px)}}
+.feat-vis .fv.on .f4-bd{animation:f4-td 1.1s ease-in-out 3.3s infinite}
+.feat-vis .fv.on .f4-bd:nth-of-type(2){animation-delay:3.48s}
+.feat-vis .fv.on .f4-bd:nth-of-type(3){animation-delay:3.66s}
+@media (prefers-reduced-motion:reduce){.feat-vis .fv.on [class*="f4-"]{animation:none!important}}
+/* fonctionnalité 05 */
+/* visuel 5 : gamification & parcours */
+.feat-vis .fv .f5-star{transform-box:fill-box;transform-origin:center}
+.feat-vis .fv .f5-ray{fill:none;stroke:var(--at);stroke-width:2;stroke-linecap:round}
+.feat-vis .fv.on .f5-px{animation:f5-px 3.1s linear both}
+.feat-vis .fv.on .f5-py{animation:f5-py 3.1s linear both}
+@keyframes f5-px{0.00%{transform:translateX(-108.6px)}27.42%{transform:translateX(-108.6px);animation-timing-function:cubic-bezier(.45,0,.55,1)}41.61%{transform:translateX(-72.4px)}46.77%{transform:translateX(-72.4px);animation-timing-function:cubic-bezier(.45,0,.55,1)}60.97%{transform:translateX(-36.2px)}66.13%{transform:translateX(-36.2px);animation-timing-function:cubic-bezier(.45,0,.55,1)}80.32%{transform:translateX(0px)}100.00%{transform:none}}
+@keyframes f5-py{0.00%{opacity:0;transform:translateY(0.2px);animation-timing-function:cubic-bezier(.5,0,1,.6)}5.81%{opacity:0}9.68%{opacity:1}16.13%{transform:translateY(34.2px)}27.42%{transform:translateY(34.2px);animation-timing-function:cubic-bezier(.2,.7,.4,1)}35.23%{transform:translateY(9.7px);animation-timing-function:cubic-bezier(.6,0,.85,.4)}41.61%{transform:translateY(24.7px)}46.77%{transform:translateY(24.7px);animation-timing-function:cubic-bezier(.2,.7,.4,1)}54.58%{transform:translateY(-1.7px);animation-timing-function:cubic-bezier(.6,0,.85,.4)}60.97%{transform:translateY(13.3px)}66.13%{transform:translateY(13.3px);animation-timing-function:cubic-bezier(.2,.7,.4,1)}73.94%{transform:translateY(-15px);animation-timing-function:cubic-bezier(.6,0,.85,.4)}80.32%{transform:translateY(0px)}100.00%{transform:none;opacity:1}}
+.feat-vis .fv.on .f5-t0{animation:f5-tile .4s ease-out 0.5s both}
+.feat-vis .fv.on .f5-t1{animation:f5-tile .4s ease-out 1.29s both}
+.feat-vis .fv.on .f5-t2{animation:f5-tile .4s ease-out 1.89s both}
+.feat-vis .fv.on .f5-t3{animation:f5-tile .4s ease-out 2.49s both}
+@keyframes f5-tile{0%{opacity:0}40%{opacity:1}70%{opacity:.55}100%{opacity:1}}
+.feat-vis .fv.on .f5-star{animation:f5-pop .5s cubic-bezier(.3,1.7,.5,1) 2.57s both}
+@keyframes f5-pop{from{transform:scale(0);opacity:0}to{transform:none;opacity:1}}
+.feat-vis .fv.on .f5-rays{animation:f5-burst .5s ease-out 2.74s both,f5-twinkle 1.6s ease-in-out 3.3s infinite}
+@keyframes f5-burst{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.feat-vis .fv .f5-rays{transform-box:fill-box;transform-origin:center}
+@keyframes f5-twinkle{0%,100%{opacity:1}50%{opacity:.25}}
+.feat-vis .fv.on .f5-float{animation:f5-float 2.4s ease-in-out 3.2s infinite}
+@keyframes f5-float{0%,100%{transform:none}50%{transform:translateY(-4px)}}
+.feat-vis .fv.on .f5-win{animation:f5-win 2.4s 3.6s infinite}
+@keyframes f5-win{0.00%{transform:none;animation-timing-function:cubic-bezier(.2,.7,.4,1)}7.08%{transform:translateY(-7px);animation-timing-function:cubic-bezier(.6,0,.85,.4)}14.17%{transform:none}100.00%{transform:none}}
+@media (prefers-reduced-motion:reduce){.feat-vis .fv.on [class*="f5-"]{animation:none!important}}
+/* fonctionnalité 06 */
+/* visuel 6 : collecte & analyse de données */
+.feat-vis .fv .f6-pk,.feat-vis .fv .f6-dr,.feat-vis .fv .f6-fl{opacity:0}
+.feat-vis .fv .f6-tr{fill:none;stroke:var(--at);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100 100}
+.feat-vis .fv .f6-dot{transform-box:fill-box;transform-origin:center}
+.feat-vis .fv.on .f6-tr{animation:f6-draw 0.75s cubic-bezier(.45,0,.3,1) 2.3s both}
+@keyframes f6-draw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@keyframes f6-pop{from{transform:scale(0)}to{transform:none}}
+@keyframes f6-drop{0.00%{opacity:0;transform:translateY(-32.3px);animation-timing-function:cubic-bezier(.5,0,.9,.6)}2.86%{opacity:1}10.95%{opacity:1;transform:none}13.33%{opacity:0;transform:none}100.00%{opacity:0;transform:none}}
+@keyframes f6-flash{0.00%{opacity:0}10.48%{opacity:0}11.90%{opacity:.9;animation-timing-function:ease-out}28.57%{opacity:0}100.00%{opacity:0}}
+.feat-vis .fv.on .f6-p0{animation:f6-in0 .5s cubic-bezier(.5,0,.9,.5) 0.35s both}
+@keyframes f6-in0{0.00%{opacity:0;transform:translateY(-43.7px)}20.00%{opacity:1}92.00%{opacity:1}100.00%{opacity:0;transform:translateY(14.25px)}}
+.feat-vis .fv.on .f6-b0{animation:f6-rise0 .62s cubic-bezier(.22,.9,.3,1) 0.75s both}
+@keyframes f6-rise0{from{transform:translateY(37.6px)}to{transform:none}}
+.feat-vis .fv.on .f6-d0{animation:f6-drop 4.2s 3s infinite both}
+.feat-vis .fv.on .f6-l0{animation:f6-flash 4.2s 3s infinite both}
+.feat-vis .fv.on .f6-p1{animation:f6-in1 .5s cubic-bezier(.5,0,.9,.5) 0.65s both}
+@keyframes f6-in1{0.00%{opacity:0;transform:translateY(-58.9px)}20.00%{opacity:1}92.00%{opacity:1}100.00%{opacity:0;transform:translateY(14.25px)}}
+.feat-vis .fv.on .f6-b1{animation:f6-rise1 .62s cubic-bezier(.22,.9,.3,1) 1.05s both}
+@keyframes f6-rise1{from{transform:translateY(52.8px)}to{transform:none}}
+.feat-vis .fv.on .f6-d1{animation:f6-drop 4.2s 3.42s infinite both}
+.feat-vis .fv.on .f6-l1{animation:f6-flash 4.2s 3.42s infinite both}
+.feat-vis .fv.on .f6-p2{animation:f6-in2 .5s cubic-bezier(.5,0,.9,.5) 0.95s both}
+@keyframes f6-in2{0.00%{opacity:0;transform:translateY(-49.4px)}20.00%{opacity:1}92.00%{opacity:1}100.00%{opacity:0;transform:translateY(14.25px)}}
+.feat-vis .fv.on .f6-b2{animation:f6-rise2 .62s cubic-bezier(.22,.9,.3,1) 1.35s both}
+@keyframes f6-rise2{from{transform:translateY(43.3px)}to{transform:none}}
+.feat-vis .fv.on .f6-d2{animation:f6-drop 4.2s 3.84s infinite both}
+.feat-vis .fv.on .f6-l2{animation:f6-flash 4.2s 3.84s infinite both}
+.feat-vis .fv.on .f6-p3{animation:f6-in3 .5s cubic-bezier(.5,0,.9,.5) 1.25s both}
+@keyframes f6-in3{0.00%{opacity:0;transform:translateY(-76px)}20.00%{opacity:1}92.00%{opacity:1}100.00%{opacity:0;transform:translateY(14.25px)}}
+.feat-vis .fv.on .f6-b3{animation:f6-rise3 .62s cubic-bezier(.22,.9,.3,1) 1.65s both}
+@keyframes f6-rise3{from{transform:translateY(69.9px)}to{transform:none}}
+.feat-vis .fv.on .f6-d3{animation:f6-drop 4.2s 4.26s infinite both}
+.feat-vis .fv.on .f6-l3{animation:f6-flash 4.2s 4.26s infinite both}
+.feat-vis .fv.on .f6-o0{animation:f6-pop .35s cubic-bezier(.3,1.6,.5,1) 2.25s both}
+.feat-vis .fv.on .f6-o1{animation:f6-pop .35s cubic-bezier(.3,1.6,.5,1) 2.48s both}
+.feat-vis .fv.on .f6-o2{animation:f6-pop .35s cubic-bezier(.3,1.6,.5,1) 2.72s both}
+.feat-vis .fv.on .f6-o3{animation:f6-pop .35s cubic-bezier(.3,1.6,.5,1) 3s both}
+@media (prefers-reduced-motion:reduce){.feat-vis .fv.on [class*="f6-"]{animation:none!important}}
+/* fonctionnalité 07 */
+/* ===== Visuel 7 — Multi-support ===== */
+.feat-vis .fv .f7-ln{fill:none;stroke:var(--t);stroke-width:2.2;stroke-linecap:round}
+.feat-vis .fv .f7-pk{opacity:0}
+.feat-vis .fv .f7-ph,.feat-vis .fv .f7-pk{will-change:transform}
+@keyframes f7-lna0{0.0%{stroke-dashoffset:var(--L)}9.5%{stroke-dashoffset:var(--L);animation-timing-function:cubic-bezier(.3,.6,.4,1)}17.9%{stroke-dashoffset:0}100.0%{stroke-dashoffset:0}}
+@keyframes f7-lna1{0.0%{stroke-dashoffset:var(--L)}12.4%{stroke-dashoffset:var(--L);animation-timing-function:cubic-bezier(.3,.6,.4,1)}20.7%{stroke-dashoffset:0}100.0%{stroke-dashoffset:0}}
+@keyframes f7-lna2{0.0%{stroke-dashoffset:var(--L)}15.2%{stroke-dashoffset:var(--L);animation-timing-function:cubic-bezier(.3,.6,.4,1)}23.6%{stroke-dashoffset:0}100.0%{stroke-dashoffset:0}}
+@keyframes f7-lna3{0.0%{stroke-dashoffset:var(--L)}18.1%{stroke-dashoffset:var(--L);animation-timing-function:cubic-bezier(.3,.6,.4,1)}26.4%{stroke-dashoffset:0}100.0%{stroke-dashoffset:0}}
+@keyframes f7-pna{0.0%{opacity:0}3.6%{opacity:0;animation-timing-function:ease-out}10.7%{opacity:1}100.0%{opacity:1}}
+@keyframes f7-lnb0{0.0%{stroke-dashoffset:var(--L)}44.0%{stroke-dashoffset:var(--L);animation-timing-function:cubic-bezier(.3,.6,.4,1)}52.4%{stroke-dashoffset:0}100.0%{stroke-dashoffset:0}}
+@keyframes f7-lnb1{0.0%{stroke-dashoffset:var(--L)}46.9%{stroke-dashoffset:var(--L);animation-timing-function:cubic-bezier(.3,.6,.4,1)}55.2%{stroke-dashoffset:0}100.0%{stroke-dashoffset:0}}
+@keyframes f7-lnb2{0.0%{stroke-dashoffset:var(--L)}49.8%{stroke-dashoffset:var(--L);animation-timing-function:cubic-bezier(.3,.6,.4,1)}58.1%{stroke-dashoffset:0}100.0%{stroke-dashoffset:0}}
+@keyframes f7-pnb{0.0%{opacity:0}40.5%{opacity:0;animation-timing-function:ease-out}47.6%{opacity:1}100.0%{opacity:1}}
+@keyframes f7-lnc0{0.0%{stroke-dashoffset:var(--L)}75.0%{stroke-dashoffset:var(--L);animation-timing-function:cubic-bezier(.3,.6,.4,1)}83.3%{stroke-dashoffset:0}100.0%{stroke-dashoffset:0}}
+@keyframes f7-lnc1{0.0%{stroke-dashoffset:var(--L)}77.9%{stroke-dashoffset:var(--L);animation-timing-function:cubic-bezier(.3,.6,.4,1)}86.2%{stroke-dashoffset:0}100.0%{stroke-dashoffset:0}}
+@keyframes f7-pnc{0.0%{opacity:0}71.4%{opacity:0;animation-timing-function:ease-out}78.6%{opacity:1}100.0%{opacity:1}}
+@keyframes f7-ph{0.0%{transform:none}70.2%{transform:none;animation-timing-function:cubic-bezier(.3,.7,.4,1)}74.3%{transform:translate(0.0px,-4.2px)}81.0%{transform:none;animation-timing-function:cubic-bezier(.5,0,.5,1)}100.0%{transform:none}}
+@keyframes f7-pk{0.0%{opacity:0;transform:translate(0.0px,0.0px)}21.4%{opacity:0;transform:translate(2.0px,-1.1px)}25.0%{opacity:1;transform:translate(0.0px,0.0px);animation-timing-function:cubic-bezier(.25,.6,.45,1)}32.1%{opacity:1;transform:translate(19.5px,-10.3px);animation-timing-function:cubic-bezier(.55,0,.75,.4)}39.3%{opacity:1;transform:translate(39.0px,21.2px)}44.0%{opacity:0;transform:translate(41.0px,20.0px)}52.4%{opacity:0;transform:translate(41.0px,20.0px)}56.0%{opacity:1;transform:translate(39.0px,21.2px);animation-timing-function:cubic-bezier(.25,.6,.45,1)}63.1%{opacity:1;transform:translate(16.5px,19.3px);animation-timing-function:cubic-bezier(.55,0,.75,.4)}70.2%{opacity:1;transform:translate(-6.1px,35.4px)}75.0%{opacity:0;transform:translate(-4.4px,34.5px)}100.0%{opacity:0;transform:translate(-6.1px,35.4px)}}
+.feat-vis .fv.on .f7-lna0{animation:f7-lna0 4.2s linear both}
+.feat-vis .fv.on .f7-lna1{animation:f7-lna1 4.2s linear both}
+.feat-vis .fv.on .f7-lna2{animation:f7-lna2 4.2s linear both}
+.feat-vis .fv.on .f7-lna3{animation:f7-lna3 4.2s linear both}
+.feat-vis .fv.on .f7-pna{animation:f7-pna 4.2s linear both}
+.feat-vis .fv.on .f7-lnb0{animation:f7-lnb0 4.2s linear both}
+.feat-vis .fv.on .f7-lnb1{animation:f7-lnb1 4.2s linear both}
+.feat-vis .fv.on .f7-lnb2{animation:f7-lnb2 4.2s linear both}
+.feat-vis .fv.on .f7-pnb{animation:f7-pnb 4.2s linear both}
+.feat-vis .fv.on .f7-lnc0{animation:f7-lnc0 4.2s linear both}
+.feat-vis .fv.on .f7-lnc1{animation:f7-lnc1 4.2s linear both}
+.feat-vis .fv.on .f7-pnc{animation:f7-pnc 4.2s linear both}
+.feat-vis .fv.on .f7-ph{animation:f7-ph 4.2s linear both}
+.feat-vis .fv.on .f7-pk{animation:f7-pk 4.2s linear both}
+@keyframes f7-sync{0%,100%{opacity:1}50%{opacity:.55}}
+.feat-vis .fv.on .f7-sync{animation:f7-sync 1.6s ease-in-out 3.6s infinite}
+@media (prefers-reduced-motion:reduce){.feat-vis .fv.on [class*="f7-"]{animation:none!important}}
+/* fonctionnalité 08 */
+/* ===== Visuel 8 — Contenus multimédias ===== */
+.feat-vis .fv .f8-eq{fill:none;stroke:var(--at);stroke-width:3.2;stroke-linecap:round;transform-box:fill-box;transform-origin:50% 100%}
+.feat-vis .fv .f8-trk{fill:none;stroke:var(--in);stroke-width:2.6;stroke-linecap:round;opacity:.5}
+.feat-vis .fv .f8-prg{fill:none;stroke:var(--at);stroke-width:2.6;stroke-linecap:round;stroke-dashoffset:calc(var(--L)*.3)}
+@keyframes f8-fl{0%,100%{transform:none}50%{transform:translateY(-4px)}}
+.feat-vis .fv.on .f8-fl{animation:f8-fl 3s ease-in-out infinite}
+.feat-vis .fv.on .f8-fl1{animation-delay:1.2s}.feat-vis .fv.on .f8-fl2{animation-delay:1.6s}.feat-vis .fv.on .f8-fl3{animation-delay:2s}
+@keyframes f8-A{0.0%{opacity:0;transform:translate(0.0px,-22.8px)}0.0%{opacity:0;transform:translate(0.0px,-22.8px);animation-timing-function:cubic-bezier(.2,.9,.3,1.25)}14.3%{opacity:1;transform:none}100.0%{opacity:1;transform:none}}
+@keyframes f8-img{0.0%{transform:translate(0.0px,19.9px)}16.7%{transform:translate(0.0px,19.9px);animation-timing-function:cubic-bezier(.2,.8,.3,1)}29.8%{transform:none}100.0%{transform:none}}
+@keyframes f8-sun{0.0%{opacity:0}28.6%{opacity:0}33.3%{opacity:1}100.0%{opacity:1}}
+@keyframes f8-eq0{0%,100%{transform:scaleY(1)}50%{transform:scaleY(0.35)}}
+@keyframes f8-eq1{0%,100%{transform:scaleY(1)}50%{transform:scaleY(0.5)}}
+@keyframes f8-eq2{0%,100%{transform:scaleY(1)}50%{transform:scaleY(0.3)}}
+@keyframes f8-eq3{0%,100%{transform:scaleY(1)}50%{transform:scaleY(0.45)}}
+@keyframes f8-eq4{0%,100%{transform:scaleY(1)}50%{transform:scaleY(0.6)}}
+@keyframes f8-eq5{0%,100%{transform:scaleY(1)}50%{transform:scaleY(0.4)}}
+@keyframes f8-eq6{0%,100%{transform:scaleY(1)}50%{transform:scaleY(0.55)}}
+@keyframes f8-B{0.0%{opacity:0;transform:translate(0.0px,-22.8px)}6.0%{opacity:0;transform:translate(0.0px,-22.8px);animation-timing-function:cubic-bezier(.2,.9,.3,1.25)}20.2%{opacity:1;transform:none}100.0%{opacity:1;transform:none}}
+@keyframes f8-V{0.0%{opacity:0;transform:translate(0.0px,19.0px)}11.9%{opacity:0;transform:translate(0.0px,19.0px);animation-timing-function:cubic-bezier(.2,.9,.3,1.25)}26.2%{opacity:1;transform:none}100.0%{opacity:1;transform:none}}
+@keyframes f8-play{0.0%{opacity:1}29.8%{opacity:1}33.3%{opacity:.35}38.1%{opacity:1}100.0%{opacity:1}}
+@keyframes f8-prg{0.0%{stroke-dashoffset:var(--L)}35.7%{stroke-dashoffset:var(--L)}97.6%{stroke-dashoffset:calc(var(--L)*.3)}100.0%{stroke-dashoffset:calc(var(--L)*.3)}}
+.feat-vis .fv.on .f8-A{animation:f8-A 4.2s linear both}
+.feat-vis .fv.on .f8-img{animation:f8-img 4.2s linear both}
+.feat-vis .fv.on .f8-sun{animation:f8-sun 4.2s linear both}
+.feat-vis .fv.on .f8-eq0{animation:f8-eq0 0.7s ease-in-out 1.00s infinite}
+.feat-vis .fv.on .f8-eq1{animation:f8-eq1 0.55s ease-in-out 1.07s infinite}
+.feat-vis .fv.on .f8-eq2{animation:f8-eq2 0.8s ease-in-out 1.14s infinite}
+.feat-vis .fv.on .f8-eq3{animation:f8-eq3 0.6s ease-in-out 1.21s infinite}
+.feat-vis .fv.on .f8-eq4{animation:f8-eq4 0.75s ease-in-out 1.28s infinite}
+.feat-vis .fv.on .f8-eq5{animation:f8-eq5 0.5s ease-in-out 1.35s infinite}
+.feat-vis .fv.on .f8-eq6{animation:f8-eq6 0.65s ease-in-out 1.42s infinite}
+.feat-vis .fv.on .f8-B{animation:f8-B 4.2s linear both}
+.feat-vis .fv.on .f8-V{animation:f8-V 4.2s linear both}
+.feat-vis .fv.on .f8-play{animation:f8-play 4.2s linear both}
+.feat-vis .fv.on .f8-prg{animation:f8-prg 4.2s linear both}
+@media (prefers-reduced-motion:reduce){.feat-vis .fv.on [class*="f8-"]{animation:none!important}}
+/* fonctionnalité 09 */
+/* ===== Visuel 9 — Utilisateurs & permissions ===== */
+.feat-vis .fv .f9-go,.feat-vis .fv .f9-gate{will-change:transform}
+@keyframes f9-go{0.0%{transform:translate(-51.8px,-29.9px)}6.0%{transform:translate(-51.8px,-29.9px);animation-timing-function:cubic-bezier(.45,0,.4,1)}23.8%{transform:translate(-37.0px,-21.4px)}41.7%{transform:translate(-37.0px,-21.4px);animation-timing-function:cubic-bezier(.45,0,.4,1)}65.5%{transform:none}100.0%{transform:none}}
+@keyframes f9-gate{0.0%{transform:none}32.1%{transform:none;animation-timing-function:cubic-bezier(.5,0,.3,1)}44.0%{transform:translate(0.0px,17.9px)}66.7%{transform:translate(0.0px,17.9px);animation-timing-function:cubic-bezier(.6,0,.6,1.4)}78.6%{transform:none}100.0%{transform:none}}
+@keyframes f9-lamp{0.0%{opacity:0}25.0%{opacity:0}27.4%{opacity:1}29.8%{opacity:.3}32.1%{opacity:1}100.0%{opacity:1}}
+@keyframes f9-hop{0.0%{transform:none}23.8%{transform:none;animation-timing-function:ease-out}26.7%{transform:translate(0.0px,-3.4px);animation-timing-function:ease-in}29.8%{transform:none}77.4%{transform:none;animation-timing-function:ease-out}82.1%{transform:translate(0.0px,-6.1px);animation-timing-function:ease-in}86.9%{transform:none}89.3%{transform:translate(0.0px,-1.5px)}91.7%{transform:none}100.0%{transform:none}}
+@keyframes f9-no{0.0%{transform:none}77.4%{transform:none}80.2%{transform:translate(-1.3px,0.8px)}83.1%{transform:translate(1.3px,-0.8px)}86.0%{transform:translate(-1.3px,0.8px)}88.8%{transform:none}100.0%{transform:none}}
+.feat-vis .fv.on .f9-go{animation:f9-go 4.2s linear both}
+.feat-vis .fv.on .f9-gate{animation:f9-gate 4.2s linear both}
+.feat-vis .fv.on .f9-lamp{animation:f9-lamp 4.2s linear both}
+.feat-vis .fv.on .f9-hop{animation:f9-hop 4.2s linear both}
+.feat-vis .fv.on .f9-no{animation:f9-no 4.2s linear both}
+@media (prefers-reduced-motion:reduce){.feat-vis .fv.on [class*="f9-"]{animation:none!important}}
 .feat-vis .floor{position:absolute;left:-50%;right:-50%;bottom:-40%;height:calc(100% + 40px);transform:perspective(300px) rotateX(70deg);transform-origin:50% calc(50% + 20px);
-  background-image:linear-gradient(rgba(255,255,255,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.18) 1px,transparent 1px);background-size:40px 40px;animation:floor 3s linear infinite;will-change:transform}
+  background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:40px 40px;animation:floor 3s linear infinite;will-change:transform}
 @keyframes floor{from{transform:perspective(300px) rotateX(70deg) translateY(0)}to{transform:perspective(300px) rotateX(70deg) translateY(40px)}}
 .feat-vis .tag{position:absolute;left:24px;top:22px;font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:6px 12px;border-radius:99px;backdrop-filter:blur(6px)}
 .feat-panel h3{font-family:var(--display);font-weight:800;font-size:clamp(28px,2.6vw,42px);line-height:1;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:24px}
@@ -332,7 +623,7 @@ footer .logo .wm b{font-size:26px}
   .cards{grid-template-columns:1fr}
   .card.wide{grid-column:auto}
   .card{min-height:340px}
-  .card .ill{width:150px;height:150px;top:58px;right:-14px;opacity:.55}
+  .card .ill{width:150px;height:150px;top:58px;right:8px}
   .support .wrap{grid-template-columns:1fr}
   .sup{border-right:0;border-bottom:1px solid var(--line)}
   .foot-top{grid-template-columns:1fr}
@@ -448,9 +739,15 @@ html.hall-lock,html.hall-lock body{overflow:hidden}
 .demo-head p{max-width:460px;opacity:.72;font-size:18px}
 .demo-stage{position:relative;margin-top:8vh;height:min(78vh,780px);border-radius:28px;overflow:hidden;border:1px solid var(--line-inv);background:#070b16;isolation:isolate;box-shadow:0 40px 120px -40px rgba(20,92,255,.35)}
 .demo-hall{position:absolute;inset:0}
-.demo-go{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);z-index:3;background:#fff;color:var(--ink);font-size:17px;padding:18px 30px;box-shadow:0 20px 60px rgba(20,92,255,.45);white-space:nowrap}
-@media (max-width:640px){.demo-go{font-size:15px;padding:15px 24px;bottom:22px}.demo-live{top:14px;left:14px;font-size:11px}}
-.demo-go:hover{color:#fff}
+/* bouton d'entrée : pilule bleue pleine, flèche dans une pastille blanche */
+.demo-go{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);z-index:3;gap:16px;background:var(--blue);color:#fff;font-size:17px;letter-spacing:.01em;
+  padding:8px 8px 8px 28px;box-shadow:0 0 0 1px rgba(255,255,255,.14),0 18px 40px -12px rgba(0,0,0,.6);white-space:nowrap}
+.demo-go::before{background:#fff}
+.demo-go .arr{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#fff;color:var(--blue);font-size:18px;transition:transform .4s var(--ease),background .4s,color .4s}
+.demo-go:hover{color:var(--ink)}
+.demo-go:hover .arr{background:var(--blue);color:#fff;transform:rotate(-45deg)}
+.demo-go:active{transform:translateX(-50%) scale(.97)}
+@media (max-width:640px){.demo-go{font-size:15px;padding:6px 6px 6px 22px;bottom:22px}.demo-go .arr{width:38px;height:38px}.demo-live{top:14px;left:14px;font-size:11px}}
 .demo-live{position:absolute;top:22px;left:22px;z-index:3;display:flex;align-items:center;gap:10px;padding:8px 14px;border-radius:99px;background:rgba(8,15,34,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);font:600 12px var(--display);letter-spacing:.12em;text-transform:uppercase;pointer-events:none}
 .demo-live i{width:8px;height:8px;border-radius:50%;background:#ff3b4f;position:relative}
 .demo-live i::after{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(255,59,79,.6);animation:live 1.6s infinite}
@@ -544,3 +841,43 @@ html.hall-lock,html.hall-lock body{overflow:hidden}
   .nk-box.closed .nb-lid{clip-path:polygon(35.45% 19.57%,92.73% .43%,93.18% 30%,63.18% 43.48%)}
   .nk-box.closed:not(.open) .nb-core,.nk-box.closed:not(.open) .nb-glow,.nk-box.closed:not(.open) .nb-lid::after{opacity:0}
 }
+
+/* étiquette de métier sur les cartes « Ce que nous faisons » */
+.card .num .kind{font-style:normal;margin-left:10px;padding:3px 9px;border:1px solid currentColor;border-radius:99px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.6;vertical-align:1px}
+.ag-refs{margin-top:9vh}
+
+/* ---------- ADN : création + immersion = un seul studio NEOKROME ---------- */
+.heritage{background:var(--ink);color:var(--paper);padding:16vh 0 18vh;overflow:hidden}
+.hx-head{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:end}
+.hx-head p{max-width:480px;opacity:.72;font-size:18px}
+.heritage .h2 em{font-style:normal;color:var(--blue-2)}
+.hx-stage{display:grid;grid-template-columns:1fr minmax(180px,260px) 1fr;gap:3vw;align-items:center;margin-top:10vh}
+.hx-lane{padding:34px;border-radius:22px;border:1px solid var(--line-inv);background:rgba(255,255,255,.02);display:flex;flex-direction:column;gap:14px;
+  opacity:0;transition:transform 1.2s var(--ease),opacity 1.2s var(--ease)}
+.hx-va{transform:translateX(-8vw)}
+.hx-ae{transform:translateX(8vw);text-align:right;align-items:flex-end}
+.hx-stage.in .hx-lane{transform:none;opacity:1}
+.hx-big{font-family:var(--display);font-weight:900;font-size:clamp(44px,5.4vw,92px);line-height:.9;letter-spacing:-.04em;
+  background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hx-lane h3{font-family:var(--display);font-weight:800;font-size:clamp(26px,2.4vw,36px);text-transform:uppercase;letter-spacing:-.02em;line-height:1}
+.hx-lane p{opacity:.72;max-width:360px}
+.hx-tags{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:6px 0 0}
+.hx-tags li{padding:6px 12px;border-radius:99px;border:1px solid var(--line-inv);font:600 12px var(--display);letter-spacing:.1em;text-transform:uppercase}
+.hx-core{position:relative;display:grid;justify-items:center;gap:22px;padding-top:70px}
+.hx-box{width:100%;max-width:200px;overflow:visible}
+.hx-box .w{fill:#24428A}.hx-box .w2{fill:#3358A8}
+.hx-box .lid{fill:var(--blue);transform-box:fill-box;transform-origin:100% 100%;transition:transform 1s .9s cubic-bezier(.3,1.45,.5,1)}
+.hx-stage.in .hx-box .lid{transform:rotate(26deg) translateY(-8%)}
+.hx-drop{position:absolute;top:0;left:50%;width:46px;height:58px;margin-left:-23px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:var(--chrome);
+  box-shadow:inset -6px -8px 14px rgba(11,33,74,.35);opacity:0}
+.hx-stage.in .hx-drop{animation:hxDrop 1.4s 1.5s cubic-bezier(.55,0,.75,.3) forwards}
+@keyframes hxDrop{0%{opacity:0;transform:translateY(-18vh) scale(.8)}20%{opacity:1}75%{opacity:1;transform:translateY(96px) scale(.75)}100%{opacity:0;transform:translateY(124px) scale(.4)}}
+.hx-eq{font:700 13px var(--display);letter-spacing:.22em;color:var(--blue-2)}
+@media (max-width:900px){
+  .hx-head{grid-template-columns:1fr}
+  .hx-stage{grid-template-columns:1fr;gap:28px}
+  .hx-va,.hx-ae{transform:translateY(6vh)}
+  .hx-ae{text-align:left;align-items:flex-start}
+  .hx-core{order:0;padding-top:60px}.hx-box{max-width:150px}
+}
+@media (prefers-reduced-motion:reduce){.hx-lane,.hx-box .lid{transition:none}.hx-stage.in .hx-drop{animation:none}}
