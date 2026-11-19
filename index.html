@@ -52,7 +52,7 @@ h1 span:nth-child(2){animation-delay:.12s} h1 span:nth-child(3){animation-delay:
 h1 em{font-style:normal;color:var(--blue-2)}
 .lead{margin-top:clamp(26px,4vh,46px);font-family:var(--display);font-weight:500;font-size:clamp(19px,2vw,30px);letter-spacing:-.01em;animation:rise 1.1s .36s cubic-bezier(.2,.7,.1,1) both}
 .sub{margin-top:8px;font-size:clamp(15px,1.4vw,21px);color:rgba(255,255,255,.78);animation:rise 1.1s .44s cubic-bezier(.2,.7,.1,1) both}
-.cta{margin-top:clamp(30px,4.5vh,50px);display:inline-flex;align-items:center;gap:22px;background:var(--paper);color:#0B0C0F;text-decoration:none;font-family:var(--display);font-weight:600;font-size:clamp(17px,1.6vw,24px);letter-spacing:-.01em;padding:.9em 1.2em;transition:background .3s,color .3s;animation:rise 1.1s .52s cubic-bezier(.2,.7,.1,1) both}
+.cta{margin-top:clamp(30px,4.5vh,50px);display:inline-flex;align-items:center;gap:22px;background:var(--paper);color:#0B0C0F;text-decoration:none;font-family:var(--display);font-weight:600;font-size:clamp(17px,1.6vw,24px);letter-spacing:-.01em;padding:.9em 1.4em;border-radius:999px;transition:background .3s,color .3s;animation:rise 1.1s .52s cubic-bezier(.2,.7,.1,1) both}
 .cta svg{width:.95em;height:.95em;transition:transform .3s}
 .cta:hover{background:var(--blue);color:#fff}
 .cta:hover svg{transform:translate(3px,-3px)}
@@ -78,6 +78,107 @@ h1 em{font-style:normal;color:var(--blue-2)}
   h1{font-size:clamp(40px,12.5vw,64px)}
   .foot{flex-direction:column;align-items:flex-start;gap:10px}
 }
+/* pop-up contact */
+html.ct-lock{overflow:hidden}
+.ct{margin:auto;border:0;padding:0;background:transparent;color:#fff;width:min(1000px,calc(100vw - 40px));max-width:none;max-height:calc(100dvh - 40px);overflow:visible;border-radius:30px}
+.ct::backdrop{background:rgba(4,5,8,.74);backdrop-filter:blur(14px) saturate(.8);-webkit-backdrop-filter:blur(14px) saturate(.8);animation:fade .4s both}
+.ct[open] .ct-box{animation:pop .6s cubic-bezier(.2,.8,.1,1) both}
+.ct.out .ct-box{animation:pop .26s reverse both}.ct.out::backdrop{animation:fade .26s reverse both}
+@keyframes fade{from{opacity:0}}
+@keyframes pop{from{opacity:0;transform:translateY(30px) scale(.97)}}
+.ct-box{position:relative;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);max-height:calc(100dvh - 40px);min-height:min(620px,calc(100dvh - 40px));border-radius:30px;overflow:hidden;
+  background:#0E0F13;border:1px solid rgba(255,255,255,.1);box-shadow:0 50px 140px -30px rgba(0,0,0,.9),0 0 0 1px rgba(20,92,255,.08)}
+/* volet gauche : la scène + contacts directs */
+.ct-side{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:28px;padding:clamp(28px,3.4vw,44px);isolation:isolate;min-height:100%;overflow:hidden}
+.ct-side::before{content:"";position:absolute;inset:0;z-index:-2;background:url(assets/img/attente/perspective.jpg) 62% 50%/cover;transform:scale(1.04);animation:drift 14s ease-in-out infinite alternate}
+.ct-side::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(9,10,13,.9) 0%,rgba(9,10,13,.55) 30%,rgba(9,10,13,.08) 50%,rgba(9,10,13,.6) 70%,rgba(9,10,13,.95) 100%),linear-gradient(90deg,transparent 70%,rgba(14,15,19,.9))}
+@keyframes drift{to{transform:scale(1.1) translate(-1.5%,1%)}}
+.ct-eye{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:500;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.ct-eye i{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 0 rgba(20,92,255,.7);animation:ping 2.2s ease-out infinite}
+.ct h2{margin-top:18px;font-family:var(--display);font-weight:700;font-size:clamp(36px,4.2vw,54px);line-height:.94;letter-spacing:-.035em}
+.ct h2 em{font-style:normal;color:var(--blue-2)}
+.ct-intro{margin-top:14px;max-width:34ch;color:rgba(255,255,255,.74);font-size:15px;line-height:1.55}
+.ct-alt p{font-family:var(--display);font-weight:500;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.ct-alt ul{list-style:none;margin-top:12px;display:grid;gap:8px}
+.ct-alt a{display:flex;align-items:center;gap:14px;padding:11px 14px 11px 11px;border-radius:18px;background:rgba(10,11,15,.55);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff;text-decoration:none;transition:background .25s,border-color .25s,transform .25s}
+.ct-alt a:hover{background:rgba(20,92,255,.2);border-color:var(--blue-2);transform:translateX(3px)}
+.ct-alt a:focus-visible{outline:2px solid var(--blue-2);outline-offset:3px}
+.ct-alt .ic{width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:12px;background:rgba(20,92,255,.18);border:1px solid rgba(77,130,255,.35)}
+.ct-alt svg{width:18px;height:18px;fill:none;stroke:#A9C2FF;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ct-alt .tx{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+.ct-alt small{font-size:11.5px;color:rgba(255,255,255,.55)}
+.ct-alt b{font-family:var(--display);font-weight:600;font-size:15.5px;letter-spacing:.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ct-alt .go{margin-left:auto;opacity:.45;transition:opacity .25s,transform .25s}
+.ct-alt a:hover .go{opacity:1;transform:translate(2px,-2px)}
+.ct-alt .go svg{stroke:#fff;width:15px;height:15px;stroke-width:2.2}
+/* volet droit : formulaire */
+.ct [hidden]{display:none!important}
+.ct-main{position:relative;overflow:auto;display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,3.4vw,44px);background:radial-gradient(90% 60% at 100% 0%,rgba(20,92,255,.16),transparent 60%),linear-gradient(165deg,#16181E,#0D0E12)}
+.ct-x{position:absolute;top:16px;right:16px;z-index:2;width:42px;height:42px;display:grid;place-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.16);color:#fff;cursor:pointer;border-radius:50%;transition:background .25s,border-color .25s,transform .35s}
+.ct-x:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4);transform:rotate(90deg)}
+.ct-x svg{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none}
+.ct-lbl{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.04em;color:rgba(255,255,255,.88)}
+.ct-lbl small{font-weight:400;font-size:12px;color:rgba(255,255,255,.45);letter-spacing:0}
+.chips{border:0;margin:0;padding:0;min-width:0}
+.chips legend{padding:0;margin-bottom:12px}
+.chips div{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{position:relative;cursor:pointer}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-block;padding:9px 15px;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.03);font-size:14px;color:rgba(255,255,255,.82);transition:background .2s,border-color .2s,color .2s}
+.chips label:hover span{border-color:rgba(255,255,255,.35)}
+.chips input:checked+span{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 6px 20px -6px rgba(20,92,255,.8)}
+.chips input:focus-visible+span{outline:2px solid var(--blue-2);outline-offset:2px}
+.ct-grid{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.f{display:flex;flex-direction:column;gap:7px}.f.full{grid-column:1/-1}
+.f>span b{color:var(--blue-2);margin-left:2px}
+.f input,.f textarea{width:100%;font:inherit;font-size:16px;color:#fff;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.13);padding:13px 16px;border-radius:14px;transition:border-color .2s,background .2s,box-shadow .2s;resize:vertical}
+.f textarea{min-height:104px}
+.f input::placeholder,.f textarea::placeholder{color:rgba(255,255,255,.32)}
+.f input:hover,.f textarea:hover{border-color:rgba(255,255,255,.26)}
+.f input:focus,.f textarea:focus{outline:none;border-color:var(--blue-2);background:rgba(20,92,255,.08);box-shadow:0 0 0 4px rgba(20,92,255,.2)}
+.f .err{font-style:normal;font-size:12.5px;color:#FF8A8A}
+.f.bad input,.f.bad textarea{border-color:#FF6B6B;box-shadow:0 0 0 4px rgba(255,107,107,.12)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.ct-foot{margin-top:22px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.ct-foot p{display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(255,255,255,.5)}
+.ct-foot p svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8}
+.ct-send{display:inline-flex;align-items:center;gap:16px;background:var(--paper);color:#0B0C0F;border:0;cursor:pointer;font-family:var(--display);font-weight:600;font-size:17px;padding:8px 8px 8px 26px;border-radius:999px;transition:background .3s,color .3s,box-shadow .3s}
+.ct-send .ar{width:40px;height:40px;display:grid;place-items:center;border-radius:50%;background:#0B0C0F;color:#fff;transition:background .3s,transform .3s}
+.ct-send svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.6;fill:none}
+.ct-send:hover{background:var(--blue);color:#fff;box-shadow:0 14px 34px -10px rgba(20,92,255,.9)}
+.ct-send:hover .ar{background:#fff;color:var(--blue);transform:rotate(45deg)}
+.ct-send:focus-visible,.ct-x:focus-visible{outline:2px solid var(--blue-2);outline-offset:3px}
+.ct-send:disabled{opacity:.7;cursor:progress}
+.busy .ct-send .ar svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ct-msg{font-size:14px;line-height:1.5;color:#FFC9C9}.ct-msg.on{margin-top:16px}
+.ct-msg a{color:#fff;text-underline-offset:3px}
+.ct-done{min-height:100%;display:flex;flex-direction:column;justify-content:center;padding:20px 0}
+.ct-ok{width:72px;height:72px;display:grid;place-items:center;border-radius:50%;background:rgba(20,92,255,.14);border:1px solid var(--blue-2);box-shadow:0 0 40px rgba(20,92,255,.45);animation:pop .7s both}
+.ct-ok svg{width:32px;height:32px;stroke:var(--blue-2);stroke-width:2.4;fill:none;stroke-dasharray:24;stroke-dashoffset:24;animation:draw .6s .25s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.ct-done h2{margin-top:26px}
+.ct-done .ct-send{margin-top:30px;align-self:flex-start;padding:15px 26px}
+@media (max-width:860px){
+  .ct{width:100%;margin:auto 0 0;max-height:94dvh;border-radius:28px 28px 0 0}
+  .ct[open] .ct-box{animation:sheet .5s cubic-bezier(.2,.8,.1,1) both}
+  .ct.out .ct-box{animation:sheet .26s reverse both}
+  @keyframes sheet{from{transform:translateY(100%)}}
+  .ct-box{display:flex;flex-direction:column;overflow:auto;max-height:94dvh;min-height:0;border-radius:28px 28px 0 0;border-bottom:0}
+  .ct-box::after{content:"";position:absolute;top:8px;left:50%;width:40px;height:4px;margin-left:-20px;border-radius:4px;background:rgba(255,255,255,.3)}
+  .ct-side{display:contents}
+  .ct-side::before,.ct-side::after{display:none}
+  .ct-head{order:1;position:relative;padding:34px 22px 24px;isolation:isolate}
+  .ct-head::before{content:"";position:absolute;inset:0;z-index:-2;background:url(assets/img/attente/perspective.jpg) 55% 62%/cover}
+  .ct-head::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(9,10,13,.6),rgba(9,10,13,.82) 70%,#15171D)}
+  .ct-main{order:2;position:static;overflow:visible;display:block;padding:8px 22px 22px;background:#15171D}
+  .ct-alt{order:3;padding:4px 22px calc(26px + env(safe-area-inset-bottom));background:#15171D}
+  .ct h2{font-size:38px}
+  .ct-grid{grid-template-columns:1fr}
+  .ct-foot{flex-direction:column-reverse;align-items:stretch}
+  .ct-send{justify-content:space-between}
+  .ct-x{top:14px;right:14px}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -101,14 +202,128 @@ h1 em{font-style:normal;color:var(--blue-2)}
     <h1><span>Ouvrons</span> <span>de nouvelles</span> <span>perspectives<em>.</em></span></h1>
     <p class="lead">Création, digital &amp; expériences immersives.</p>
     <p class="sub">Le site se transforme. L’agence est déjà à vos côtés.</p>
-    <a class="cta" href="mailto:contact@neokrome.tech?subject=Imaginons%20votre%20projet">Imaginons votre projet
+    <a class="cta" href="mailto:contact@neokrome.tech" data-open-contact aria-haspopup="dialog">Imaginons votre projet
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
   </div>
 
   <footer class="foot">
     <ul><li>Imaginer</li><li>Concevoir</li><li>Connecter</li></ul>
-    <a href="mailto:contact@neokrome.tech">neokrome.tech — France · International</a>
+    <a href="mailto:contact@neokrome.tech" data-open-contact aria-haspopup="dialog">neokrome.tech — France · International</a>
   </footer>
 </main>
+
+<!-- Pop-up contact propre à la page d'attente -->
+<dialog class="ct" id="ct" aria-labelledby="ctTitle">
+  <form class="ct-box" id="ctForm" novalidate>
+    <aside class="ct-side">
+      <div class="ct-head">
+        <p class="ct-eye"><i aria-hidden="true"></i>Parlons de votre projet</p>
+        <h2 id="ctTitle">Imaginons<br>votre projet<em>.</em></h2>
+        <p class="ct-intro">Le site se transforme, l’agence est déjà là. Quelques mots suffisent&nbsp;: nous revenons vers vous rapidement.</p>
+      </div>
+      <div class="ct-alt">
+        <p>Ou contactez-nous directement</p>
+        <ul>
+          <li><a href="tel:+33609770241"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><span class="tx"><small>Mobile</small><b>06 09 77 02 41</b></span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
+          <li><a href="mailto:contact@neokrome.tech"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></span><span class="tx"><small>Écrire un e-mail</small><b>contact@neokrome.tech</b></span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <div class="ct-main">
+      <button type="button" class="ct-x" data-close aria-label="Fermer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div class="ct-view" data-view="form">
+        <fieldset class="chips">
+          <legend class="ct-lbl">Votre projet <small>(facultatif)</small></legend>
+          <div>
+            <label><input type="radio" name="projet" value="Salon virtuel"><span>Salon virtuel</span></label>
+            <label><input type="radio" name="projet" value="Tourisme"><span>Tourisme</span></label>
+            <label><input type="radio" name="projet" value="Formation"><span>Formation</span></label>
+            <label><input type="radio" name="projet" value="Retail"><span>Retail</span></label>
+            <label><input type="radio" name="projet" value="Musée"><span>Musée</span></label>
+            <label><input type="radio" name="projet" value="RH"><span>RH</span></label>
+            <label><input type="radio" name="projet" value="Autre"><span>Autre</span></label>
+          </div>
+        </fieldset>
+        <div class="ct-grid">
+          <label class="f"><span class="ct-lbl">Nom &amp; prénom<b aria-hidden="true">*</b></span>
+            <input name="nom" type="text" autocomplete="name" required data-req="Indiquez votre nom."><em class="err" aria-live="polite"></em></label>
+          <label class="f"><span class="ct-lbl">Entreprise <small>(facultatif)</small></span>
+            <input name="entreprise" type="text" autocomplete="organization"><em class="err"></em></label>
+          <label class="f"><span class="ct-lbl">E-mail<b aria-hidden="true">*</b></span>
+            <input name="email" type="email" autocomplete="email" required data-req="Indiquez votre e-mail."><em class="err" aria-live="polite"></em></label>
+          <label class="f"><span class="ct-lbl">Téléphone <small>(facultatif)</small></span>
+            <input name="telephone" type="tel" autocomplete="tel"><em class="err"></em></label>
+          <label class="f full"><span class="ct-lbl">Quelques mots<b aria-hidden="true">*</b></span>
+            <textarea name="message" rows="4" maxlength="2000" required data-req="Écrivez-nous quelques mots." placeholder="Votre idée, vos objectifs, vos échéances…"></textarea><em class="err" aria-live="polite"></em></label>
+          <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        </div>
+        <div class="ct-foot">
+          <p><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Vos données servent uniquement à vous répondre.</p>
+          <button class="ct-send" type="submit"><span>Envoyer</span><span class="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></button>
+        </div>
+        <p class="ct-msg" role="status" aria-live="polite"></p>
+      </div>
+      <div class="ct-view ct-done" data-view="done" hidden>
+        <span class="ct-ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg></span>
+        <h2>Message envoyé<em>.</em></h2>
+        <p class="ct-intro">Merci&nbsp;! Nous revenons vers vous très vite à l’adresse indiquée.</p>
+        <button type="button" class="ct-send" data-close><span>Fermer</span></button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(() => {
+  const TO = 'contact@neokrome.tech';
+  const dlg = document.getElementById('ct'), form = document.getElementById('ctForm');
+  if (!dlg || typeof dlg.showModal !== 'function') return;  /* sans <dialog> : les liens mailto restent actifs */
+  const views = [...form.querySelectorAll('[data-view]')], msg = form.querySelector('.ct-msg'), send = form.querySelector('.ct-send');
+  const show = v => views.forEach(x => x.hidden = x.dataset.view !== v);
+  let opener = null;
+  const open = e => { e.preventDefault(); opener = e.currentTarget; show('form'); msg.textContent = ''; msg.className = 'ct-msg'; dlg.showModal(); document.documentElement.classList.add('ct-lock'); setTimeout(() => form.nom.focus(), 60); };
+  const close = () => { dlg.classList.add('out'); setTimeout(() => { dlg.classList.remove('out'); dlg.close(); }, 260); };
+  document.querySelectorAll('[data-open-contact]').forEach(a => a.addEventListener('click', open));
+  form.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', close));
+  dlg.addEventListener('click', e => { if (e.target === dlg) close(); });
+  dlg.addEventListener('cancel', e => { e.preventDefault(); close(); });
+  dlg.addEventListener('close', () => { document.documentElement.classList.remove('ct-lock'); if (opener) opener.focus(); });
+
+  const fields = [...form.querySelectorAll('.f')];
+  const check = (f, showErr) => {
+    const c = f.querySelector('input,textarea'), v = c.validity;
+    const t = v.valueMissing ? c.dataset.req : v.typeMismatch ? 'E-mail invalide (ex. : nom@domaine.fr).' : '';
+    if (showErr) { f.classList.toggle('bad', !!t); c.setAttribute('aria-invalid', t ? 'true' : 'false'); f.querySelector('.err').textContent = t; }
+    return !t;
+  };
+  fields.forEach(f => { const c = f.querySelector('input,textarea'); c.addEventListener('input', () => f.classList.contains('bad') && check(f, true)); c.addEventListener('blur', () => c.value && check(f, true)); });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (form._honey.value) return;
+    const bad = fields.filter(f => !check(f, true));
+    if (bad.length) { bad[0].querySelector('input,textarea').focus(); return; }
+    const d = Object.fromEntries([...new FormData(form)].map(([k, v]) => [k, v.toString().trim()]));
+    delete d._honey;
+    const subject = 'Page d’attente — ' + d.nom + (d.entreprise ? ' (' + d.entreprise + ')' : '') + (d.projet ? ' · ' + d.projet : '');
+    const body = [d.message, '', '—', 'Nom : ' + d.nom, 'Entreprise : ' + (d.entreprise || '—'), 'Projet : ' + (d.projet || '—'), 'E-mail : ' + d.email, 'Téléphone : ' + (d.telephone || '—'), '', 'Envoyé depuis la page d’attente neokrome.tech'].join('\r\n');
+    const mailto = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    form.classList.add('busy'); send.disabled = true; send.firstElementChild.textContent = 'Envoi en cours'; msg.textContent = '';
+    fetch('https://formsubmit.co/ajax/' + TO, {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'},
+      body: JSON.stringify({...d, _subject: subject, _template: 'table', _captcha: 'false'})})
+      .then(r => r.json().then(j => { if (!r.ok || String(j.success) !== 'true') throw j; }))
+      .then(() => { form.reset(); show('done'); dlg.querySelector('.ct-done .ct-send').focus(); })
+      .catch(() => {
+        msg.className = 'ct-msg on';
+        msg.replaceChildren('L’envoi direct n’a pas abouti : votre messagerie s’ouvre avec le message prêt. Sinon, écrivez-nous à ',
+          Object.assign(document.createElement('a'), {href: mailto, textContent: TO}), '.');
+        location.href = mailto;
+      })
+      .finally(() => { form.classList.remove('busy'); send.disabled = false; send.firstElementChild.textContent = 'Envoyer'; });
+  });
+})();
+</script>
 </body>
 </html>

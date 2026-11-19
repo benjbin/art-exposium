@@ -225,7 +225,7 @@
         <p class="fx-err" id="ct-msg-err" aria-live="polite"></p>
       </div>
         <div class="fx-foot">
-        <p class="fx-note">Votre messagerie s’ouvrira avec votre message pré-rempli, adressé à contact@neokrome.tech. Vos données servent uniquement à vous répondre — <a href="confidentialite.html">confidentialité</a>.</p>
+        <p class="fx-note">Votre message nous est transmis directement, à contact@neokrome.tech. Vos données servent uniquement à vous répondre — <a href="confidentialite.html">confidentialité</a>.</p>
         <button class="btn" type="submit">Envoyer <span class="arr">→</span></button>
       </div>
       <div class="fx-status" role="status" aria-live="polite"></div>
@@ -374,7 +374,7 @@
 
 <script>
 /* Formulaires : validation accessible + composition d'un lien mailto:
-   Aucune donnée n'est envoyée à un serveur : le message s'ouvre dans la messagerie du visiteur. */
+   Le message est transmis via FormSubmit ; à défaut, il s'ouvre dans la messagerie du visiteur. */
 window.AX_TO = 'contact@neokrome.tech';
 window.axOpenMail = window.axOpenMail || (url => { window.location.href = url; });
 window.axMailto = (subject, body) => 'mailto:' + window.AX_TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
@@ -429,10 +429,21 @@ window.axForm = (form, compose) => {
     const {subject, body} = compose(val, fd);
     const url = window.axMailto(subject, body);
     form.dataset.mailto = url;
-    const again = Object.assign(document.createElement('a'), {href: url, textContent: 'Ouvrir à nouveau'});
+    const B = t => Object.assign(document.createElement('b'), {textContent: t});
+    const again = Object.assign(document.createElement('a'), {href: url, textContent: 'ouvrir votre messagerie'});
     const direct = Object.assign(document.createElement('a'), {href: 'mailto:' + window.AX_TO, textContent: window.AX_TO});
-    say('ok', [Object.assign(document.createElement('b'), {textContent: 'Votre messagerie s’ouvre. '}), 'Votre message est prêt : il ne reste qu’à l’envoyer. Rien ne s’est ouvert ? ', again, ' ou écrivez-nous à ', direct, '.']);
-    window.axOpenMail(url);
+    const btn = form.querySelector('[type=submit]');
+    if (btn) btn.disabled = true;
+    say('ok', [B('Envoi en cours…')]);
+    /* envoi direct (FormSubmit) ; en cas d'échec, repli sur la messagerie du visiteur */
+    const data = {};
+    fd.forEach((v, k) => { data[k] = v.toString(); });
+    Object.assign(data, {_subject: subject, _template: 'table', _captcha: 'false'});
+    fetch('https://formsubmit.co/ajax/' + window.AX_TO, {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify(data)})
+      .then(r => r.json().then(j => { if (!r.ok || String(j.success) !== 'true') throw j; }))
+      .then(() => { form.reset(); say('ok', [B('Message envoyé. '), 'Merci ! Nous vous répondons rapidement à l’adresse indiquée.']); })
+      .catch(() => { say('err', [B('L’envoi direct n’a pas abouti. '), 'Votre messagerie s’ouvre avec le message prêt à partir. Rien ne s’est ouvert ? ', again, ' ou écrivez-nous à ', direct, '.']); window.axOpenMail(url); })
+      .finally(() => { if (btn) btn.disabled = false; });
   });
 };
 </script>
