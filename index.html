@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<title>Neokrome — Ouvrons de nouvelles perspectives</title>
-<meta name="description" content="NEOKROME : création, digital & expériences immersives. Le site se transforme, l’agence est déjà à vos côtés — contact@neokrome.tech.">
+<title data-en="Neokrome — Let’s open new perspectives">Neokrome — Ouvrons de nouvelles perspectives</title>
+<meta name="description" data-en-content="NEOKROME: creative, digital &amp; immersive experiences. Our website is evolving, the agency is already by your side — contact@neokrome.tech." content="NEOKROME : création, digital & expériences immersives. Le site se transforme, l’agence est déjà à vos côtés — contact@neokrome.tech.">
 <meta name="theme-color" content="#08090C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,6 +42,13 @@ body{background:var(--ink);color:#fff;font-family:var(--body);-webkit-font-smoot
 .logo .wm small i{width:.42em;height:.42em;border-radius:50%;background:var(--blue);display:inline-block}
 .status{display:flex;align-items:center;gap:14px;font-family:var(--display);font-weight:500;font-size:clamp(11px,1vw,15px);letter-spacing:.2em;text-transform:uppercase;padding-top:6px;text-align:right}
 .status i{width:9px;height:9px;border-radius:50%;background:var(--blue);flex:none;box-shadow:0 0 0 0 rgba(20,92,255,.7);animation:ping 2.2s ease-out infinite}
+/* sélecteur de langue */
+.top-r{display:flex;align-items:center;gap:clamp(16px,2vw,28px)}
+.lang{display:flex;padding:3px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(8,9,12,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.lang button{font:600 12px/1 var(--display);letter-spacing:.14em;color:rgba(255,255,255,.62);background:none;border:0;cursor:pointer;padding:8px 12px 8px 13px;border-radius:999px;transition:background .25s,color .25s}
+.lang button:hover{color:#fff}
+.lang button[aria-pressed="true"]{background:var(--paper);color:#0B0C0F}
+.lang button:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
 @keyframes ping{70%{box-shadow:0 0 0 10px rgba(20,92,255,0)}100%{box-shadow:0 0 0 0 rgba(20,92,255,0)}}
 
 /* message */
@@ -73,6 +80,7 @@ h1 em{font-style:normal;color:var(--blue-2)}
   .top{flex-direction:column;gap:18px}
   .logo{align-items:flex-start}
   .logo svg{height:44px}
+  .top-r{width:100%;justify-content:space-between}
   .status{padding-top:0;font-size:11px;letter-spacing:.16em;text-align:left;gap:10px}
   .copy{align-self:end;padding:28px 0 36px}
   h1{font-size:clamp(40px,12.5vw,64px)}
@@ -195,19 +203,22 @@ html.ct-lock{overflow:hidden}
       </svg>
       <span class="wm"><b>NEOKROME</b><small><i></i>tech</small></span>
     </a>
-    <p class="status"><i aria-hidden="true"></i><span>Nouveau site en préparation</span></p>
+    <div class="top-r">
+      <p class="status"><i aria-hidden="true"></i><span data-en="New website in progress">Nouveau site en préparation</span></p>
+      <div class="lang" role="group" aria-label="Langue · Language"><button type="button" data-lang="fr" aria-pressed="true" lang="fr">FR</button><button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button></div>
+    </div>
   </div>
 
   <div class="copy">
-    <h1><span>Ouvrons</span> <span>de nouvelles</span> <span>perspectives<em>.</em></span></h1>
-    <p class="lead">Création, digital &amp; expériences immersives.</p>
-    <p class="sub">Le site se transforme. L’agence est déjà à vos côtés.</p>
-    <a class="cta" href="mailto:contact@neokrome.tech" data-open-contact aria-haspopup="dialog">Imaginons votre projet
+    <h1 data-en="<span>Let’s open</span> <span>new</span> <span>perspectives<em>.</em></span>"><span>Ouvrons</span> <span>de nouvelles</span> <span>perspectives<em>.</em></span></h1>
+    <p class="lead" data-en="Creative, digital &amp;amp; immersive experiences.">Création, digital &amp; expériences immersives.</p>
+    <p class="sub" data-en="Our website is evolving. The agency is already by your side.">Le site se transforme. L’agence est déjà à vos côtés.</p>
+    <a class="cta" href="mailto:contact@neokrome.tech" data-open-contact aria-haspopup="dialog"><span data-en="Let’s imagine your project">Imaginons votre projet</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
   </div>
 
   <footer class="foot">
-    <ul><li>Imaginer</li><li>Concevoir</li><li>Connecter</li></ul>
+    <ul><li data-en="Imagine">Imaginer</li><li data-en="Design">Concevoir</li><li data-en="Connect">Connecter</li></ul>
     <a href="mailto:contact@neokrome.tech" data-open-contact aria-haspopup="dialog">neokrome.tech — France · International</a>
   </footer>
 </main>
@@ -217,59 +228,59 @@ html.ct-lock{overflow:hidden}
   <form class="ct-box" id="ctForm" novalidate>
     <aside class="ct-side">
       <div class="ct-head">
-        <p class="ct-eye"><i aria-hidden="true"></i>Parlons de votre projet</p>
-        <h2 id="ctTitle">Imaginons<br>votre projet<em>.</em></h2>
-        <p class="ct-intro">Le site se transforme, l’agence est déjà là. Quelques mots suffisent&nbsp;: nous revenons vers vous rapidement.</p>
+        <p class="ct-eye"><i aria-hidden="true"></i><span data-en="Let’s talk about your project">Parlons de votre projet</span></p>
+        <h2 id="ctTitle" data-en="Let’s imagine<br>your project<em>.</em>">Imaginons<br>votre projet<em>.</em></h2>
+        <p class="ct-intro" data-en="Our website is evolving, the agency is already here. A few words are enough: we’ll get back to you quickly.">Le site se transforme, l’agence est déjà là. Quelques mots suffisent&nbsp;: nous revenons vers vous rapidement.</p>
       </div>
       <div class="ct-alt">
-        <p>Ou contactez-nous directement</p>
+        <p data-en="Or contact us directly">Ou contactez-nous directement</p>
         <ul>
           <li><a href="tel:+33609770241"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><span class="tx"><small>Mobile</small><b>06 09 77 02 41</b></span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
-          <li><a href="mailto:contact@neokrome.tech"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></span><span class="tx"><small>Écrire un e-mail</small><b>contact@neokrome.tech</b></span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
+          <li><a href="mailto:contact@neokrome.tech"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></span><span class="tx"><small data-en="Send an e-mail">Écrire un e-mail</small><b>contact@neokrome.tech</b></span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
         </ul>
       </div>
     </aside>
 
     <div class="ct-main">
-      <button type="button" class="ct-x" data-close aria-label="Fermer">
+      <button type="button" class="ct-x" data-close aria-label="Fermer" data-en-aria-label="Close">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
       <div class="ct-view" data-view="form">
         <fieldset class="chips">
-          <legend class="ct-lbl">Votre projet <small>(facultatif)</small></legend>
+          <legend class="ct-lbl" data-en="Your project &lt;small&gt;(optional)&lt;/small&gt;">Votre projet <small>(facultatif)</small></legend>
           <div>
-            <label><input type="radio" name="projet" value="Salon virtuel"><span>Salon virtuel</span></label>
-            <label><input type="radio" name="projet" value="Tourisme"><span>Tourisme</span></label>
-            <label><input type="radio" name="projet" value="Formation"><span>Formation</span></label>
+            <label><input type="radio" name="projet" value="Salon virtuel"><span data-en="Virtual fair">Salon virtuel</span></label>
+            <label><input type="radio" name="projet" value="Tourisme"><span data-en="Tourism">Tourisme</span></label>
+            <label><input type="radio" name="projet" value="Formation"><span data-en="Training">Formation</span></label>
             <label><input type="radio" name="projet" value="Retail"><span>Retail</span></label>
-            <label><input type="radio" name="projet" value="Musée"><span>Musée</span></label>
-            <label><input type="radio" name="projet" value="RH"><span>RH</span></label>
-            <label><input type="radio" name="projet" value="Autre"><span>Autre</span></label>
+            <label><input type="radio" name="projet" value="Musée"><span data-en="Museum">Musée</span></label>
+            <label><input type="radio" name="projet" value="RH"><span data-en="HR">RH</span></label>
+            <label><input type="radio" name="projet" value="Autre"><span data-en="Other">Autre</span></label>
           </div>
         </fieldset>
         <div class="ct-grid">
-          <label class="f"><span class="ct-lbl">Nom &amp; prénom<b aria-hidden="true">*</b></span>
-            <input name="nom" type="text" autocomplete="name" required data-req="Indiquez votre nom."><em class="err" aria-live="polite"></em></label>
-          <label class="f"><span class="ct-lbl">Entreprise <small>(facultatif)</small></span>
+          <label class="f"><span class="ct-lbl" data-en="Full name&lt;b aria-hidden=&quot;true&quot;&gt;*&lt;/b&gt;">Nom &amp; prénom<b aria-hidden="true">*</b></span>
+            <input name="nom" type="text" autocomplete="name" required data-req="Indiquez votre nom." data-en-data-req="Please enter your name."><em class="err" aria-live="polite"></em></label>
+          <label class="f"><span class="ct-lbl" data-en="Company &lt;small&gt;(optional)&lt;/small&gt;">Entreprise <small>(facultatif)</small></span>
             <input name="entreprise" type="text" autocomplete="organization"><em class="err"></em></label>
           <label class="f"><span class="ct-lbl">E-mail<b aria-hidden="true">*</b></span>
-            <input name="email" type="email" autocomplete="email" required data-req="Indiquez votre e-mail."><em class="err" aria-live="polite"></em></label>
-          <label class="f"><span class="ct-lbl">Téléphone <small>(facultatif)</small></span>
+            <input name="email" type="email" autocomplete="email" required data-req="Indiquez votre e-mail." data-en-data-req="Please enter your e-mail."><em class="err" aria-live="polite"></em></label>
+          <label class="f"><span class="ct-lbl" data-en="Phone &lt;small&gt;(optional)&lt;/small&gt;">Téléphone <small>(facultatif)</small></span>
             <input name="telephone" type="tel" autocomplete="tel"><em class="err"></em></label>
-          <label class="f full"><span class="ct-lbl">Quelques mots<b aria-hidden="true">*</b></span>
-            <textarea name="message" rows="4" maxlength="2000" required data-req="Écrivez-nous quelques mots." placeholder="Votre idée, vos objectifs, vos échéances…"></textarea><em class="err" aria-live="polite"></em></label>
+          <label class="f full"><span class="ct-lbl" data-en="A few words&lt;b aria-hidden=&quot;true&quot;&gt;*&lt;/b&gt;">Quelques mots<b aria-hidden="true">*</b></span>
+            <textarea name="message" rows="4" maxlength="2000" required data-req="Écrivez-nous quelques mots." data-en-data-req="Please write us a few words." placeholder="Votre idée, vos objectifs, vos échéances…" data-en-placeholder="Your idea, your goals, your timeline…"></textarea><em class="err" aria-live="polite"></em></label>
           <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         </div>
         <div class="ct-foot">
-          <p><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Vos données servent uniquement à vous répondre.</p>
+          <p><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span data-en="Your details are only used to reply to you.">Vos données servent uniquement à vous répondre.</span></p>
           <button class="ct-send" type="submit"><span>Envoyer</span><span class="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></button>
         </div>
         <p class="ct-msg" role="status" aria-live="polite"></p>
       </div>
       <div class="ct-view ct-done" data-view="done" hidden>
         <span class="ct-ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7"/></svg></span>
-        <h2>Message envoyé<em>.</em></h2>
-        <p class="ct-intro">Merci&nbsp;! Nous revenons vers vous très vite à l’adresse indiquée.</p>
-        <button type="button" class="ct-send" data-close><span>Fermer</span></button>
+        <h2 data-en="Message sent<em>.</em>">Message envoyé<em>.</em></h2>
+        <p class="ct-intro" data-en="Thank you! We’ll get back to you very soon at the address you provided.">Merci&nbsp;! Nous revenons vers vous très vite à l’adresse indiquée.</p>
+        <button type="button" class="ct-send" data-close><span data-en="Close">Fermer</span></button>
       </div>
     </div>
   </form>
@@ -278,6 +289,30 @@ html.ct-lock{overflow:hidden}
 <script>
 (() => {
   const TO = 'contact@neokrome.tech';
+  /* langue : ?lang=, choix mémorisé, sinon langue du navigateur */
+  const T = {
+    fr: {bad: 'E-mail invalide (ex. : nom@domaine.fr).', busy: 'Envoi en cours', send: 'Envoyer', fail: 'L’envoi direct n’a pas abouti : votre messagerie s’ouvre avec le message prêt. Sinon, écrivez-nous à '},
+    en: {bad: 'Invalid e-mail (e.g. name@domain.com).', busy: 'Sending', send: 'Send', fail: 'Direct sending failed: your e-mail app is opening with the message ready. Otherwise, write to us at '},
+  };
+  const nodes = [...document.querySelectorAll('*')].filter(el => [...el.attributes].some(a => a.name.startsWith('data-en')));
+  nodes.forEach(el => { el._fr = {}; [...el.attributes].forEach(a => { if (a.name === 'data-en') el._fr.html = el.innerHTML; else if (a.name.startsWith('data-en-')) el._fr[a.name.slice(8)] = el.getAttribute(a.name.slice(8)); }); });
+  let lang = 'fr';
+  const setLang = l => {
+    lang = l === 'en' ? 'en' : 'fr';
+    document.documentElement.lang = lang;
+    nodes.forEach(el => Object.entries(el._fr).forEach(([k, fr]) => {
+      const v = lang === 'en' ? el.getAttribute(k === 'html' ? 'data-en' : 'data-en-' + k) : fr;
+      if (k === 'html') el.innerHTML = v; else el.setAttribute(k, v);
+    }));
+    document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+    const sb = document.querySelector('.ct-send[type=submit] span'); if (sb) sb.textContent = T[lang].send;
+    document.querySelectorAll('.f.bad').forEach(f => f.querySelector('input,textarea').dispatchEvent(new Event('input')));
+  };
+  const store = (k, v) => { try { v === undefined ? (v = localStorage.getItem(k)) : localStorage.setItem(k, v); } catch (e) {} return v; };
+  const q = new URLSearchParams(location.search).get('lang');
+  setLang(q || store('nk-lang') || ((navigator.languages || [navigator.language || 'fr'])[0].toLowerCase().startsWith('fr') ? 'fr' : 'en'));
+  document.querySelectorAll('[data-lang]').forEach(b => b.addEventListener('click', () => { setLang(b.dataset.lang); store('nk-lang', lang); }));
+
   const dlg = document.getElementById('ct'), form = document.getElementById('ctForm');
   if (!dlg || typeof dlg.showModal !== 'function') return;  /* sans <dialog> : les liens mailto restent actifs */
   const views = [...form.querySelectorAll('[data-view]')], msg = form.querySelector('.ct-msg'), send = form.querySelector('.ct-send');
@@ -294,7 +329,7 @@ html.ct-lock{overflow:hidden}
   const fields = [...form.querySelectorAll('.f')];
   const check = (f, showErr) => {
     const c = f.querySelector('input,textarea'), v = c.validity;
-    const t = v.valueMissing ? c.dataset.req : v.typeMismatch ? 'E-mail invalide (ex. : nom@domaine.fr).' : '';
+    const t = v.valueMissing ? c.dataset.req : v.typeMismatch ? T[lang].bad : '';
     if (showErr) { f.classList.toggle('bad', !!t); c.setAttribute('aria-invalid', t ? 'true' : 'false'); f.querySelector('.err').textContent = t; }
     return !t;
   };
@@ -307,21 +342,21 @@ html.ct-lock{overflow:hidden}
     if (bad.length) { bad[0].querySelector('input,textarea').focus(); return; }
     const d = Object.fromEntries([...new FormData(form)].map(([k, v]) => [k, v.toString().trim()]));
     delete d._honey;
-    const subject = 'Page d’attente — ' + d.nom + (d.entreprise ? ' (' + d.entreprise + ')' : '') + (d.projet ? ' · ' + d.projet : '');
-    const body = [d.message, '', '—', 'Nom : ' + d.nom, 'Entreprise : ' + (d.entreprise || '—'), 'Projet : ' + (d.projet || '—'), 'E-mail : ' + d.email, 'Téléphone : ' + (d.telephone || '—'), '', 'Envoyé depuis la page d’attente neokrome.tech'].join('\r\n');
+    const subject = 'Page d’attente' + (lang === 'en' ? ' [EN]' : '') + ' — ' + d.nom + (d.entreprise ? ' (' + d.entreprise + ')' : '') + (d.projet ? ' · ' + d.projet : '');
+    const body = [d.message, '', '—', 'Nom : ' + d.nom, 'Entreprise : ' + (d.entreprise || '—'), 'Projet : ' + (d.projet || '—'), 'E-mail : ' + d.email, 'Téléphone : ' + (d.telephone || '—'), 'Langue : ' + lang.toUpperCase(), '', 'Envoyé depuis la page d’attente neokrome.tech'].join('\r\n');
     const mailto = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    form.classList.add('busy'); send.disabled = true; send.firstElementChild.textContent = 'Envoi en cours'; msg.textContent = '';
+    form.classList.add('busy'); send.disabled = true; send.firstElementChild.textContent = T[lang].busy; msg.textContent = '';
     fetch('https://formsubmit.co/ajax/' + TO, {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'},
       body: JSON.stringify({...d, _subject: subject, _template: 'table', _captcha: 'false'})})
       .then(r => r.json().then(j => { if (!r.ok || String(j.success) !== 'true') throw j; }))
       .then(() => { form.reset(); show('done'); dlg.querySelector('.ct-done .ct-send').focus(); })
       .catch(() => {
         msg.className = 'ct-msg on';
-        msg.replaceChildren('L’envoi direct n’a pas abouti : votre messagerie s’ouvre avec le message prêt. Sinon, écrivez-nous à ',
+        msg.replaceChildren(T[lang].fail,
           Object.assign(document.createElement('a'), {href: mailto, textContent: TO}), '.');
         location.href = mailto;
       })
-      .finally(() => { form.classList.remove('busy'); send.disabled = false; send.firstElementChild.textContent = 'Envoyer'; });
+      .finally(() => { form.classList.remove('busy'); send.disabled = false; send.firstElementChild.textContent = T[lang].send; });
   });
 })();
 </script>
