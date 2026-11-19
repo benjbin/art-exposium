@@ -298,7 +298,7 @@
 <script>
 /* Formulaires : validation accessible + composition d'un lien mailto:
    Le message est transmis via FormSubmit ; à défaut, il s'ouvre dans la messagerie du visiteur. */
-window.AX_TO = 'contact@neokrome.tech';
+window.AX_TO = 'benjamin-b@neokrome.tech';
 window.axOpenMail = window.axOpenMail || (url => { window.location.href = url; });
 window.axMailto = (subject, body) => 'mailto:' + window.AX_TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 window.axForm = (form, compose) => {
