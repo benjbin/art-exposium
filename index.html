@@ -235,7 +235,6 @@ html.ct-lock{overflow:hidden}
       <div class="ct-alt">
         <p data-en="Or contact us directly">Ou contactez-nous directement</p>
         <ul>
-          <li><a href="tel:+33609770241"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><span class="tx"><small>Mobile</small><b>06 09 77 02 41</b></span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
           <li><a href="mailto:contact@neokrome.tech"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></span><span class="tx"><small data-en="Send an e-mail">Écrire un e-mail</small><b>contact@neokrome.tech</b></span><span class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a></li>
         </ul>
       </div>
@@ -286,6 +285,7 @@ html.ct-lock{overflow:hidden}
   </form>
 </dialog>
 
+<script src="assets/demandes.js"></script>
 <script>
 (() => {
   const TO = 'benjamin-b@neokrome.tech';
@@ -346,6 +346,7 @@ html.ct-lock{overflow:hidden}
     const body = [d.message, '', '—', 'Nom : ' + d.nom, 'Entreprise : ' + (d.entreprise || '—'), 'Projet : ' + (d.projet || '—'), 'E-mail : ' + d.email, 'Téléphone : ' + (d.telephone || '—'), 'Langue : ' + lang.toUpperCase(), '', 'Envoyé depuis la page d’attente neokrome.tech'].join('\r\n');
     const mailto = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     form.classList.add('busy'); send.disabled = true; send.firstElementChild.textContent = T[lang].busy; msg.textContent = '';
+    if (window.nkLog) nkLog('attente', {...d, _honey: form._honey.value});
     fetch('https://formsubmit.co/ajax/' + TO, {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'},
       body: JSON.stringify({...d, _subject: subject, _template: 'table', _captcha: 'false'})})
       .then(r => r.json().then(j => { if (!r.ok || String(j.success) !== 'true') throw j; }))

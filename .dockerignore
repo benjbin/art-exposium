@@ -1,0 +1,7 @@
+.git
+.gitignore
+.claude
+.DS_Store
+**/.DS_Store
+data/*.sqlite
+data/*.sqlite-*

@@ -1,2 +1,5 @@
 .DS_Store
 .claude/
+# demandes reçues : jamais dans git
+data/*.sqlite
+data/*.sqlite-*
