@@ -283,7 +283,6 @@ a{color:inherit}
   const toast = t => { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2200); };
   const post = (api, data) => fetch('?api=' + api, {method: 'POST', headers: {'X-CSRF': CSRF}, body: new URLSearchParams(data)}).then(r => { if (r.status === 401) location.reload(); return r.json(); });
 
-  const LIB = {date: 'Date souhaitée', date2: 'Autre date possible', creneau: 'Créneau', format: 'Format', demo: 'Démo demandée'};
   const FILTRES = [['actives', 'À suivre', r => r.statut === 'nouveau' || r.statut === 'en_cours'], ['nouveau', 'Nouvelles'], ['en_cours', 'En cours'], ['traite', 'Traitées'], ['archive', 'Archivées'], ['toutes', 'Toutes', () => true]];
   const passe = (r, f) => { const F = FILTRES.find(x => x[0] === f); return F[2] ? F[2](r) : r.statut === f; };
 
@@ -322,7 +321,6 @@ a{color:inherit}
     const r = all.find(x => x.id === id), D = $('#det');
     if (!r) { D.classList.remove('open'); return; }
     const kv = [['E-mail', h('a', {href: 'mailto:' + r.email}, r.email)], r.telephone && ['Téléphone', h('a', {href: 'tel:' + r.telephone.replace(/[^\d+]/g, '')}, r.telephone)], r.entreprise && ['Entreprise', r.entreprise], r.projet && ['Projet', r.projet], ['Source', SRC[r.source] || r.source], ['Langue', r.langue === 'en' ? 'Anglais' : 'Français'],
-      ...Object.entries(r.details || {}).filter(([, v]) => v).map(([k, v]) => [LIB[k] || k.charAt(0).toUpperCase() + k.slice(1), /^\d{4}-\d\d-\d\d$/.test(v) ? new Date(v + 'T12:00').toLocaleDateString('fr-FR', {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'}) : v]),
       ['Reçue le', date(r.recue_le).toLocaleString('fr-FR', {dateStyle: 'long', timeStyle: 'short'})]].filter(Boolean);
     const objet = (r.langue === 'en' ? 'Re: your request — Neokrome' : 'Re : votre demande — Neokrome');
     const note = h('textarea', {class: 'note', placeholder: 'Note interne (visible uniquement ici)…', 'aria-label': 'Note interne'});
@@ -356,6 +354,7 @@ a{color:inherit}
       sel.value = v;
       kpis(); seg(); liste();
       if (courant && all.some(r => r.id === courant)) detail(courant);
+      else if (courant) { courant = null; $('#det').classList.remove('open'); $('#det').replaceChildren(h('div', {class: 'placeholder'}, h('p', {}, 'Sélectionnez une demande pour la lire.'))); }
     });
   }
   $('#q').addEventListener('input', liste);
