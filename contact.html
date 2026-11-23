@@ -440,9 +440,7 @@ window.axForm = (form, compose) => {
     const data = {};
     fd.forEach((v, k) => { data[k] = v.toString(); });
     Object.assign(data, {_subject: subject, _template: 'table', _captcha: 'false'});
-    if (window.nkLog) nkLog('contact', data);
-    fetch('https://formsubmit.co/ajax/' + window.AX_TO, {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify(data)})
-      .then(r => r.json().then(j => { if (!r.ok || String(j.success) !== 'true') throw j; }))
+    window.nkEnvoyer('contact', data, window.AX_TO)
       .then(() => { form.reset(); say('ok', [B('Message envoyé. '), 'Merci ! Nous vous répondons rapidement à l’adresse indiquée.']); })
       .catch(() => { say('err', [B('L’envoi direct n’a pas abouti. '), 'Votre messagerie s’ouvre avec le message prêt à partir. Rien ne s’est ouvert ? ', again, ' ou écrivez-nous à ', direct, '.']); window.axOpenMail(url); })
       .finally(() => { if (btn) btn.disabled = false; });

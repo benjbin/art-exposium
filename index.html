@@ -346,10 +346,7 @@ html.ct-lock{overflow:hidden}
     const body = [d.message, '', '—', 'Nom : ' + d.nom, 'Entreprise : ' + (d.entreprise || '—'), 'Projet : ' + (d.projet || '—'), 'E-mail : ' + d.email, 'Téléphone : ' + (d.telephone || '—'), 'Langue : ' + lang.toUpperCase(), '', 'Envoyé depuis la page d’attente neokrome.tech'].join('\r\n');
     const mailto = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     form.classList.add('busy'); send.disabled = true; send.firstElementChild.textContent = T[lang].busy; msg.textContent = '';
-    if (window.nkLog) nkLog('attente', {...d, _honey: form._honey.value});
-    fetch('https://formsubmit.co/ajax/' + TO, {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'},
-      body: JSON.stringify({...d, _subject: subject, _template: 'table', _captcha: 'false'})})
-      .then(r => r.json().then(j => { if (!r.ok || String(j.success) !== 'true') throw j; }))
+    window.nkEnvoyer('attente', d, TO, {_subject: subject, _template: 'table', _captcha: 'false'})
       .then(() => { form.reset(); show('done'); dlg.querySelector('.ct-done .ct-send').focus(); })
       .catch(() => {
         msg.className = 'ct-msg on';
