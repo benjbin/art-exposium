@@ -155,10 +155,16 @@ a{color:inherit}
 
 .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:16px;margin-top:16px;align-items:start}
 .list{background:var(--panel);border:1px solid var(--line);border-radius:22px;overflow:hidden}
-.row{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;text-align:left;border:0;background:none;padding:15px 18px;border-bottom:1px solid var(--line);transition:background .15s}
-.row:last-child{border-bottom:0}
-.row:hover{background:rgba(255,255,255,.03)}
-.row[aria-current=true]{background:rgba(20,92,255,.12);box-shadow:inset 3px 0 0 var(--blue)}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;border-bottom:1px solid var(--line);transition:background .15s}
+.item:last-child{border-bottom:0}
+.item:hover{background:rgba(255,255,255,.03)}
+.item:has(.row[aria-current=true]){background:rgba(20,92,255,.12);box-shadow:inset 3px 0 0 var(--blue)}
+.row{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:14px;align-items:center;width:100%;min-width:0;text-align:left;border:0;background:none;padding:15px 6px 15px 18px}
+.trash{display:grid;place-items:center;width:34px;height:34px;margin-right:10px;border:1px solid transparent;border-radius:10px;background:none;color:var(--mute);opacity:0;transition:opacity .15s,background .15s,color .15s}
+.trash svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.item:hover .trash,.trash:focus-visible{opacity:1}
+.trash:hover{background:rgba(255,107,107,.14);border-color:var(--red);color:#FFC9C9}
+@media (hover:none){.trash{opacity:.7}}
 .dot{width:8px;height:8px;border-radius:50%}
 .dot.nouveau{background:var(--blue-2);box-shadow:0 0 0 4px rgba(77,130,255,.15)}
 .row .who{min-width:0}
@@ -283,6 +289,17 @@ a{color:inherit}
   const toast = t => { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2200); };
   const post = (api, data) => fetch('?api=' + api, {method: 'POST', headers: {'X-CSRF': CSRF}, body: new URLSearchParams(data)}).then(r => { if (r.status === 401) location.reload(); return r.json(); });
 
+  const supprimer = r => {
+    if (!confirm('Supprimer définitivement la demande de ' + nomDe(r) + ' ?\nCette action est irréversible.')) return;
+    post('supprimer', {id: r.id}).then(j => {
+      if (!j.ok) return toast('La suppression a échoué');
+      all = all.filter(x => x.id !== r.id);
+      if (courant === r.id) { courant = null; $('#det').classList.remove('open'); $('#det').replaceChildren(h('div', {class: 'placeholder'}, h('p', {}, 'Demande supprimée.'))); }
+      kpis(); seg(); liste(); toast('Demande supprimée');
+    });
+  };
+  const TRASH = '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>';
+
   const FILTRES = [['actives', 'À suivre', r => r.statut === 'nouveau' || r.statut === 'en_cours'], ['nouveau', 'Nouvelles'], ['en_cours', 'En cours'], ['traite', 'Traitées'], ['archive', 'Archivées'], ['toutes', 'Toutes', () => true]];
   const passe = (r, f) => { const F = FILTRES.find(x => x[0] === f); return F[2] ? F[2](r) : r.statut === f; };
 
@@ -310,10 +327,11 @@ a{color:inherit}
     const rows = all.filter(r => passe(r, filtre) && (!s || r.source === s) && (!q || [r.nom, r.prenom, r.entreprise, r.email, r.telephone, r.projet, r.message, r.note, ...Object.values(r.details || {})].join(' ').toLowerCase().includes(q)));
     const L = $('#list');
     if (!rows.length) { L.replaceChildren(h('div', {class: 'empty'}, h('b', {}, all.length ? 'Rien ici.' : 'Aucune demande pour l’instant.'), all.length ? 'Aucune demande ne correspond à ce filtre.' : 'Les messages envoyés depuis le site apparaîtront ici.')); return; }
-    L.replaceChildren(...rows.map(r => h('button', {type: 'button', class: 'row', role: 'listitem', 'aria-current': String(courant === r.id), onclick: () => detail(r.id)},
+    L.replaceChildren(...rows.map(r => h('div', {class: 'item', role: 'listitem'}, h('button', {type: 'button', class: 'row', 'aria-current': String(courant === r.id), onclick: () => detail(r.id)},
       h('span', {class: 'dot ' + r.statut}),
       h('span', {class: 'who'}, h('b', {}, nomDe(r), r.entreprise ? h('em', {}, ' · ' + r.entreprise) : ''), h('p', {}, r.message ? r.message.replace(/\s+/g, ' ') : r.email)),
-      h('span', {class: 'meta'}, h('time', {datetime: r.recue_le}, quand(r.recue_le)), h('span', {class: 'tags'}, r.langue === 'en' ? h('span', {class: 'tag en'}, 'EN') : '', h('span', {class: 'tag'}, SRC[r.source] || r.source), h('span', {class: 'st ' + r.statut}, ST[r.statut]))))));
+      h('span', {class: 'meta'}, h('time', {datetime: r.recue_le}, quand(r.recue_le)), h('span', {class: 'tags'}, r.langue === 'en' ? h('span', {class: 'tag en'}, 'EN') : '', h('span', {class: 'tag'}, SRC[r.source] || r.source), h('span', {class: 'st ' + r.statut}, ST[r.statut])))),
+      h('button', {type: 'button', class: 'trash', title: 'Supprimer', 'aria-label': 'Supprimer la demande de ' + nomDe(r), onclick: () => supprimer(r)}, ico(TRASH)))));
   }
 
   function detail(id) {
@@ -335,14 +353,14 @@ a{color:inherit}
       h('div', {class: 'acts'},
         h('a', {class: 'btn pri', href: 'mailto:' + r.email + '?subject=' + encodeURIComponent(objet)}, ico('<path d="M10 9 5 12l5 3M5 12h9a5 5 0 0 1 5 5v1"/>'), 'Répondre'),
         r.telephone ? h('a', {class: 'btn', href: 'tel:' + r.telephone.replace(/[^\d+]/g, '')}, ico('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>'), 'Appeler') : '',
-        h('button', {type: 'button', class: 'btn', onclick: () => navigator.clipboard.writeText(r.email).then(() => toast('E-mail copié'))}, ico('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/>'), 'Copier l’e-mail')),
+        h('button', {type: 'button', class: 'btn', onclick: () => navigator.clipboard.writeText(r.email).then(() => toast('E-mail copié'))}, ico('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/>'), 'Copier l’e-mail'),
+        h('button', {type: 'button', class: 'btn dng', onclick: () => supprimer(r)}, ico(TRASH), 'Supprimer')),
       h('div', {class: 'kv'}, kv.map(([k, v]) => h('div', {}, h('small', {}, k), h('span', {}, v)))),
       h('p', {class: 'lbl'}, 'Message'), h('div', {class: 'msg'}, r.message),
       h('p', {class: 'lbl'}, 'Statut'),
       h('div', {class: 'seg status-pick', role: 'group', 'aria-label': 'Changer le statut'}, Object.entries(ST).map(([k, lbl]) => h('button', {type: 'button', 'aria-pressed': String(r.statut === k), onclick: () => r.statut !== k && setStatut(k)}, lbl))),
       h('p', {class: 'lbl'}, 'Note interne', ok), note,
-      h('div', {class: 'foot'}, h('span', {}, 'Demande n° ' + r.id + (r.maj_le ? ' · modifiée le ' + date(r.maj_le).toLocaleDateString('fr-FR') : '')),
-        h('button', {type: 'button', class: 'btn dng', onclick: () => { if (confirm('Supprimer définitivement la demande de ' + nomDe(r) + ' ?\nCette action est irréversible.')) post('supprimer', {id: r.id}).then(j => { if (j.ok) { all = all.filter(x => x.id !== r.id); courant = null; D.classList.remove('open'); D.replaceChildren(h('div', {class: 'placeholder'}, h('p', {}, 'Demande supprimée.'))); kpis(); seg(); liste(); toast('Demande supprimée'); } }); }}, ico('<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>'), 'Supprimer'))));
+      h('div', {class: 'foot'}, h('span', {}, 'Demande n° ' + r.id + (r.maj_le ? ' · modifiée le ' + date(r.maj_le).toLocaleDateString('fr-FR') : '')))));
     D.classList.add('open'); D.scrollTop = 0;
   }
 
